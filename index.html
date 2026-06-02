@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storyboard - ระบบปลีก/ส่ง และหลังบ้าน</title>
+  <style>
+    :root {
+      --ink: #10231e;
+      --muted: #65756f;
+      --line: #dce5df;
+      --paper: #fbfaf6;
+      --card: #ffffff;
+      --green: #1f8565;
+      --green-dark: #0f3a31;
+      --gold: #f7c63b;
+      --orange: #f28b32;
+      --blue: #2d6cdf;
+      --red: #d94242;
+      --soft-green: #e8f5ef;
+      --soft-gold: #fff5cf;
+      --soft-blue: #eaf1ff;
+      --soft-red: #fff0ef;
+      --shadow: 0 18px 45px rgba(15, 35, 31, .10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #ece8dd;
+      color: var(--ink);
+      font-family: "Leelawadee UI", "Tahoma", "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    .page {
+      width: 1600px;
+      margin: 0 auto;
+      padding: 56px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(247, 198, 59, .28), transparent 26%),
+        radial-gradient(circle at 92% 6%, rgba(31, 133, 101, .14), transparent 24%),
+        var(--paper);
+    }
+
+    .hero {
+      border-radius: 36px;
+      padding: 42px;
+      background: linear-gradient(135deg, #0e322c, #1f8565);
+      color: #fff;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+    }
+
+    .kicker {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.18);
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 58px;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 1120px;
+      color: rgba(255,255,255,.86);
+      font-size: 25px;
+      margin: 0;
+    }
+
+    .summary {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .summary-card {
+      border-radius: 24px;
+      padding: 20px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.20);
+      min-height: 132px;
+    }
+
+    .summary-card b {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 21px;
+    }
+
+    .summary-card span {
+      color: rgba(255,255,255,.82);
+      font-size: 18px;
+    }
+
+    .section {
+      margin-top: 34px;
+      border-radius: 34px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(16, 35, 30, .06);
+      padding: 30px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .step {
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      background: var(--green-dark);
+      color: #fff;
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 38px;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 22px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 20px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .done { background: var(--soft-green); color: var(--green); }
+    .wip { background: var(--soft-gold); color: #936b00; }
+    .todo { background: var(--soft-red); color: var(--red); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .grid-wide { display: grid; grid-template-columns: 1.18fr .82fr; gap: 24px; align-items: stretch; }
+
+    .shot-card {
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 16px;
+      position: relative;
+      min-width: 0;
+    }
+
+    .shot-card.dark { background: #18272e; border-color: #263a42; }
+    .shot-card.soft { background: #faf7ee; }
+
+    .shot-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 12px;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .pill.green { background: var(--soft-green); color: var(--green); }
+    .pill.gold { background: var(--soft-gold); color: #936b00; }
+    .pill.red { background: var(--soft-red); color: var(--red); }
+
+    .url-strip {
+      margin: 10px 0 14px;
+      border-radius: 18px;
+      padding: 12px 14px;
+      background: #f6faf8;
+      border: 1px solid var(--line);
+      color: var(--green-dark);
+      font-size: 20px;
+      font-weight: 900;
+      word-break: break-all;
+    }
+
+    .url-strip span {
+      display: block;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .proof-list {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 14px;
+    }
+
+    .proof-item {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 10px;
+      align-items: start;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: #fbfdfc;
+      border: 1px solid var(--line);
+      font-size: 18px;
+    }
+
+    .proof-item b {
+      color: var(--green-dark);
+      font-weight: 1000;
+    }
+
+    .proof-item span {
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .shot {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      border: 1px solid rgba(16, 35, 30, .10);
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .mobile-shot {
+      max-height: 720px;
+      width: auto;
+      max-width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 14px 30px rgba(15, 35, 31, .12);
+    }
+
+    .sheet-shot {
+      border-radius: 16px;
+      max-height: 360px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .note {
+      margin-top: 18px;
+      border-radius: 22px;
+      padding: 18px 20px;
+      background: #f7fbf8;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 21px;
+    }
+
+    .note b { color: var(--ink); }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      gap: 8px;
+      align-items: center;
+      margin: 18px 0;
+    }
+
+    .flow-box {
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 116px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .flow-box strong {
+      display: block;
+      font-size: 24px;
+    }
+
+    .flow-box small {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .arrow {
+      text-align: center;
+      font-size: 46px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .callout {
+      border-radius: 24px;
+      padding: 22px;
+      background: var(--soft-gold);
+      border: 1px solid #f4dda3;
+      font-size: 22px;
+    }
+
+    .callout.green { background: var(--soft-green); border-color: #cfe8dc; }
+    .callout.blue { background: var(--soft-blue); border-color: #d6e2fb; }
+    .callout.red { background: var(--soft-red); border-color: #f7d4d1; }
+
+    .callout h3 {
+      margin: 0 0 10px;
+      font-size: 27px;
+    }
+
+    .callout ul {
+      margin: 0;
+      padding-left: 24px;
+      color: var(--muted);
+      font-size: 21px;
+    }
+
+    .price-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .price-box {
+      border-radius: 26px;
+      padding: 22px;
+      text-align: center;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .price-box .label {
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .price {
+      font-size: 54px;
+      font-weight: 1000;
+      color: var(--green-dark);
+      margin-top: 4px;
+    }
+
+    .price-box small {
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 34px;
+      border-radius: 32px;
+      padding: 30px;
+      background: #10231e;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+    }
+
+    .footer h2 { color: #fff; font-size: 34px; }
+    .footer ul { margin: 10px 0 0; padding-left: 24px; color: rgba(255,255,255,.78); font-size: 21px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="kicker">Storyboard • กำลังพัฒนาเพิ่มจากระบบเดิม</div>
+      <h1>ระบบเว็บร้านปลีก / ร้านส่ง + หลังบ้านใหม่</h1>
+      <p class="subtitle">ภาพรวม: เเก้ไขอะไรบ้างล่าสุด : 02 มิถุนายน 2569 เวลา 23:00
+      </p>
+      <div class="summary">
+        <div class="summary-card"><b>1. เว็บเดียว</b><span>LINE OA ปลีก/ส่ง ใช้ลิงก์ต่างกัน ไม่ต้องทำเว็บซ้ำ</span></div>
+        <div class="summary-card"><b>2. แยกราคา</b><span>ลูกค้าปลีกเห็นราคาปลีก ลูกค้าส่งเห็นราคาส่ง</span></div>
+        <div class="summary-card"><b>3. กันแก้ชน</b><span>โหมดอัปเดตล็อกแอดมินรองระหว่างจัดระบบ</span></div>
+        <div class="summary-card"><b>4. หลังบ้านใหม่</b><span>แอดมินส่ง/ปลีกเห็นเฉพาะออเดอร์ของตัวเอง</span></div>
+        <div class="summary-card"><b>5. เชื่อมชีต</b><span>ออเดอร์ สถานะ สต๊อก และสิทธิ์ login อยู่บนชีต</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">01</div>
+        <div>
+          <h2>LINE OA แยกร้านด้วยชื่อและลิงก์</h2>
+          <p class="lead">ภาพจริงใน LINE ระบุชื่อร้านและ Action D เป็นคนละลิงก์ จึงพาลูกค้าเข้าเว็บคนละโหมด</p>
+        </div>
+        <span class="status done">ใช้งานได้</span>
+      </div>
+      <div class="grid-2">
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill gold">OA ปลีก</span> ชื่อในภาพ: <b>ร้านปลีก</b></p>
+          <div class="proof-list">
+            <div class="proof-item"><b>ช่องชื่อ</b><span>ร้านปลีก</span></div>
+            <div class="proof-item"><b>Action D</b><span>https://liff.line.me/2010236187-GI8XM5vR</span></div>
+          </div>
+          <div class="url-strip"><span>สรุปลิงก์ร้านปลีก</span>https://liff.line.me/2010236187-GI8XM5vR</div>
+          <img class="shot" src="assets/shot_02.png" alt="LINE OA ร้านปลีก ชื่อร้านเล็ก ลิงก์ปกติ">
+        </div>
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill green">OA ส่ง</span> ชื่อในภาพ: <b>ร้านส่ง</b></p>
+          <div class="proof-list">
+            <div class="proof-item"><b>ช่องชื่อ</b><span>ร้านส่ง</span></div>
+            <div class="proof-item"><b>Action D</b><span>https://liff.line.me/2010236187-GI8XM5vR?mode=wholesale</span></div>
+          </div>
+          <div class="url-strip"><span>สรุปลิงก์ร้านส่ง</span>https://liff.line.me/2010236187-GI8XM5vR?mode=wholesale</div>
+          <img class="shot" src="assets/shot_01.png" alt="LINE OA ร้านส่ง ชื่อร้านส่ง ลิงก์ wholesale">
+        </div>
+      </div>
+      <div class="flow">
+        <div class="flow-box"><strong>ลูกค้าปลีก</strong><small>กดจาก OA ปลีก → เห็นราคาปลีก</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><strong>ลูกค้าส่ง</strong><small>กดจาก OA ส่ง → เห็นราคาส่ง</small></div>
+      </div>
+      <div class="note"><b>ผลลัพธ์:</b> ใช้สินค้าชุดเดียวกัน ภาพเดียวกัน เว็บเดียวกัน แต่แยกประสบการณ์ตามช่องทางที่ลูกค้าเข้ามา</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">02</div>
+        <div>
+          <h2>โหมดปิดปรับปรุง + ล็อกหลังบ้าน</h2>
+          <p class="lead">ออกแบบไว้กันช่วง Dev กำลังแก้ระบบ แล้วมีแอดมินรองเข้ามาแก้ภาพสินค้า ชื่อสินค้า หรือหมวดหมู่ชนกัน</p>
+        </div>
+        <span class="status done">เพิ่มแล้ว</span>
+      </div>
+      <div class="grid-wide">
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill green">Owner Control</span> เปิด/ปิดจากหลังบ้าน</p>
+          <img class="shot" src="assets/shot_03.png" alt="ตั้งค่าโหมดอัปเดตระบบ">
+        </div>
+        <div class="shot-card dark">
+          <p class="shot-title" style="color:#fff"><span class="pill gold">User Notice</span> แจ้งเตือนทันที</p>
+          <img class="shot" src="assets/shot_04.png" alt="หน้าปิดปรับปรุง">
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top:20px">
+        <div class="callout green"><h3>ลูกค้า</h3><ul><li>เห็นหน้าปิดปรับปรุงทันที</li><li>ลดความเสี่ยงสั่งซื้อระหว่างแก้ระบบ</li></ul></div>
+        <div class="callout"><h3>แอดมินรอง</h3><ul><li>ถูกล็อกไม่ให้แก้สินค้า/ภาพ/หมวดหมู่</li><li>ลดโอกาสข้อมูลทับกัน</li></ul></div>
+        <div class="callout blue"><h3>แอดมินสูงสุด</h3><ul><li>เข้า bypass ได้ด้วย Role owner</li><li>ใช้ตรวจหรือปลดล็อกหลังบ้าน</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">03</div>
+        <div>
+          <h2>ตัวอย่างราคาสินค้าปลีก / ส่ง</h2>
+          <p class="lead">สินค้าเดียวกัน แต่ราคาที่ลูกค้าเห็นเปลี่ยนตามลิงก์ที่เข้ามา</p>
+        </div>
+        <span class="status done">ตัวอย่างจริง</span>
+      </div>
+      <div class="grid-2">
+        <div class="shot-card soft">
+          <p class="shot-title"><span class="pill green">ร้านส่ง</span> ตัวอย่างแสดงราคาส่ง</p>
+          <img class="shot mobile-shot" src="assets/shot_05.png" alt="เว็บโหมดร้านส่ง">
+          <div class="price-panel">
+            <div class="price-box"><div class="label">ราคาส่ง</div><div class="price">฿500</div><small>ตัวอย่างสินค้าตัวแรก</small></div>
+            <div class="price-box"><div class="label">หลักการ</div><div class="price" style="font-size:36px">ตามโหมด</div><small>ลูกค้าส่งเห็นราคาส่ง</small></div>
+          </div>
+        </div>
+        <div class="shot-card soft">
+          <p class="shot-title"><span class="pill gold">ร้านปลีก</span> ตัวอย่างแสดงราคาปลีก</p>
+          <img class="shot mobile-shot" src="assets/shot_06.png" alt="เว็บโหมดร้านปลีก">
+          <div class="price-panel">
+            <div class="price-box"><div class="label">ราคาปลีก</div><div class="price">฿44</div><small>ตัวอย่างสินค้าตัวแรก</small></div>
+            <div class="price-box"><div class="label">หลักการ</div><div class="price" style="font-size:36px">เว็บเดียว</div><small>ต่างกันที่ URL</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="note"><b>หมายเหตุ:</b> ภาพนี้เป็นตัวอย่างเพื่อให้เห็นหลักการ ราคาจริงขึ้นกับข้อมูลที่ตั้งในชีต/ฐานข้อมูล</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">04</div>
+        <div>
+          <h2>เว็บแอพหลังบ้านสำหรับดูออเดอร์</h2>
+          <p class="lead">ทำใหม่ให้ดูง่ายขึ้น แยกสิทธิ์ตามร้านส่ง/ร้านปลีก และมีมุมมองเจ้าของร้านที่เห็นทั้งหมดแบบเรียลไทม์</p>
+        </div>
+        <span class="status done">กำลังใช้งานทดสอบ</span>
+      </div>
+      <div class="grid-3">
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill gold">Admin ปลีก</span> เห็นเฉพาะออเดอร์ปลีก</p>
+          <img class="shot" src="assets/shot_07.png" alt="หลังบ้านออเดอร์ปลีก">
+        </div>
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill green">Admin ส่ง</span> เห็นเฉพาะออเดอร์ส่ง</p>
+          <img class="shot" src="assets/shot_08.png" alt="หลังบ้านออเดอร์ส่ง">
+        </div>
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill blue">เจ้าของร้าน</span> ดูได้ทุกช่องทาง</p>
+          <img class="shot" src="assets/shot_09.png" alt="หลังบ้านเจ้าของร้านดูทุกช่องทาง">
+        </div>
+      </div>
+      <div class="note"><b>ผลลัพธ์:</b> ออเดอร์ไม่ปนกันในมุมมองแอดมิน แต่เจ้าของร้านยังดูภาพรวมทั้งหมดได้</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">05</div>
+        <div>
+          <h2>จัดการสถานะออเดอร์และการชำระเงิน</h2>
+          <p class="lead">หน้าออเดอร์ละเอียด สามารถปรับสถานะจัดส่งและสถานะชำระเงิน COD ได้ เชื่อมกับชีตโดยตรง</p>
+        </div>
+        <span class="status done">เรียลไทม์กับชีต</span>
+      </div>
+      <div class="grid-3">
+        <div class="shot-card"><p class="shot-title">รายละเอียดออเดอร์</p><img class="shot mobile-shot" src="assets/shot_10.png" alt="รายละเอียดออเดอร์"></div>
+        <div class="shot-card"><p class="shot-title">ปรับสถานะจัดส่ง</p><img class="shot mobile-shot" src="assets/shot_11.png" alt="ปรับสถานะจัดส่ง"></div>
+        <div class="shot-card"><p class="shot-title">ปรับสถานะชำระเงิน</p><img class="shot mobile-shot" src="assets/shot_12.png" alt="ปรับสถานะชำระเงิน"></div>
+      </div>
+      <div class="flow">
+        <div class="flow-box"><strong>เลือกสถานะในแอพ</strong><small>เช่น รอคอนเฟิร์ม / กำลังจัดส่ง / ส่งแล้ว</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><strong>อัปเดตบนชีตทันที</strong><small>ทีมเห็นข้อมูลล่าสุดจากแหล่งเดียวกัน</small></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">06</div>
+        <div>
+          <h2>แก้จำนวนสินค้าในออเดอร์</h2>
+          <p class="lead">กรณีหน้าร้านเช็คสต๊อกจริงแล้วเหลือไม่ครบ สามารถลดจำนวนสินค้าและคำนวณยอดใหม่ได้จากแอพ</p>
+        </div>
+        <span class="status wip">บางส่วนยังพัฒนา</span>
+      </div>
+      <div class="grid-2">
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill">ก่อนแก้</span> ลูกค้าสั่ง 3 ชิ้น</p>
+          <img class="shot mobile-shot" src="assets/shot_13.png" alt="แก้จำนวนก่อน">
+        </div>
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill green">หลังแก้</span> เหลือ 1 ชิ้น ยอดใหม่ ฿44</p>
+          <img class="shot mobile-shot" src="assets/shot_14.png" alt="แก้จำนวนหลัง">
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:20px">
+        <div class="callout green"><h3>ทำได้แล้ว</h3><ul><li>ปรับจำนวนในแอพ</li><li>คำนวณยอดใหม่</li><li>ลด/คืนสต๊อกตามรายการ</li></ul></div>
+        <div class="callout red"><h3>ยังไม่ได้ทำ</h3><ul><li>ส่งบิลออเดอร์ใหม่กลับไปให้ลูกค้าบน LINE อัตโนมัติ</li><li>รอทำต่อในเฟสถัดไป</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="step">07</div>
+        <div>
+          <h2>โครงข้อมูลบนชีต: Channel + AdminUsers</h2>
+          <p class="lead">เพิ่มข้อมูลช่องทางออเดอร์ และเปลี่ยนระบบล็อกอินให้ควบคุมจากชีต ไม่ใช้รหัส 1234 ในโค้ดเหมือนเดิม</p>
+        </div>
+        <span class="status done">เพิ่มแล้ว</span>
+      </div>
+      <div class="grid-2">
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill blue">Orders</span> เพิ่มคอลัมน์ Channel</p>
+          <img class="shot sheet-shot" src="assets/shot_15.png" alt="ชีต Orders เพิ่ม Channel">
+          <div class="note"><b>สถานะตอนนี้:</b> เก็บ Channel แล้ว เช่น “ปลีก” หรือ “ส่ง” แต่หน้าออเดอร์บนชีตยังเป็นออเดอร์รวม ยังไม่ได้จัดหน้าแยกปลีก/ส่งในชีต</div>
+        </div>
+        <div class="shot-card">
+          <p class="shot-title"><span class="pill green">AdminUsers</span> Login ตามสิทธิ์ในชีต</p>
+          <img class="shot sheet-shot" src="assets/shot_16.png" alt="ชีต AdminUsers">
+          <div class="note"><b>เปลี่ยนจากเดิม:</b> เดิมใส่ชื่ออะไรก็ได้ + รหัสจากโค้ด 1234 ตอนนี้ต้องใช้ Username/Password/Role ตามชีตเท่านั้น</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div>
+        <h2>ภาพรวมระบบ</h2>
+        <ul>
+          <li>ระบบใหม่ช่วยแยกร้านปลีก/ส่งโดยไม่ต้องสร้างเว็บซ้ำ</li>
+          <li>หลังบ้านมีสิทธิ์และช่องทางชัดเจน ลดออเดอร์ปนกัน</li>
+          <li>โหมดปิดปรับปรุงช่วยลดความเสี่ยงช่วง Dev แก้ระบบ</li>
+        </ul>
+      </div>
+      <div>
+        <h2>ระบบที่จะทำต่อ</h2>
+        <ul>
+          <li>ส่งบิลใหม่ที่เเก้ไขกลับ LINE ลูกค้า อัตโนมัติหลังแก้จำนวนสินค้า</li>
+          <li>ส่งบิลสถานะเเจ้งเตือนไปยัง LINE ลูกค้า อัตโนมัติหลังแก้สถานะ เช่น ส่งเเล้ว-กำลังจัดส่ง</li>
+          <li>ระบบกันสเเปมบอท</li>
+          <li>ระบบเปลี่ยนภาพเเบรนเนอร์สำหรับ ร้านค้าส่ง</li>
+          <li>การเเก้ไขสี เหลือง>ร้านขายส่ง/ชมพู>ร้านขายปลีก</li>
+          <li>การเเก้ช่องลูกค้าในหน้า ชำระเงิน ในเเต่ละร้าน จากเดิม จะเเสดงทั้งลูกค้าประจำเเละลูกค้าทั่วไป เเก้เป็น ร้านส่งก็จะมีเเค่ลูกค้าประจำที่มีในระบบ หรือ อาจจะมีลูกค้าใหม่ร่วมด้วย เเละ ร้านปลีกก็จะมีเเค่ลูกค้าทั่วไป การชำระ ของเเต่ละร้านตัดส่วน COD ออกเเละให้ชำระโอนจ่ายทันที เว้น เเค่มารับที่ร้านจะต้องจ่าย COD หรือจ่ายกับพนักงานโดยตรง</li>
+          <li>เพิ่มภาพริสเมณูในเเต่ละร้าน คนละสไตล์</li>
+          <li>จัดระเบียบหน้าออเดอร์ในชีตให้แยกปลีก/ส่งชัดขึ้น เเละตัดระบบส่วนเกินออก</li>
+          <li>ย้ายฐานไปยัง Line OA จริง</li>
+          <li>ทดสอบ flow จริงตั้งแต่ Rich Menu → สั่งซื้อ → หลังบ้าน → ชีต</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
