@@ -25,18 +25,21 @@
     }
 
     * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
     body {
       margin: 0;
       background: #ece8dd;
       color: var(--ink);
       font-family: "Leelawadee UI", "Tahoma", "Segoe UI", sans-serif;
       line-height: 1.45;
+      overflow-x: hidden;
     }
 
     .page {
-      width: 1600px;
+      width: 100%;
+      max-width: 1600px;
       margin: 0 auto;
-      padding: 56px;
+      padding: clamp(18px, 3.5vw, 56px);
       background:
         radial-gradient(circle at 8% 0%, rgba(247, 198, 59, .28), transparent 26%),
         radial-gradient(circle at 92% 6%, rgba(31, 133, 101, .14), transparent 24%),
@@ -44,8 +47,8 @@
     }
 
     .hero {
-      border-radius: 36px;
-      padding: 42px;
+      border-radius: clamp(24px, 3vw, 36px);
+      padding: clamp(24px, 3.5vw, 42px);
       background: linear-gradient(135deg, #0e322c, #1f8565);
       color: #fff;
       box-shadow: var(--shadow);
@@ -73,12 +76,14 @@
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
       font-weight: 800;
-      font-size: 22px;
+      font-size: clamp(14px, 1.6vw, 22px);
+      max-width: 100%;
+      flex-wrap: wrap;
     }
 
     h1 {
       margin: 18px 0 10px;
-      font-size: 58px;
+      font-size: clamp(30px, 4.9vw, 58px);
       line-height: 1.06;
       letter-spacing: 0;
     }
@@ -86,14 +91,14 @@
     .subtitle {
       max-width: 1120px;
       color: rgba(255,255,255,.86);
-      font-size: 25px;
+      font-size: clamp(18px, 2.2vw, 25px);
       margin: 0;
     }
 
     .summary {
       margin-top: 28px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 16px;
       position: relative;
       z-index: 2;
@@ -101,63 +106,63 @@
 
     .summary-card {
       border-radius: 24px;
-      padding: 20px;
+      padding: clamp(16px, 2vw, 20px);
       background: rgba(255,255,255,.13);
       border: 1px solid rgba(255,255,255,.20);
-      min-height: 132px;
+      min-height: 122px;
     }
 
     .summary-card b {
       display: block;
       margin-bottom: 7px;
-      font-size: 21px;
+      font-size: clamp(18px, 1.6vw, 21px);
     }
 
     .summary-card span {
       color: rgba(255,255,255,.82);
-      font-size: 18px;
+      font-size: clamp(15px, 1.45vw, 18px);
     }
 
     .section {
-      margin-top: 34px;
-      border-radius: 34px;
+      margin-top: clamp(22px, 3vw, 34px);
+      border-radius: clamp(22px, 3vw, 34px);
       background: var(--card);
       box-shadow: var(--shadow);
       border: 1px solid rgba(16, 35, 30, .06);
-      padding: 30px;
+      padding: clamp(18px, 3vw, 30px);
       overflow: hidden;
     }
 
     .section-head {
       display: grid;
-      grid-template-columns: 92px 1fr auto;
-      gap: 18px;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: clamp(12px, 2vw, 18px);
       align-items: center;
       margin-bottom: 24px;
     }
 
     .step {
-      width: 78px;
-      height: 78px;
-      border-radius: 24px;
+      width: clamp(54px, 6vw, 78px);
+      height: clamp(54px, 6vw, 78px);
+      border-radius: clamp(17px, 2vw, 24px);
       display: grid;
       place-items: center;
       background: var(--green-dark);
       color: #fff;
-      font-size: 34px;
+      font-size: clamp(23px, 3vw, 34px);
       font-weight: 900;
     }
 
     h2 {
       margin: 0;
-      font-size: 38px;
+      font-size: clamp(25px, 3.4vw, 38px);
       letter-spacing: 0;
     }
 
     .lead {
       margin: 4px 0 0;
       color: var(--muted);
-      font-size: 22px;
+      font-size: clamp(17px, 2vw, 22px);
     }
 
     .status {
@@ -166,7 +171,7 @@
       gap: 8px;
       padding: 10px 16px;
       border-radius: 999px;
-      font-size: 20px;
+      font-size: clamp(15px, 1.7vw, 20px);
       font-weight: 900;
       white-space: nowrap;
     }
@@ -175,15 +180,15 @@
     .wip { background: var(--soft-gold); color: #936b00; }
     .todo { background: var(--soft-red); color: var(--red); }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-    .grid-wide { display: grid; grid-template-columns: 1.18fr .82fr; gap: 24px; align-items: stretch; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 22px); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 20px); }
+    .grid-wide { display: grid; grid-template-columns: 1.18fr .82fr; gap: clamp(16px, 2vw, 24px); align-items: stretch; }
 
     .shot-card {
-      border-radius: 28px;
+      border-radius: clamp(20px, 2.6vw, 28px);
       border: 1px solid var(--line);
       background: #fff;
-      padding: 16px;
+      padding: clamp(12px, 1.8vw, 16px);
       position: relative;
       min-width: 0;
     }
@@ -196,8 +201,9 @@
       align-items: center;
       gap: 10px;
       margin: 0 0 12px;
-      font-size: 24px;
+      font-size: clamp(18px, 2.2vw, 24px);
       font-weight: 900;
+      flex-wrap: wrap;
     }
 
     .pill {
@@ -207,8 +213,9 @@
       border-radius: 999px;
       background: var(--soft-blue);
       color: var(--blue);
-      font-size: 17px;
+      font-size: clamp(14px, 1.45vw, 17px);
       font-weight: 900;
+      white-space: nowrap;
     }
 
     .pill.green { background: var(--soft-green); color: var(--green); }
@@ -222,7 +229,7 @@
       background: #f6faf8;
       border: 1px solid var(--line);
       color: var(--green-dark);
-      font-size: 20px;
+      font-size: clamp(15px, 1.7vw, 20px);
       font-weight: 900;
       word-break: break-all;
     }
@@ -230,7 +237,7 @@
     .url-strip span {
       display: block;
       color: var(--muted);
-      font-size: 16px;
+      font-size: clamp(13px, 1.35vw, 16px);
       font-weight: 800;
       margin-bottom: 4px;
     }
@@ -250,7 +257,7 @@
       padding: 10px 12px;
       background: #fbfdfc;
       border: 1px solid var(--line);
-      font-size: 18px;
+      font-size: clamp(14px, 1.55vw, 18px);
     }
 
     .proof-item b {
@@ -270,6 +277,7 @@
       border: 1px solid rgba(16, 35, 30, .10);
       object-fit: contain;
       background: #fff;
+      max-width: 100%;
     }
 
     .mobile-shot {
@@ -294,7 +302,7 @@
       background: #f7fbf8;
       border: 1px solid var(--line);
       color: var(--muted);
-      font-size: 21px;
+      font-size: clamp(16px, 1.8vw, 21px);
     }
 
     .note b { color: var(--ink); }
@@ -321,17 +329,17 @@
 
     .flow-box strong {
       display: block;
-      font-size: 24px;
+      font-size: clamp(18px, 2vw, 24px);
     }
 
     .flow-box small {
       color: var(--muted);
-      font-size: 18px;
+      font-size: clamp(15px, 1.55vw, 18px);
     }
 
     .arrow {
       text-align: center;
-      font-size: 46px;
+      font-size: clamp(30px, 4vw, 46px);
       color: var(--green);
       font-weight: 900;
     }
@@ -341,7 +349,7 @@
       padding: 22px;
       background: var(--soft-gold);
       border: 1px solid #f4dda3;
-      font-size: 22px;
+      font-size: clamp(17px, 1.9vw, 22px);
     }
 
     .callout.green { background: var(--soft-green); border-color: #cfe8dc; }
@@ -350,14 +358,14 @@
 
     .callout h3 {
       margin: 0 0 10px;
-      font-size: 27px;
+      font-size: clamp(21px, 2.3vw, 27px);
     }
 
     .callout ul {
       margin: 0;
       padding-left: 24px;
       color: var(--muted);
-      font-size: 21px;
+      font-size: clamp(16px, 1.8vw, 21px);
     }
 
     .price-panel {
@@ -377,18 +385,19 @@
 
     .price-box .label {
       font-size: 24px;
+      font-size: clamp(18px, 2vw, 24px);
       font-weight: 900;
     }
 
     .price {
-      font-size: 54px;
+      font-size: clamp(36px, 5vw, 54px);
       font-weight: 1000;
       color: var(--green-dark);
       margin-top: 4px;
     }
 
     .price-box small {
-      font-size: 18px;
+      font-size: clamp(14px, 1.5vw, 18px);
       color: var(--muted);
     }
 
@@ -403,8 +412,88 @@
       gap: 26px;
     }
 
-    .footer h2 { color: #fff; font-size: 34px; }
-    .footer ul { margin: 10px 0 0; padding-left: 24px; color: rgba(255,255,255,.78); font-size: 21px; }
+    .footer h2 { color: #fff; font-size: clamp(25px, 3vw, 34px); }
+    .footer ul { margin: 10px 0 0; padding-left: 24px; color: rgba(255,255,255,.78); font-size: clamp(16px, 1.8vw, 21px); }
+
+    @media (max-width: 1180px) {
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-wide { grid-template-columns: 1fr; }
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 860px) {
+      .hero:after { width: 220px; height: 220px; right: -90px; top: -90px; }
+      .section-head {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+      .section-head .status {
+        grid-column: 1 / -1;
+        justify-self: start;
+      }
+      .grid-2,
+      .grid-3,
+      .footer {
+        grid-template-columns: 1fr;
+      }
+      .flow {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .arrow {
+        transform: rotate(90deg);
+        line-height: 1;
+      }
+      .mobile-shot {
+        width: 100%;
+        max-width: 430px;
+        max-height: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body { background: var(--paper); }
+      .page { padding: 12px; }
+      .hero,
+      .section,
+      .footer {
+        border-radius: 20px;
+      }
+      .summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .summary-card {
+        min-height: auto;
+      }
+      .proof-item {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+      .shot-card {
+        border-radius: 18px;
+      }
+      .shot {
+        border-radius: 14px;
+      }
+      .price-panel {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .price-box {
+        padding: 16px;
+        border-radius: 20px;
+      }
+      .callout,
+      .note,
+      .flow-box {
+        border-radius: 18px;
+        padding: 15px;
+      }
+      .url-strip {
+        border-radius: 14px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
 <body>
