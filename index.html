@@ -415,10 +415,305 @@
     .footer h2 { color: #fff; font-size: clamp(25px, 3vw, 34px); }
     .footer ul { margin: 10px 0 0; padding-left: 24px; color: rgba(255,255,255,.78); font-size: clamp(16px, 1.8vw, 21px); }
 
+    .work-table-section {
+      border-radius: clamp(24px, 4vw, 36px);
+      padding: clamp(20px, 3.5vw, 34px);
+      background: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(16, 35, 30, .08);
+    }
+
+    .work-table-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .work-table-head h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 58px);
+      letter-spacing: 0;
+    }
+
+    .work-table-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.8vw, 21px);
+    }
+
+    .table-badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: var(--soft-green);
+      color: var(--green-dark);
+      border: 1px solid #cfe8dc;
+      font-weight: 900;
+      font-size: clamp(14px, 1.45vw, 17px);
+    }
+
+    .work-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .work-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      min-width: 920px;
+    }
+
+    .work-table th {
+      padding: 0 16px 8px;
+      color: var(--muted);
+      text-align: left;
+      font-size: clamp(14px, 1.45vw, 16px);
+      font-weight: 900;
+    }
+
+    .work-table td {
+      padding: 18px 16px;
+      background: #f8fbf8;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: clamp(15px, 1.6vw, 18px);
+    }
+
+    .work-table td:first-child {
+      border-left: 1px solid var(--line);
+      border-radius: 18px 0 0 18px;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .work-table td:last-child {
+      border-right: 1px solid var(--line);
+      border-radius: 0 18px 18px 0;
+    }
+
+    .work-table .current td {
+      background: linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .16));
+      border-color: rgba(31, 133, 101, .18);
+    }
+
+    .table-note {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: clamp(13px, 1.35vw, 16px);
+      font-weight: 500;
+    }
+
+    .updates-panel {
+      margin-top: clamp(22px, 3vw, 34px);
+      display: grid;
+      gap: 18px;
+    }
+
+    .updates-title {
+      border-radius: clamp(22px, 3vw, 30px);
+      padding: clamp(20px, 3vw, 28px);
+      background: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(16, 35, 30, .06);
+    }
+
+    .updates-title h2 {
+      margin: 0 0 8px;
+    }
+
+    .updates-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.8vw, 21px);
+    }
+
+    .update-card {
+      border-radius: clamp(22px, 3vw, 34px);
+      background: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(16, 35, 30, .08);
+      overflow: hidden;
+    }
+
+    .update-card summary {
+      list-style: none;
+      cursor: pointer;
+      padding: clamp(18px, 2.6vw, 28px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      background:
+        linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .20)),
+        #fff;
+    }
+
+    .update-card summary::-webkit-details-marker { display: none; }
+
+    .update-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .date-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: var(--green-dark);
+      color: #fff;
+      font-weight: 900;
+      font-size: clamp(14px, 1.45vw, 17px);
+    }
+
+    .date-pill.gold {
+      background: var(--soft-gold);
+      color: #936b00;
+      border: 1px solid #f2daa0;
+    }
+
+    .time-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: #eef5f1;
+      color: var(--green-dark);
+      border: 1px solid #d5e7dd;
+      font-weight: 900;
+      font-size: clamp(14px, 1.45vw, 17px);
+    }
+
+    .update-card h2 {
+      margin: 0;
+      font-size: clamp(24px, 3.2vw, 36px);
+    }
+
+    .update-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 1.8vw, 21px);
+    }
+
+    .update-chevron {
+      width: clamp(44px, 5vw, 56px);
+      height: clamp(44px, 5vw, 56px);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--green-dark);
+      font-size: 28px;
+      font-weight: 900;
+      transition: transform .18s ease;
+    }
+
+    .update-card[open] .update-chevron { transform: rotate(180deg); }
+
+    .update-body {
+      padding: 0 clamp(18px, 3vw, 30px) clamp(22px, 3vw, 34px);
+      border-top: 1px solid rgba(16, 35, 30, .08);
+      background: #fbfdfb;
+    }
+
+    .update-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding-top: 20px;
+    }
+
+    .update-mini {
+      border-radius: 22px;
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      min-height: 112px;
+    }
+
+    .update-mini b {
+      display: block;
+      margin-bottom: 7px;
+      font-size: clamp(17px, 1.8vw, 22px);
+    }
+
+    .update-mini span {
+      color: var(--muted);
+      font-size: clamp(14px, 1.55vw, 18px);
+    }
+
+    .update-detail-stack {
+      display: grid;
+      gap: clamp(22px, 3vw, 34px);
+      margin-top: 20px;
+    }
+
+    .update-detail-stack > .section,
+    .update-detail-stack > .footer {
+      margin-top: 0;
+    }
+
+    .update-empty {
+      padding-top: 20px;
+    }
+
+    .update-empty .note {
+      margin-top: 0;
+    }
+
+    .today-proof-stack {
+      display: grid;
+      gap: clamp(18px, 2.6vw, 26px);
+      padding-top: 20px;
+    }
+
+    .update-phone-shot {
+      width: min(100%, 390px);
+      max-height: min(760px, 78vh);
+      object-fit: contain;
+      margin-inline: auto;
+    }
+
+    .evidence-section {
+      display: grid;
+      gap: clamp(16px, 2.2vw, 22px);
+      padding-top: 20px;
+    }
+
+    .evidence-shot {
+      width: 100%;
+      max-height: min(620px, 72vh);
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .sheet-tab-shot {
+      width: min(100%, 420px);
+      max-height: 120px;
+      object-fit: contain;
+      margin-inline: auto;
+    }
+
+    .proof-caption {
+      margin: 10px 4px 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1.55vw, 18px);
+    }
+
     @media (max-width: 1180px) {
       .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .grid-wide { grid-template-columns: 1fr; }
       .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .update-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 860px) {
@@ -432,9 +727,66 @@
       }
       .grid-2,
       .grid-3,
-      .footer {
+      .footer,
+      .update-summary-grid {
         grid-template-columns: 1fr;
       }
+      .update-card summary { grid-template-columns: 1fr; }
+      .update-chevron { justify-self: start; }
+      .work-table-head {
+        display: grid;
+        align-items: start;
+      }
+      .table-badge {
+        justify-self: start;
+      }
+      .work-table {
+        min-width: 0;
+        border-spacing: 0;
+      }
+      .work-table thead {
+        display: none;
+      }
+      .work-table,
+      .work-table tbody,
+      .work-table tr,
+      .work-table td {
+        display: block;
+        width: 100%;
+      }
+      .work-table tr {
+        margin-bottom: 12px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        overflow: hidden;
+        background: #f8fbf8;
+      }
+      .work-table .current {
+        background: linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .16));
+      }
+      .work-table td,
+      .work-table td:first-child,
+      .work-table td:last-child {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        padding: 12px 14px;
+      }
+      .work-table td + td {
+        border-top: 1px solid rgba(16, 35, 30, .08);
+      }
+      .work-table td::before {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 900;
+      }
+      .work-table td:nth-child(1)::before { content: "วันที่"; }
+      .work-table td:nth-child(2)::before { content: "เวลา"; }
+      .work-table td:nth-child(3)::before { content: "รอบงาน"; }
+      .work-table td:nth-child(4)::before { content: "สถานะ"; }
+      .work-table td:nth-child(5)::before { content: "รายละเอียดหลัก"; }
       .flow {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -479,6 +831,16 @@
         grid-template-columns: 1fr;
         gap: 10px;
       }
+      .update-body {
+        padding-inline: 12px;
+      }
+      .update-phone-shot {
+        width: min(100%, 330px);
+        max-height: 72vh;
+      }
+      .evidence-shot {
+        max-height: 70vh;
+      }
       .price-box {
         padding: 16px;
         border-radius: 20px;
@@ -498,19 +860,160 @@
 </head>
 <body>
   <main class="page">
-    <section class="hero">
-      <div class="kicker">Storyboard • กำลังพัฒนาเพิ่มจากระบบเดิม</div>
-      <h1>ระบบเว็บร้านปลีก / ร้านส่ง + หลังบ้านใหม่</h1>
-      <p class="subtitle">ภาพรวม: เเก้ไขอะไรบ้างล่าสุด : 02 มิถุนายน 2569 เวลา 23:00
-      </p>
-      <div class="summary">
-        <div class="summary-card"><b>1. เว็บเดียว</b><span>LINE OA ปลีก/ส่ง ใช้ลิงก์ต่างกัน ไม่ต้องทำเว็บซ้ำ</span></div>
-        <div class="summary-card"><b>2. แยกราคา</b><span>ลูกค้าปลีกเห็นราคาปลีก ลูกค้าส่งเห็นราคาส่ง</span></div>
-        <div class="summary-card"><b>3. กันแก้ชน</b><span>โหมดอัปเดตล็อกแอดมินรองระหว่างจัดระบบ</span></div>
-        <div class="summary-card"><b>4. หลังบ้านใหม่</b><span>แอดมินส่ง/ปลีกเห็นเฉพาะออเดอร์ของตัวเอง</span></div>
-        <div class="summary-card"><b>5. เชื่อมชีต</b><span>ออเดอร์ สถานะ สต๊อก และสิทธิ์ login อยู่บนชีต</span></div>
+    <section class="work-table-section">
+      <div class="work-table-head">
+        <div>
+          <h1>ตารางอัปเดตงาน</h1>
+          <p>เรียงจากรอบล่าสุดไปหารอบเก่า เพื่อให้เห็นทันทีว่าวันนี้ทำอะไร และงานที่อัปเดตไปแล้วอยู่ด้านล่าง</p>
+        </div>
+        <span class="table-badge"></span>
+      </div>
+      <div class="work-table-wrap">
+        <table class="work-table" aria-label="ตารางอัปเดตงาน">
+          <thead>
+            <tr>
+              <th>วันที่</th>
+              <th>เวลา</th>
+              <th>รอบงาน</th>
+              <th>สถานะ</th>
+              <th>รายละเอียดหลัก</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="current">
+              <td>4-5 มิถุนายน 2569<span class="table-note">อัปเดตวันนี้</span></td>
+              <td>เริ่ม: 4 มิ.ย. 16:10:52<br>จบ: 5 มิ.ย. 01:50:36</td>
+              <td>แจ้งเตือน LINE + บิลออเดอร์</td>
+              <td>อัปเดตล่าสุด</td>
+              <td>ส่งบิลหลังสั่งซื้อ, แก้จำนวนแล้วตีบิลใหม่กลับ LINE, แจ้งสถานะเรียลไทม์, เพิ่มชีตแยก Orders_ปลีก/Orders_ส่ง, dashboard ภาพรวม และหน้าสต๊อกอย่างง่าย</td>
+            </tr>
+            <tr>
+              <td>2 มิถุนายน 2569<span class="table-note">วันอังคารที่ผ่านมา</span></td>
+              <td>เริ่ม: 18:21:34<br>จบ: 23:35:47</td>
+              <td>ระบบร้านปลีก / ร้านส่ง + หลังบ้านใหม่</td>
+              <td>อัปเดตไปแล้ว</td>
+              <td>แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
+
+    <section class="updates-panel" aria-label="ประวัติอัปเดตงาน">
+      <div class="updates-title">
+        <h2>ประวัติอัปเดตงาน</h2>
+      </div>
+
+      <details class="update-card" open>
+        <summary>
+          <div>
+            <div class="update-meta">
+              <span class="date-pill gold">วันพฤหัสบดี 4-5 มิถุนายน 2569</span>
+              <span class="time-pill">เริ่ม: 4 มิ.ย. 16:10:52 • จบ: 5 มิ.ย. 01:50:36</span>
+            </div>
+            <h2>อัปเดตระบบแจ้งเตือน LINE และบิลออเดอร์</h2>
+            <p class="update-subtitle">อัปเดตระบบแจ้งลูกค้าผ่าน LINE ให้ครบขึ้น ตั้งแต่เปิดบิล แก้ออเดอร์ ไปจนถึงเปลี่ยนสถานะจัดส่ง</p>
+          </div>
+          <div class="update-chevron" aria-hidden="true">⌄</div>
+        </summary>
+        <div class="update-body">
+          <div class="update-summary-grid">
+            <div class="update-mini"><b>ส่งบิลหลังสั่งซื้อ</b><span>ลูกค้าสั่งซื้อแล้ว LINE ส่งบิลออเดอร์แรกกลับให้อัตโนมัติ</span></div>
+            <div class="update-mini"><b>แก้จำนวนแล้วตีบิลใหม่</b><span>กรณีสต๊อกจริงไม่พอ แอดมินปรับจำนวนได้ แล้วระบบส่งบิลยอดใหม่ให้ลูกค้าทันที</span></div>
+            <div class="update-mini"><b>แจ้งสถานะเรียลไทม์</b><span>เปลี่ยนเป็นรอคอนเฟิร์ม / กำลังจัดส่ง / ส่งแล้ว แล้วส่งการ์ดแจ้งลูกค้าใน LINE</span></div>
+            <div class="update-mini"><b>เวลาในบิลอัปเดตใหม่</b><span>บิลแจ้งเตือนใช้เวลาล่าสุดของเหตุการณ์นั้น ไม่ยึดเวลาจากบิลแรก</span></div>
+            <div class="update-mini"><b>ลดปัญหาออเดอร์ซ้ำ</b><span>เพิ่มการกันส่งซ้ำช่วงกดสั่งซื้อ เพื่อไม่ให้ชีตและแอพแอดมินมีรายการซ้อน</span></div>
+            <div class="update-mini"><b>ปรับการ์ดให้แก้ต่อได้</b><span>เพิ่มโครงการ์ดบิลแก้ไขและสีสถานะ เพื่อให้ปรับหน้าตาบิลได้ง่ายขึ้น</span></div>
+            <div class="update-mini"><b>ชีตแยกปลีก / ส่ง</b><span>เพิ่มแท็บ Orders_ปลีก และ Orders_ส่ง สำหรับดูแยกช่องทาง โดยออเดอร์รวมยังเป็นต้นทางหลัก</span></div>
+            <div class="update-mini"><b>Dashboard แอดมิน</b><span>เพิ่มภาพรวมยอดขาย จำนวนออเดอร์ สถานะออเดอร์ รายการรอดำเนินการ และเวลาอัปเดตล่าสุด</span></div>
+            <div class="update-mini"><b>ดูสต๊อกง่ายขึ้น</b><span>มีหน้าสต๊อกเหลือน้อย แยกใกล้หมด / หมดแล้ว / ทั้งหมด พร้อมจำนวนคงเหลือรายสินค้า</span></div>
+          </div>
+
+          <div class="evidence-section">
+            <div class="grid-2">
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill green">ชีตออเดอร์</span> แยกแท็บปลีก / ส่ง</p>
+                <img class="shot sheet-tab-shot" src="assets/update_20260605_sheet_tabs.png" alt="แท็บ Orders_ปลีก และ Orders_ส่ง ใน Google Sheets">
+                <p class="proof-caption">เพิ่มแท็บ <b>Orders_ปลีก</b> และ <b>Orders_ส่ง</b> เพื่อดูออเดอร์ตามช่องทางได้เร็วขึ้น แต่เวลาจะลบหรือแก้รายการจริงให้ยึดจากออเดอร์รวมก่อน เพราะเป็นข้อมูลต้นทางที่ระบบใช้ซิงก์ไปยังแท็บแยก</p>
+              </div>
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill blue">Dashboard</span> ภาพรวมในแอพแอดมิน</p>
+                <img class="shot evidence-shot" src="assets/update_20260605_admin_dashboard.png" alt="Dashboard ภาพรวมในแอพแอดมิน">
+                <p class="proof-caption">หน้าแอดมินมีสรุปยอดขายวันนี้, ออเดอร์วันนี้, ยอดขายเดือนนี้, งานรอจัดการ, สินค้าใกล้หมด, สถานะพร้อมเคลียร์ และจำนวนออเดอร์ตามสถานะ เช่น ออเดอร์ใหม่ รอคอนเฟิร์ม กำลังจัดส่ง ส่งแล้ว ยกเลิก</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill gold">สต๊อกสินค้า</span> ดูจำนวนคงเหลืออย่างง่าย</p>
+                <img class="shot evidence-shot" src="assets/update_20260605_stock_list.png" alt="หน้าสต๊อกสินค้าในแอพแอดมิน">
+                <p class="proof-caption">หน้าสต๊อกแสดงจำนวนสินค้าทั้งหมด และรายการสินค้าแต่ละตัวพร้อมจำนวนคงเหลือ เหมาะสำหรับเช็กของหน้าร้านแบบเร็ว ๆ</p>
+              </div>
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill red">ตัวกรองสต๊อก</span> ใกล้หมด / หมดแล้ว / ทั้งหมด</p>
+                <img class="shot evidence-shot" src="assets/update_20260605_stock_empty.png" alt="ตัวกรองสต๊อกใกล้หมดและหมดแล้ว">
+                <p class="proof-caption">มีตัวกรอง <b>ใกล้หมด</b>, <b>หมดแล้ว</b> และ <b>ทั้งหมด</b> ถ้าไม่มีสินค้าต่ำกว่าเกณฑ์ ระบบจะแสดงข้อความว่าไม่มีสินค้าติดต่ำ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="today-proof-stack">
+            <div class="grid-2">
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill green">ภาพที่ 1</span> บิลแรกหลังลูกค้าสั่งซื้อ</p>
+                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_order_created.png" alt="บิล LINE หลังลูกค้าสั่งซื้อ">
+                <p class="proof-caption">ลูกค้าได้รับบิลออเดอร์ทันทีหลังสั่งซื้อ พร้อมเลขออเดอร์ ยอดรวม วิธีชำระเงิน และปุ่มดูสถานะ</p>
+              </div>
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill blue">ภาพที่ 2</span> บิลใหม่หลังแก้จำนวนสินค้า</p>
+                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_order_edited.png" alt="บิล LINE หลังแอดมินแก้จำนวนสินค้า">
+                <p class="proof-caption">เมื่อร้านมีสต๊อกจริงไม่พอ แอดมินปรับจำนวนแล้วลูกค้าเห็นยอดล่าสุดจากบิลใหม่</p>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill gold">ภาพที่ 3</span> รอคอนเฟิร์ม</p>
+                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_confirm.png" alt="การ์ด LINE สถานะรอคอนเฟิร์ม">
+                <p class="proof-caption">แจ้งลูกค้าว่าแอดมินกำลังตรวจสอบออเดอร์</p>
+              </div>
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill gold">ภาพที่ 4</span> กำลังจัดส่ง</p>
+                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_shipping.png" alt="การ์ด LINE สถานะกำลังจัดส่ง">
+                <p class="proof-caption">แจ้งลูกค้าว่าร้านกำลังแพ็กสินค้าและเตรียมจัดส่ง</p>
+              </div>
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill green">ภาพที่ 5</span> ส่งแล้ว</p>
+                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_done.png" alt="การ์ด LINE สถานะส่งแล้ว">
+                <p class="proof-caption">แจ้งลูกค้าว่าพัสดุออกจากร้านแล้ว</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="update-card">
+        <summary>
+          <div>
+            <div class="update-meta">
+              <span class="date-pill">วันอังคารที่ 2 มิถุนายน 2569</span>
+              <span class="time-pill">เริ่ม: 18:21:34 • จบ: 23:35:47</span>
+            </div>
+            <h2>อัปเดตระบบร้านปลีก / ร้านส่ง และหลังบ้านใหม่</h2>
+            <p class="update-subtitle">สรุปงานรอบนี้: แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</p>
+          </div>
+          <div class="update-chevron" aria-hidden="true">⌄</div>
+        </summary>
+        <div class="update-body">
+          <div class="update-summary-grid">
+            <div class="update-mini"><b>ลูกค้าเห็นถูกโหมด</b><span>OA ปลีกใช้ลิงก์ปกติ ส่วน OA ส่งใช้ลิงก์ที่มี <b>?mode=wholesale</b></span></div>
+            <div class="update-mini"><b>หลังบ้านปลอดภัยขึ้น</b><span>มีโหมดปิดปรับปรุง และล็อกแอดมินรองตอน Dev กำลังจัดระบบ</span></div>
+            <div class="update-mini"><b>แอดมินดูง่ายขึ้น</b><span>แอดมินปลีก/ส่งเห็นเฉพาะออเดอร์ตัวเอง เจ้าของร้านดูได้ทั้งหมด</span></div>
+            <div class="update-mini"><b>แก้ออเดอร์ได้</b><span>ปรับจำนวนสินค้า คำนวณยอดใหม่ และคืน/ตัดสต๊อกตามรายการ</span></div>
+            <div class="update-mini"><b>ข้อมูลชีตชัดขึ้น</b><span>เพิ่ม Channel และ AdminUsers เพื่อแยกสิทธิ์ login จากชีต</span></div>
+            <div class="update-mini"><b>งานที่เหลือ</b><span>ส่งบิลแก้ไขกลับ LINE, แจ้งสถานะ LINE, และทดสอบ flow จริงบน LINE OA</span></div>
+          </div>
+          <div class="update-detail-stack">
 
     <section class="section">
       <div class="section-head">
@@ -724,6 +1227,11 @@
           <li>ทดสอบ flow จริงตั้งแต่ Rich Menu → สั่งซื้อ → หลังบ้าน → ชีต</li>
         </ul>
       </div>
+    </section>
+
+          </div>
+        </div>
+      </details>
     </section>
   </main>
 </body>
