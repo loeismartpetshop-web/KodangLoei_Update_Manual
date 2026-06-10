@@ -221,6 +221,11 @@
     .pill.green { background: var(--soft-green); color: var(--green); }
     .pill.gold { background: var(--soft-gold); color: #936b00; }
     .pill.red { background: var(--soft-red); color: var(--red); }
+    .pill.blue { background: var(--soft-blue); color: var(--blue); }
+
+    .pill.green { background: var(--soft-green); color: var(--green); }
+    .pill.gold { background: var(--soft-gold); color: #936b00; }
+    .pill.red { background: var(--soft-red); color: var(--red); }
 
     .url-strip {
       margin: 10px 0 14px;
@@ -592,6 +597,31 @@
       font-size: clamp(14px, 1.45vw, 17px);
     }
 
+    .latest-strip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin: 0 0 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(31, 133, 101, .10);
+      color: var(--green-dark);
+      border: 1px solid rgba(31, 133, 101, .18);
+      font-weight: 900;
+      font-size: clamp(13px, 1.35vw, 16px);
+    }
+
+    .latest-strip::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 5px rgba(31, 133, 101, .12);
+      flex: 0 0 auto;
+    }
+
     .update-card h2 {
       margin: 0;
       font-size: clamp(24px, 3.2vw, 36px);
@@ -707,6 +737,94 @@
       margin: 10px 4px 0;
       color: var(--muted);
       font-size: clamp(14px, 1.55vw, 18px);
+    }
+
+    .update-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    .drive-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--green-dark);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: clamp(15px, 1.55vw, 18px);
+      box-shadow: 0 10px 24px rgba(15, 58, 49, .18);
+    }
+
+    .asset-note {
+      color: var(--muted);
+      font-size: clamp(14px, 1.5vw, 17px);
+    }
+
+    .brand-mode-card {
+      border-radius: 26px;
+      padding: clamp(16px, 2.2vw, 22px);
+      border: 1px solid var(--line);
+      min-width: 0;
+    }
+
+    .brand-mode-card.retail {
+      background: linear-gradient(135deg, #fff5f7, #fff);
+      border-color: #ffd6e2;
+    }
+
+    .brand-mode-card.wholesale {
+      background: linear-gradient(135deg, #fff6bd, #fff);
+      border-color: #f3d65d;
+    }
+
+    .brand-logo-shot {
+      display: block;
+      width: min(100%, 360px);
+      max-height: 280px;
+      object-fit: contain;
+      margin: 10px auto 0;
+    }
+
+    .splash-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(14px, 2vw, 20px);
+      align-items: start;
+    }
+
+    .splash-preview-grid .shot {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .design-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2vw, 20px);
+    }
+
+    .design-gallery .shot {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .font-option-shot {
+      max-height: 360px !important;
+    }
+
+    .work-table .previous td {
+      background: #fbfaf6;
     }
 
     @media (max-width: 1180px) {
@@ -845,6 +963,10 @@
         padding: 16px;
         border-radius: 20px;
       }
+      .splash-preview-grid,
+      .design-gallery {
+        grid-template-columns: 1fr;
+      }
       .callout,
       .note,
       .flow-box {
@@ -860,51 +982,123 @@
 </head>
 <body>
   <main class="page">
-    <section class="work-table-section">
-      <div class="work-table-head">
-        <div>
-          <h1>ตารางอัปเดตงาน</h1>
-          <p>เรียงจากรอบล่าสุดไปหารอบเก่า เพื่อให้เห็นทันทีว่าวันนี้ทำอะไร และงานที่อัปเดตไปแล้วอยู่ด้านล่าง</p>
-        </div>
-        <span class="table-badge"></span>
-      </div>
-      <div class="work-table-wrap">
-        <table class="work-table" aria-label="ตารางอัปเดตงาน">
-          <thead>
-            <tr>
-              <th>วันที่</th>
-              <th>เวลา</th>
-              <th>รอบงาน</th>
-              <th>สถานะ</th>
-              <th>รายละเอียดหลัก</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="current">
-              <td>4-5 มิถุนายน 2569<span class="table-note">อัปเดตวันนี้</span></td>
-              <td>เริ่ม: 4 มิ.ย. 16:10:52<br>จบ: 5 มิ.ย. 01:50:36</td>
-              <td>แจ้งเตือน LINE + บิลออเดอร์</td>
-              <td>อัปเดตล่าสุด</td>
-              <td>ส่งบิลหลังสั่งซื้อ, แก้จำนวนแล้วตีบิลใหม่กลับ LINE, แจ้งสถานะเรียลไทม์, เพิ่มชีตแยก Orders_ปลีก/Orders_ส่ง, dashboard ภาพรวม และหน้าสต๊อกอย่างง่าย</td>
-            </tr>
-            <tr>
-              <td>2 มิถุนายน 2569<span class="table-note">วันอังคารที่ผ่านมา</span></td>
-              <td>เริ่ม: 18:21:34<br>จบ: 23:35:47</td>
-              <td>ระบบร้านปลีก / ร้านส่ง + หลังบ้านใหม่</td>
-              <td>อัปเดตไปแล้ว</td>
-              <td>แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
     <section class="updates-panel" aria-label="ประวัติอัปเดตงาน">
       <div class="updates-title">
         <h2>ประวัติอัปเดตงาน</h2>
       </div>
 
       <details class="update-card" open>
+        <summary>
+          <div>
+            <div class="update-meta">
+              <span class="date-pill gold">วันพุธที่ 10 - วันพฤหัสบดีที่ 11 มิถุนายน 2569</span>
+              <span class="time-pill">เริ่ม: พุธ 10 มิ.ย. 19:12:32 • จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</span>
+            </div>
+            <div class="latest-strip">อัปเดตล่าสุด</div>
+            <h2>อัปเดตภาพร้าน แบนเนอร์ และภาพเข้าเว็บแยกปลีก / ส่ง</h2>
+            <p class="update-subtitle">แยกภาพหน้าร้านตามโหมดให้ชัดขึ้น ร้านปลีกใช้โทนชมพู ร้านส่งใช้โทนเหลือง พร้อมเตรียมภาพพื้นหลังและตัวอย่างฟ้อนสำหรับเลือกใช้งานต่อ</p>
+          </div>
+          <div class="update-chevron" aria-hidden="true">⌄</div>
+        </summary>
+        <div class="update-body">
+          <div class="update-summary-grid">
+            <div class="update-mini"><b>ภาพแบนเนอร์แยกร้าน</b><span>แยกชุดภาพร้านปลีกและร้านส่ง เพื่อให้แต่ละ LINE OA เห็นบรรยากาศร้านของตัวเอง</span></div>
+            <div class="update-mini"><b>ภาพเข้าเว็บแยกร้าน</b><span>หน้าโหลดก่อนเข้าเว็บเลือก splash ตามโหมดร้าน ตั้งแต่เฟรมแรก ไม่ดึงภาพคนละร้านมาปน</span></div>
+            <div class="update-mini"><b>สีประจำร้าน</b><span>ร้านส่งใช้โทนเหลือง ส่วนร้านปลีกใช้โทนชมพู ช่วยให้แยกหน้าร้านได้ทันที</span></div>
+            <div class="update-mini"><b>พื้นหลังตัวเลือก</b><span>เตรียมภาพพื้นหลังหลายแบบไว้ให้เลือกต่อ สามารถเปิดดูชุดที่เหลือจากปุ่มด้านล่าง</span></div>
+            <div class="update-mini"><b>ตัวอย่างฟ้อน</b><span>ทำภาพตัวอย่างพร้อมใส่ฟ้อนให้ดู เพื่อเลือกแนวตัวอักษรบนงานภาพหน้าร้าน</span></div>
+            <div class="update-mini"><b>ใบเสนอราคาแยกโลโก้</b><span>ใบเสนอราคาปลีกใช้โลโก้ปลีก และใบเสนอราคาส่งใช้โลโก้ส่ง พร้อมบันทึกแยกช่องทาง</span></div>
+            <div class="update-mini"><b>Drive แยกประเภทภาพ</b><span>แยกภาพสินค้าออกจาก Shop Assets เช่น splash, banner, promo, logo, QR/ธนาคาร และแยกโฟลเดอร์ใบเสนอราคาปลีก/ส่ง</span></div>
+          </div>
+
+          <div class="update-actions">
+            <a class="drive-btn" href="https://drive.google.com/drive/folders/1J_t3vxbLz6PypfIKwZBSAu6A8FjyKh5b?usp=drive_link" target="_blank" rel="noopener">ดูภาพพื้นหลังทั้งหมด</a>
+            <span class="asset-note">ปุ่มนี้ใช้เปิดโฟลเดอร์รวมภาพฉากหลัง/พื้นหลังตัวเลือกที่ทำไว้เพิ่มเติม</span>
+          </div>
+
+          <div class="evidence-section">
+            <div class="grid-2">
+              <div class="brand-mode-card retail">
+                <p class="shot-title"><span class="pill">ร้านปลีก</span> โทนชมพู</p>
+                <img class="brand-logo-shot" src="assets/update_20260611_logo_retail.png" alt="โลโก้ร้านปลีกโทนชมพู">
+                <p class="proof-caption">ใช้กับร้านปลีกและภาพเข้าเว็บชุดปลีก ให้ลูกค้าเห็นโทนชมพูตั้งแต่หน้าโหลดจนถึงหน้าร้าน</p>
+              </div>
+              <div class="brand-mode-card wholesale">
+                <p class="shot-title"><span class="pill gold">ร้านส่ง</span> โทนเหลือง</p>
+                <img class="brand-logo-shot" src="assets/update_20260611_logo_wholesale.png" alt="โลโก้ร้านส่งโทนเหลือง">
+                <p class="proof-caption">ใช้กับร้านส่งและภาพเข้าเว็บชุดส่ง แยกจากร้านปลีกเพื่อไม่ให้ลูกค้าสับสนโหมดราคา</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="shot-card soft">
+                <p class="shot-title"><span class="pill">Splash ปลีก</span> มือถือ / คอม</p>
+                <div class="splash-preview-grid">
+                  <img class="shot" src="assets/update_20260611_splash_retail_mobile.jpg" alt="ภาพเข้าเว็บร้านปลีกบนมือถือ">
+                  <img class="shot" src="assets/update_20260611_splash_retail_desktop.jpg" alt="ภาพเข้าเว็บร้านปลีกบนคอม">
+                </div>
+                <p class="proof-caption">ภาพเข้าเว็บร้านปลีกใช้โลโก้และพื้นหลังโทนชมพูอ่อน แยกจากร้านส่ง</p>
+              </div>
+              <div class="shot-card soft">
+                <p class="shot-title"><span class="pill gold">Splash ส่ง</span> มือถือ / คอม</p>
+                <div class="splash-preview-grid">
+                  <img class="shot" src="assets/update_20260611_splash_wholesale_mobile.jpg" alt="ภาพเข้าเว็บร้านส่งบนมือถือ">
+                  <img class="shot" src="assets/update_20260611_splash_wholesale_desktop.jpg" alt="ภาพเข้าเว็บร้านส่งบนคอม">
+                </div>
+                <p class="proof-caption">ภาพเข้าเว็บร้านส่งใช้โลโก้และพื้นหลังสีเหลือง สอดคล้องกับหน้าร้านส่งและราคา wholesale</p>
+              </div>
+            </div>
+
+            <div class="shot-card">
+              <p class="shot-title"><span class="pill blue">ตัวอย่างฟ้อน</span> ภาพตัวเลือกสำหรับงานหน้าร้าน</p>
+              <div class="design-gallery">
+                <img class="shot font-option-shot" src="assets/update_20260611_font_option_2.png" alt="ตัวอย่างฟ้อนแบบที่ 2">
+                <img class="shot font-option-shot" src="assets/update_20260611_font_option_3.png" alt="ตัวอย่างฟ้อนแบบที่ 3">
+              </div>
+              <p class="proof-caption">ทำตัวอย่างแนวฟ้อนให้ดู เพื่อใช้เลือกสไตล์ตัวอักษรสำหรับภาพร้าน/แบนเนอร์ในรอบถัดไป</p>
+            </div>
+
+            <div class="shot-card">
+              <p class="shot-title"><span class="pill green">ภาพพื้นหลังพร้อมฟ้อน</span> ตัวอย่างปลีก / ส่ง</p>
+              <div class="design-gallery">
+                <img class="shot" src="assets/update_20260611_banner_retail_sample.png" alt="ตัวอย่างพื้นหลังและฟ้อนร้านปลีก">
+                <img class="shot" src="assets/update_20260611_banner_wholesale_sample.png" alt="ตัวอย่างพื้นหลังและฟ้อนร้านส่ง">
+              </div>
+              <p class="proof-caption">ตัวอย่างภาพพื้นหลังที่ใส่ฟ้อนให้ดูแล้ว ส่วนภาพพื้นหลังแบบอื่น ๆ ดูต่อได้จากปุ่ม Google Drive ด้านบน</p>
+            </div>
+
+            <div class="shot-card">
+              <p class="shot-title"><span class="pill blue">ภาพแบนเนอร์บนเว็บจริง</span> ร้านส่ง / ร้านปลีก</p>
+              <div class="design-gallery">
+                <img class="shot" src="assets/update_20260611_web_banner_wholesale.png" alt="ภาพแบนเนอร์จริงบนเว็บร้านส่ง">
+                <img class="shot" src="assets/update_20260611_web_banner_retail.png" alt="ภาพแบนเนอร์จริงบนเว็บร้านปลีก">
+              </div>
+              <p class="proof-caption">ภาพจริงจากหน้าเว็บหลังแยกระบบแบนเนอร์แล้ว: ร้านส่งแสดงโลโก้ส่งและแบนเนอร์ขายส่ง ส่วนร้านปลีกแสดงโลโก้ปลีกและแบนเนอร์ขายปลีก</p>
+            </div>
+
+            <div class="shot-card">
+              <p class="shot-title"><span class="pill green">ระบบใบเสนอราคา</span> ปลีก / ส่ง</p>
+              <div class="design-gallery">
+                <img class="shot" src="assets/update_20260611_quotation_retail_preview.png" alt="ตัวอย่างใบเสนอราคาปลีก">
+                <img class="shot" src="assets/update_20260611_quotation_wholesale_preview.png" alt="ตัวอย่างใบเสนอราคาส่ง">
+              </div>
+              <p class="proof-caption">ใบเสนอราคาแยกโลโก้ตามร้าน: ปลีกใช้โลโก้ชมพู ส่วนร้านส่งใช้โลโก้เหลือง และระบบบันทึกไฟล์ใบเสนอราคาแยกโฟลเดอร์ปลีก/ส่งใน Google Drive</p>
+            </div>
+
+            <div class="shot-card soft">
+              <p class="shot-title"><span class="pill gold">Google Drive Assets</span> แยกภาพเป็นหมวด</p>
+              <div class="proof-list">
+                <div class="proof-item"><b>PRODUCTS_FOLDER_ID</b><span>เก็บเฉพาะภาพสินค้า ไม่ปนกับภาพร้าน</span></div>
+                <div class="proof-item"><b>SHOP_ASSETS</b><span>แยก splash/poster, banner, promo, logo, logo ธนาคาร และ QR</span></div>
+                <div class="proof-item"><b>ใบเสนอราคา</b><span>บันทึกแยกโฟลเดอร์ปลีก/ส่ง เพื่อเปิดดูย้อนหลังและส่งลูกค้าได้ง่าย</span></div>
+              </div>
+              <p class="proof-caption">จัดโครง Drive ใหม่เพื่อไม่ให้ภาพสินค้า ภาพร้าน ภาพโปร และเอกสารใบเสนอราคาปนกัน เวลาเปลี่ยนภาพหน้าร้านจะไม่กระทบรูปสินค้าเดิม</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="update-card">
         <summary>
           <div>
             <div class="update-meta">
@@ -1232,6 +1426,52 @@
           </div>
         </div>
       </details>
+    </section>
+
+    <section class="work-table-section">
+      <div class="work-table-head">
+        <div>
+          <h1>ตารางอัปเดตงาน</h1>
+          <p>เรียงจากรอบล่าสุดไปหารอบเก่า เพื่อให้เห็นทันทีว่าวันนี้ทำอะไร และงานที่อัปเดตไปแล้วอยู่ด้านล่าง</p>
+        </div>
+        <span class="table-badge"></span>
+      </div>
+      <div class="work-table-wrap">
+        <table class="work-table" aria-label="ตารางอัปเดตงาน">
+          <thead>
+            <tr>
+              <th>วันที่</th>
+              <th>เวลา</th>
+              <th>รอบงาน</th>
+              <th>สถานะ</th>
+              <th>รายละเอียดหลัก</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="current">
+              <td>10-11 มิถุนายน 2569<span class="table-note">อัปเดตล่าสุด</span></td>
+              <td>เริ่ม: พุธ 10 มิ.ย. 19:12:32<br>จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</td>
+              <td>ภาพร้าน / แบนเนอร์ / Splash แยกปลีก-ส่ง</td>
+              <td>อัปเดตล่าสุด</td>
+              <td>แยกระบบภาพแบนเนอร์ร้านปลีกและร้านส่ง, แยกภาพเข้าเว็บตามโหมด, ใช้สีชมพูสำหรับร้านปลีกและสีเหลืองสำหรับร้านส่ง, เตรียมภาพพื้นหลังเป็นตัวเลือก, ใส่ตัวอย่างฟ้อนให้ดู และเพิ่มปุ่มไปยังโฟลเดอร์งานบน Google Drive</td>
+            </tr>
+            <tr class="previous">
+              <td>4-5 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
+              <td>เริ่ม: 4 มิ.ย. 16:10:52<br>จบ: 5 มิ.ย. 01:50:36</td>
+              <td>แจ้งเตือน LINE + บิลออเดอร์</td>
+              <td>อัปเดตไปแล้ว</td>
+              <td>ส่งบิลหลังสั่งซื้อ, แก้จำนวนแล้วตีบิลใหม่กลับ LINE, แจ้งสถานะเรียลไทม์, เพิ่มชีตแยก Orders_ปลีก/Orders_ส่ง, dashboard ภาพรวม และหน้าสต๊อกอย่างง่าย</td>
+            </tr>
+            <tr>
+              <td>2 มิถุนายน 2569<span class="table-note">วันอังคารที่ผ่านมา</span></td>
+              <td>เริ่ม: 18:21:34<br>จบ: 23:35:47</td>
+              <td>ระบบร้านปลีก / ร้านส่ง + หลังบ้านใหม่</td>
+              <td>อัปเดตไปแล้ว</td>
+              <td>แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 </body>
