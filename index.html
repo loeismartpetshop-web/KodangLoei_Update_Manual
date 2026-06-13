@@ -726,6 +726,16 @@
       background: #fff;
     }
 
+    .latest-evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(16px, 2vw, 22px);
+    }
+
+    .latest-evidence-grid .wide-shot {
+      grid-column: 1 / -1;
+    }
+
     .sheet-tab-shot {
       width: min(100%, 420px);
       max-height: 120px;
@@ -846,7 +856,8 @@
       .grid-2,
       .grid-3,
       .footer,
-      .update-summary-grid {
+      .update-summary-grid,
+      .latest-evidence-grid {
         grid-template-columns: 1fr;
       }
       .update-card summary { grid-template-columns: 1fr; }
@@ -991,10 +1002,74 @@
         <summary>
           <div>
             <div class="update-meta">
+              <span class="date-pill gold">วันเสาร์ที่ 13 มิถุนายน 2569</span>
+              <span class="time-pill">เริ่ม: เสาร์ 13 มิ.ย. 15:43:12 • จบ: 23:48:43</span>
+            </div>
+            <div class="latest-strip">อัปเดตล่าสุด</div>
+            <h2>อัปเดตหน้า Status / Checkout / Webhook</h2>
+            <p class="update-subtitle">สรุปงานรอบนี้เป็นการเก็บรายละเอียดหน้าเช็กสถานะออเดอร์ หน้า checkout ระบบที่อยู่จัดส่ง ระบบระบุตำแหน่ง และความปลอดภัยของ webhook</p>
+          </div>
+          <div class="update-chevron" aria-hidden="true">⌄</div>
+        </summary>
+        <div class="update-body">
+          <div class="update-summary-grid">
+            <div class="update-mini"><b>1. โลโก้หน้าสถานะปลีก/ส่งถูกตั้งแต่ต้น</b><span>หน้า status เลือกโลโก้ตามโหมดร้านตั้งแต่ช่วงแรกของการโหลด ทำให้ลูกค้าเห็นโลโก้ปลีกหรือโลโก้ส่งตรงกับลิงก์ที่เปิด</span></div>
+            <div class="update-mini"><b>2. แก้ที่อยู่ ต.ต. / อ.อ. / จ.จ. ให้เหลืออย่างละอัน</b><span>ปรับรูปแบบที่อยู่จากระบบแผนที่ ไม่ให้เติมคำนำหน้าซ้ำซ้อน เช่น ต.ต. อ.อ. จ.จ. เพื่อให้ที่อยู่จัดส่งอ่านง่ายและดูถูกต้อง</span></div>
+            <div class="update-mini"><b>3. หน้า status โหลดดูดีขึ้น ไม่ดูค้าง</b><span>ปรับหน้าระหว่างโหลดให้เป็นโครงร่างข้อมูลแทนการรอแบบนิ่ง ๆ ลูกค้าจึงเข้าใจว่าระบบกำลังดึงข้อมูลออเดอร์อยู่</span></div>
+            <div class="update-mini"><b>4. ลิงก์สถานะร้านส่งพาเข้าโหมดร้านส่งถูกต้อง</b><span>ปรับลิงก์จากการ์ด LINE ของร้านส่งให้พาเข้าหน้า status พร้อมโหมดร้านส่ง เพื่อให้หน้าเช็กสถานะแสดงข้อมูลและโลโก้ตรงช่องทาง</span></div>
+            <div class="update-mini"><b>5. เพิ่ม Webhook Security</b><span>เพิ่มการตรวจสอบ LINE signature และ secret สำหรับ request ภายในระบบ ช่วยกัน request ที่ไม่ได้มาจากช่องทางที่กำหนด</span></div>
+            <div class="update-mini"><b>6. ระบบระบุตำแหน่งทันทีหน้า Checkout</b><span>ปรับปุ่มใช้ตำแหน่งปัจจุบันให้เรียกตำแหน่งจากแผนที่ได้เร็วขึ้น พร้อม fallback กรณีอุปกรณ์หรือเบราว์เซอร์ตอบสนองช้า</span></div>
+          </div>
+
+          <div class="evidence-section">
+            <div class="latest-evidence-grid">
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill gold">Status ร้านส่ง</span> โลโก้ถูกตั้งแต่ต้น</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_status_wholesale_loading.png" alt="หน้า status ร้านส่งแสดงโลโก้ร้านส่งระหว่างโหลด">
+                <p class="proof-caption">หน้าเช็กสถานะร้านส่งแสดงโลโก้ร้านส่งตั้งแต่ช่วงโหลดข้อมูล</p>
+              </div>
+
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill">Status ร้านปลีก</span> โลโก้ถูกตั้งแต่ต้น</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_status_retail_loading.png" alt="หน้า status ร้านปลีกแสดงโลโก้ร้านปลีกระหว่างโหลด">
+                <p class="proof-caption">หน้าเช็กสถานะร้านปลีกแสดงโลโก้ร้านปลีกตั้งแต่ช่วงโหลดข้อมูล</p>
+              </div>
+
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill red">ก่อนจัดรูปแบบที่อยู่</span> คำนำหน้าซ้ำ</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_address_before.png" alt="ที่อยู่ก่อนจัดรูปแบบ มี ต.ต. อ.อ. จ.จ.">
+                <p class="proof-caption">ตัวอย่างที่อยู่ก่อนปรับรูปแบบ มีคำนำหน้าซ้ำ เช่น ต.ต. / อ.อ. / จ.จ.</p>
+              </div>
+
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill green">หลังจัดรูปแบบที่อยู่</span> เหลืออย่างละอัน</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_address_after.png" alt="ที่อยู่หลังจัดรูปแบบ เหลือ ต. อ. จ. อย่างละอัน">
+                <p class="proof-caption">หลังปรับแล้ว ที่อยู่แสดงคำนำหน้า ต. / อ. / จ. อย่างละอัน อ่านง่ายขึ้น</p>
+              </div>
+
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill blue">Checkout</span>หมุดตำแหน่งก่อนเเก้</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_checkout_map.png" alt="หน้า checkout แสดงแผนที่และปุ่มใช้ตำแหน่งปัจจุบัน">
+                <p class="proof-caption">จากเดิมต้องได้กดปุ่มระบุตำเเหน่งเพื่อให้หมุดไปยังตำเเหน่งปัจจุบัน</p>
+              </div>
+
+              <div class="shot-card">
+                <p class="shot-title"><span class="pill blue">หลังระบุตำแหน่ง</span> หมุดตำแหน่งเเก้เเล้ว</p>
+                <img class="shot evidence-shot" src="assets/update_20260613_checkout_location_done.png" alt="หน้า checkout หลังระบุตำแหน่งสำเร็จและวางหมุดบนแผนที่">
+                <p class="proof-caption">หลังระบบเเก้ จะดึงตำแหน่งให้อัตโนมัติเเละพาไปยังหมุดที่อยู่จริง</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="update-card">
+        <summary>
+          <div>
+            <div class="update-meta">
               <span class="date-pill gold">วันพุธที่ 10 - วันพฤหัสบดีที่ 11 มิถุนายน 2569</span>
               <span class="time-pill">เริ่ม: พุธ 10 มิ.ย. 19:12:32 • จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</span>
             </div>
-            <div class="latest-strip">อัปเดตล่าสุด</div>
             <h2>อัปเดตภาพร้าน แบนเนอร์ และภาพเข้าเว็บแยกปลีก / ส่ง</h2>
             <p class="update-subtitle">แยกภาพหน้าร้านตามโหมดให้ชัดขึ้น ร้านปลีกใช้โทนชมพู ร้านส่งใช้โทนเหลือง พร้อมเตรียมภาพพื้นหลังและตัวอย่างฟ้อนสำหรับเลือกใช้งานต่อ</p>
           </div>
@@ -1449,13 +1524,20 @@
           </thead>
           <tbody>
             <tr class="current">
-              <td>10-11 มิถุนายน 2569<span class="table-note">อัปเดตล่าสุด</span></td>
-              <td>เริ่ม: พุธ 10 มิ.ย. 19:12:32<br>จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</td>
-              <td>ภาพร้าน / แบนเนอร์ / Splash แยกปลีก-ส่ง</td>
+              <td>13 มิถุนายน 2569<span class="table-note">อัปเดตล่าสุด</span></td>
+              <td>เริ่ม: เสาร์ 13 มิ.ย. 15:43:12<br>จบ: 23:28:43</td>
+              <td>Status / Checkout / Webhook</td>
               <td>อัปเดตล่าสุด</td>
-              <td>แยกระบบภาพแบนเนอร์ร้านปลีกและร้านส่ง, แยกภาพเข้าเว็บตามโหมด, ใช้สีชมพูสำหรับร้านปลีกและสีเหลืองสำหรับร้านส่ง, เตรียมภาพพื้นหลังเป็นตัวเลือก, ใส่ตัวอย่างฟ้อนให้ดู และเพิ่มปุ่มไปยังโฟลเดอร์งานบน Google Drive</td>
+              <td>โลโก้หน้าสถานะปลีก/ส่งถูกตั้งแต่ต้น, แก้ที่อยู่ ต.ต. / อ.อ. / จ.จ. ให้เหลืออย่างละอัน, หน้า status โหลดดูดีขึ้นไม่ดูค้าง, ลิงก์สถานะร้านส่งพาเข้าโหมดร้านส่งถูกต้อง, เพิ่ม Webhook Security และระบบระบุตำแหน่งทันทีหน้า Checkout</td>
             </tr>
             <tr class="previous">
+              <td>10-11 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
+              <td>เริ่ม: พุธ 10 มิ.ย. 19:12:32<br>จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</td>
+              <td>ภาพร้าน / แบนเนอร์ / Splash แยกปลีก-ส่ง</td>
+              <td>อัปเดตก่อนหน้า</td>
+              <td>แยกระบบภาพแบนเนอร์ร้านปลีกและร้านส่ง, แยกภาพเข้าเว็บตามโหมด, ใช้สีชมพูสำหรับร้านปลีกและสีเหลืองสำหรับร้านส่ง, เตรียมภาพพื้นหลังเป็นตัวเลือก, ใส่ตัวอย่างฟ้อนให้ดู และเพิ่มปุ่มไปยังโฟลเดอร์งานบน Google Drive</td>
+            </tr>
+            <tr>
               <td>4-5 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
               <td>เริ่ม: 4 มิ.ย. 16:10:52<br>จบ: 5 มิ.ย. 01:50:36</td>
               <td>แจ้งเตือน LINE + บิลออเดอร์</td>
