@@ -1,1917 +1,2491 @@
 <!doctype html>
 <html lang="th">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Storyboard - ระบบปลีก/ส่ง และหลังบ้าน</title>
-  <style>
-    :root {
-      --ink: #10231e;
-      --muted: #65756f;
-      --line: #dce5df;
-      --paper: #fbfaf6;
-      --card: #ffffff;
-      --green: #1f8565;
-      --green-dark: #0f3a31;
-      --gold: #f7c63b;
-      --orange: #f28b32;
-      --blue: #2d6cdf;
-      --red: #d94242;
-      --soft-green: #e8f5ef;
-      --soft-gold: #fff5cf;
-      --soft-blue: #eaf1ff;
-      --soft-red: #fff0ef;
-      --shadow: 0 18px 45px rgba(15, 35, 31, .10);
-    }
-
-    * { box-sizing: border-box; }
-    html { overflow-x: hidden; }
-    body {
-      margin: 0;
-      background: #ece8dd;
-      color: var(--ink);
-      font-family: "Leelawadee UI", "Tahoma", "Segoe UI", sans-serif;
-      line-height: 1.45;
-      overflow-x: hidden;
-    }
-
-    .page {
-      width: 100%;
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: clamp(18px, 3.5vw, 56px);
-      background:
-        radial-gradient(circle at 8% 0%, rgba(247, 198, 59, .28), transparent 26%),
-        radial-gradient(circle at 92% 6%, rgba(31, 133, 101, .14), transparent 24%),
-        var(--paper);
-    }
-
-    .hero {
-      border-radius: clamp(24px, 3vw, 36px);
-      padding: clamp(24px, 3.5vw, 42px);
-      background: linear-gradient(135deg, #0e322c, #1f8565);
-      color: #fff;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero:after {
-      content: "";
-      position: absolute;
-      right: -80px;
-      top: -80px;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.08);
-    }
-
-    .kicker {
-      display: inline-flex;
-      gap: 10px;
-      align-items: center;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.18);
-      font-weight: 800;
-      font-size: clamp(14px, 1.6vw, 22px);
-      max-width: 100%;
-      flex-wrap: wrap;
-    }
-
-    h1 {
-      margin: 18px 0 10px;
-      font-size: clamp(30px, 4.9vw, 58px);
-      line-height: 1.06;
-      letter-spacing: 0;
-    }
-
-    .subtitle {
-      max-width: 1120px;
-      color: rgba(255,255,255,.86);
-      font-size: clamp(18px, 2.2vw, 25px);
-      margin: 0;
-    }
-
-    .summary {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 16px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .summary-card {
-      border-radius: 24px;
-      padding: clamp(16px, 2vw, 20px);
-      background: rgba(255,255,255,.13);
-      border: 1px solid rgba(255,255,255,.20);
-      min-height: 122px;
-    }
-
-    .summary-card b {
-      display: block;
-      margin-bottom: 7px;
-      font-size: clamp(18px, 1.6vw, 21px);
-    }
-
-    .summary-card span {
-      color: rgba(255,255,255,.82);
-      font-size: clamp(15px, 1.45vw, 18px);
-    }
-
-    .section {
-      margin-top: clamp(22px, 3vw, 34px);
-      border-radius: clamp(22px, 3vw, 34px);
-      background: var(--card);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(16, 35, 30, .06);
-      padding: clamp(18px, 3vw, 30px);
-      overflow: hidden;
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: clamp(12px, 2vw, 18px);
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .step {
-      width: clamp(54px, 6vw, 78px);
-      height: clamp(54px, 6vw, 78px);
-      border-radius: clamp(17px, 2vw, 24px);
-      display: grid;
-      place-items: center;
-      background: var(--green-dark);
-      color: #fff;
-      font-size: clamp(23px, 3vw, 34px);
-      font-weight: 900;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(25px, 3.4vw, 38px);
-      letter-spacing: 0;
-    }
-
-    .lead {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: clamp(17px, 2vw, 22px);
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-size: clamp(15px, 1.7vw, 20px);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .done { background: var(--soft-green); color: var(--green); }
-    .wip { background: var(--soft-gold); color: #936b00; }
-    .todo { background: var(--soft-red); color: var(--red); }
-
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 22px); }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 20px); }
-    .grid-wide { display: grid; grid-template-columns: 1.18fr .82fr; gap: clamp(16px, 2vw, 24px); align-items: stretch; }
-
-    .shot-card {
-      border-radius: clamp(20px, 2.6vw, 28px);
-      border: 1px solid var(--line);
-      background: #fff;
-      padding: clamp(12px, 1.8vw, 16px);
-      position: relative;
-      min-width: 0;
-    }
-
-    .shot-card.dark { background: #18272e; border-color: #263a42; }
-    .shot-card.soft { background: #faf7ee; }
-
-    .shot-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 12px;
-      font-size: clamp(18px, 2.2vw, 24px);
-      font-weight: 900;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: var(--soft-blue);
-      color: var(--blue);
-      font-size: clamp(14px, 1.45vw, 17px);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .pill.green { background: var(--soft-green); color: var(--green); }
-    .pill.gold { background: var(--soft-gold); color: #936b00; }
-    .pill.red { background: var(--soft-red); color: var(--red); }
-    .pill.blue { background: var(--soft-blue); color: var(--blue); }
-
-    .pill.green { background: var(--soft-green); color: var(--green); }
-    .pill.gold { background: var(--soft-gold); color: #936b00; }
-    .pill.red { background: var(--soft-red); color: var(--red); }
-
-    .url-strip {
-      margin: 10px 0 14px;
-      border-radius: 18px;
-      padding: 12px 14px;
-      background: #f6faf8;
-      border: 1px solid var(--line);
-      color: var(--green-dark);
-      font-size: clamp(15px, 1.7vw, 20px);
-      font-weight: 900;
-      word-break: break-all;
-    }
-
-    .url-strip span {
-      display: block;
-      color: var(--muted);
-      font-size: clamp(13px, 1.35vw, 16px);
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .proof-list {
-      display: grid;
-      gap: 8px;
-      margin: 0 0 14px;
-    }
-
-    .proof-item {
-      display: grid;
-      grid-template-columns: 118px 1fr;
-      gap: 10px;
-      align-items: start;
-      border-radius: 16px;
-      padding: 10px 12px;
-      background: #fbfdfc;
-      border: 1px solid var(--line);
-      font-size: clamp(14px, 1.55vw, 18px);
-    }
-
-    .proof-item b {
-      color: var(--green-dark);
-      font-weight: 1000;
-    }
-
-    .proof-item span {
-      color: var(--muted);
-      word-break: break-all;
-    }
-
-    .shot {
-      width: 100%;
-      display: block;
-      border-radius: 20px;
-      border: 1px solid rgba(16, 35, 30, .10);
-      object-fit: contain;
-      background: #fff;
-      max-width: 100%;
-    }
-
-    .mobile-shot {
-      max-height: 720px;
-      width: auto;
-      max-width: 100%;
-      margin: 0 auto;
-      box-shadow: 0 14px 30px rgba(15, 35, 31, .12);
-    }
-
-    .sheet-shot {
-      border-radius: 16px;
-      max-height: 360px;
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .note {
-      margin-top: 18px;
-      border-radius: 22px;
-      padding: 18px 20px;
-      background: #f7fbf8;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 21px);
-    }
-
-    .note b { color: var(--ink); }
-
-    .flow {
-      display: grid;
-      grid-template-columns: 1fr 80px 1fr;
-      gap: 8px;
-      align-items: center;
-      margin: 18px 0;
-    }
-
-    .flow-box {
-      border-radius: 24px;
-      padding: 20px;
-      border: 1px solid var(--line);
-      background: #fff;
-      min-height: 116px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .flow-box strong {
-      display: block;
-      font-size: clamp(18px, 2vw, 24px);
-    }
-
-    .flow-box small {
-      color: var(--muted);
-      font-size: clamp(15px, 1.55vw, 18px);
-    }
-
-    .arrow {
-      text-align: center;
-      font-size: clamp(30px, 4vw, 46px);
-      color: var(--green);
-      font-weight: 900;
-    }
-
-    .callout {
-      border-radius: 24px;
-      padding: 22px;
-      background: var(--soft-gold);
-      border: 1px solid #f4dda3;
-      font-size: clamp(17px, 1.9vw, 22px);
-    }
-
-    .callout.green { background: var(--soft-green); border-color: #cfe8dc; }
-    .callout.blue { background: var(--soft-blue); border-color: #d6e2fb; }
-    .callout.red { background: var(--soft-red); border-color: #f7d4d1; }
-
-    .callout h3 {
-      margin: 0 0 10px;
-      font-size: clamp(21px, 2.3vw, 27px);
-    }
-
-    .callout ul {
-      margin: 0;
-      padding-left: 24px;
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 21px);
-    }
-
-    .price-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .price-box {
-      border-radius: 26px;
-      padding: 22px;
-      text-align: center;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-
-    .price-box .label {
-      font-size: 24px;
-      font-size: clamp(18px, 2vw, 24px);
-      font-weight: 900;
-    }
-
-    .price {
-      font-size: clamp(36px, 5vw, 54px);
-      font-weight: 1000;
-      color: var(--green-dark);
-      margin-top: 4px;
-    }
-
-    .price-box small {
-      font-size: clamp(14px, 1.5vw, 18px);
-      color: var(--muted);
-    }
-
-    .footer {
-      margin-top: 34px;
-      border-radius: 32px;
-      padding: 30px;
-      background: #10231e;
-      color: #fff;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 26px;
-    }
-
-    .footer h2 { color: #fff; font-size: clamp(25px, 3vw, 34px); }
-    .footer ul { margin: 10px 0 0; padding-left: 24px; color: rgba(255,255,255,.78); font-size: clamp(16px, 1.8vw, 21px); }
-
-    .work-table-section {
-      border-radius: clamp(24px, 4vw, 36px);
-      padding: clamp(20px, 3.5vw, 34px);
-      background: #fff;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(16, 35, 30, .08);
-    }
-
-    .work-table-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: end;
-      margin-bottom: 18px;
-    }
-
-    .work-table-head h1 {
-      margin: 0;
-      font-size: clamp(32px, 5vw, 58px);
-      letter-spacing: 0;
-    }
-
-    .work-table-head p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 21px);
-    }
-
-    .table-badge {
-      flex: 0 0 auto;
-      border-radius: 999px;
-      padding: 10px 14px;
-      background: var(--soft-green);
-      color: var(--green-dark);
-      border: 1px solid #cfe8dc;
-      font-weight: 900;
-      font-size: clamp(14px, 1.45vw, 17px);
-    }
-
-    .work-table-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .work-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
-      min-width: 920px;
-    }
-
-    .work-table th {
-      padding: 0 16px 8px;
-      color: var(--muted);
-      text-align: left;
-      font-size: clamp(14px, 1.45vw, 16px);
-      font-weight: 900;
-    }
-
-    .work-table td {
-      padding: 18px 16px;
-      background: #f8fbf8;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-      font-size: clamp(15px, 1.6vw, 18px);
-    }
-
-    .work-table td:first-child {
-      border-left: 1px solid var(--line);
-      border-radius: 18px 0 0 18px;
-      font-weight: 900;
-      color: var(--green-dark);
-    }
-
-    .work-table td:last-child {
-      border-right: 1px solid var(--line);
-      border-radius: 0 18px 18px 0;
-    }
-
-    .work-table .current td {
-      background: linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .16));
-      border-color: rgba(31, 133, 101, .18);
-    }
-
-    .table-note {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: clamp(13px, 1.35vw, 16px);
-      font-weight: 500;
-    }
-
-    .updates-panel {
-      margin-top: clamp(22px, 3vw, 34px);
-      display: grid;
-      gap: 18px;
-    }
-
-    .updates-title {
-      border-radius: clamp(22px, 3vw, 30px);
-      padding: clamp(20px, 3vw, 28px);
-      background: #fff;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(16, 35, 30, .06);
-    }
-
-    .updates-title h2 {
-      margin: 0 0 8px;
-    }
-
-    .updates-title p {
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 21px);
-    }
-
-    .update-card {
-      border-radius: clamp(22px, 3vw, 34px);
-      background: #fff;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(16, 35, 30, .08);
-      overflow: hidden;
-    }
-
-    .update-card summary {
-      list-style: none;
-      cursor: pointer;
-      padding: clamp(18px, 2.6vw, 28px);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
-      align-items: center;
-      background:
-        linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .20)),
-        #fff;
-    }
-
-    .update-card summary::-webkit-details-marker { display: none; }
-
-    .update-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .date-pill {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 8px 13px;
-      background: var(--green-dark);
-      color: #fff;
-      font-weight: 900;
-      font-size: clamp(14px, 1.45vw, 17px);
-    }
-
-    .date-pill.gold {
-      background: var(--soft-gold);
-      color: #936b00;
-      border: 1px solid #f2daa0;
-    }
-
-    .time-pill {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 8px 13px;
-      background: #eef5f1;
-      color: var(--green-dark);
-      border: 1px solid #d5e7dd;
-      font-weight: 900;
-      font-size: clamp(14px, 1.45vw, 17px);
-    }
-
-    .latest-strip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: fit-content;
-      margin: 0 0 10px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(31, 133, 101, .10);
-      color: var(--green-dark);
-      border: 1px solid rgba(31, 133, 101, .18);
-      font-weight: 900;
-      font-size: clamp(13px, 1.35vw, 16px);
-    }
-
-    .latest-strip::before {
-      content: "";
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 5px rgba(31, 133, 101, .12);
-      flex: 0 0 auto;
-    }
-
-    .update-card h2 {
-      margin: 0;
-      font-size: clamp(24px, 3.2vw, 36px);
-    }
-
-    .update-subtitle {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: clamp(16px, 1.8vw, 21px);
-    }
-
-    .update-chevron {
-      width: clamp(44px, 5vw, 56px);
-      height: clamp(44px, 5vw, 56px);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: #fff;
-      border: 1px solid var(--line);
-      color: var(--green-dark);
-      font-size: 28px;
-      font-weight: 900;
-      transition: transform .18s ease;
-    }
-
-    .update-card[open] .update-chevron { transform: rotate(180deg); }
-
-    .update-body {
-      padding: 0 clamp(18px, 3vw, 30px) clamp(22px, 3vw, 34px);
-      border-top: 1px solid rgba(16, 35, 30, .08);
-      background: #fbfdfb;
-    }
-
-    .update-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      padding-top: 20px;
-    }
-
-    .update-mini {
-      border-radius: 22px;
-      padding: 18px;
-      background: #fff;
-      border: 1px solid var(--line);
-      min-height: 112px;
-    }
-
-    .update-mini b {
-      display: block;
-      margin-bottom: 7px;
-      font-size: clamp(17px, 1.8vw, 22px);
-    }
-
-    .update-mini span {
-      color: var(--muted);
-      font-size: clamp(14px, 1.55vw, 18px);
-    }
-
-    .update-detail-stack {
-      display: grid;
-      gap: clamp(22px, 3vw, 34px);
-      margin-top: 20px;
-    }
-
-    .update-detail-stack > .section,
-    .update-detail-stack > .footer {
-      margin-top: 0;
-    }
-
-    .update-empty {
-      padding-top: 20px;
-    }
-
-    .update-empty .note {
-      margin-top: 0;
-    }
-
-    .today-proof-stack {
-      display: grid;
-      gap: clamp(18px, 2.6vw, 26px);
-      padding-top: 20px;
-    }
-
-    .update-phone-shot {
-      width: min(100%, 390px);
-      max-height: min(760px, 78vh);
-      object-fit: contain;
-      margin-inline: auto;
-    }
-
-    .evidence-section {
-      display: grid;
-      gap: clamp(16px, 2.2vw, 22px);
-      padding-top: 20px;
-    }
-
-    .evidence-shot {
-      width: 100%;
-      max-height: min(620px, 72vh);
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .latest-evidence-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(16px, 2vw, 22px);
-    }
-
-    .latest-evidence-grid .wide-shot {
-      grid-column: 1 / -1;
-    }
-
-    .sheet-tab-shot {
-      width: min(100%, 420px);
-      max-height: 120px;
-      object-fit: contain;
-      margin-inline: auto;
-    }
-
-    .proof-caption {
-      margin: 10px 4px 0;
-      color: var(--muted);
-      font-size: clamp(14px, 1.55vw, 18px);
-    }
-
-    .update-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      padding-top: 20px;
-    }
-
-    .drive-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: var(--green-dark);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 900;
-      font-size: clamp(15px, 1.55vw, 18px);
-      box-shadow: 0 10px 24px rgba(15, 58, 49, .18);
-    }
-
-    .asset-note {
-      color: var(--muted);
-      font-size: clamp(14px, 1.5vw, 17px);
-    }
-
-    .brand-mode-card {
-      border-radius: 26px;
-      padding: clamp(16px, 2.2vw, 22px);
-      border: 1px solid var(--line);
-      min-width: 0;
-    }
-
-    .brand-mode-card.retail {
-      background: linear-gradient(135deg, #fff5f7, #fff);
-      border-color: #ffd6e2;
-    }
-
-    .brand-mode-card.wholesale {
-      background: linear-gradient(135deg, #fff6bd, #fff);
-      border-color: #f3d65d;
-    }
-
-    .brand-logo-shot {
-      display: block;
-      width: min(100%, 360px);
-      max-height: 280px;
-      object-fit: contain;
-      margin: 10px auto 0;
-    }
-
-    .splash-preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(14px, 2vw, 20px);
-      align-items: start;
-    }
-
-    .splash-preview-grid .shot {
-      width: 100%;
-      max-height: 520px;
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .design-gallery {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(14px, 2vw, 20px);
-    }
-
-    .design-gallery .shot {
-      width: 100%;
-      max-height: 520px;
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .font-option-shot {
-      max-height: 360px !important;
-    }
-
-    .work-table .previous td {
-      background: #fbfaf6;
-    }
-
-    @media (max-width: 1180px) {
-      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .grid-wide { grid-template-columns: 1fr; }
-      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .update-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 860px) {
-      .hero:after { width: 220px; height: 220px; right: -90px; top: -90px; }
-      .section-head {
-        grid-template-columns: auto minmax(0, 1fr);
-      }
-      .section-head .status {
-        grid-column: 1 / -1;
-        justify-self: start;
-      }
-      .grid-2,
-      .grid-3,
-      .footer,
-      .update-summary-grid,
-      .latest-evidence-grid {
-        grid-template-columns: 1fr;
-      }
-      .update-card summary { grid-template-columns: 1fr; }
-      .update-chevron { justify-self: start; }
-      .work-table-head {
-        display: grid;
-        align-items: start;
-      }
-      .table-badge {
-        justify-self: start;
-      }
-      .work-table {
-        min-width: 0;
-        border-spacing: 0;
-      }
-      .work-table thead {
-        display: none;
-      }
-      .work-table,
-      .work-table tbody,
-      .work-table tr,
-      .work-table td {
-        display: block;
-        width: 100%;
-      }
-      .work-table tr {
-        margin-bottom: 12px;
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        overflow: hidden;
-        background: #f8fbf8;
-      }
-      .work-table .current {
-        background: linear-gradient(135deg, rgba(31, 133, 101, .12), rgba(247, 198, 59, .16));
-      }
-      .work-table td,
-      .work-table td:first-child,
-      .work-table td:last-child {
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-        padding: 12px 14px;
-      }
-      .work-table td + td {
-        border-top: 1px solid rgba(16, 35, 30, .08);
-      }
-      .work-table td::before {
-        display: block;
-        margin-bottom: 3px;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 900;
-      }
-      .work-table td:nth-child(1)::before { content: "วันที่"; }
-      .work-table td:nth-child(2)::before { content: "เวลา"; }
-      .work-table td:nth-child(3)::before { content: "รอบงาน"; }
-      .work-table td:nth-child(4)::before { content: "สถานะ"; }
-      .work-table td:nth-child(5)::before { content: "รายละเอียดหลัก"; }
-      .flow {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .arrow {
-        transform: rotate(90deg);
-        line-height: 1;
-      }
-      .mobile-shot {
-        width: 100%;
-        max-width: 430px;
-        max-height: none;
-      }
-    }
-
-    @media (max-width: 560px) {
-      body { background: var(--paper); }
-      .page { padding: 12px; }
-      .hero,
-      .section,
-      .footer {
-        border-radius: 20px;
-      }
-      .summary {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .summary-card {
-        min-height: auto;
-      }
-      .proof-item {
-        grid-template-columns: 1fr;
-        gap: 3px;
-      }
-      .shot-card {
-        border-radius: 18px;
-      }
-      .shot {
-        border-radius: 14px;
-      }
-      .price-panel {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-      .update-body {
-        padding-inline: 12px;
-      }
-      .update-phone-shot {
-        width: min(100%, 330px);
-        max-height: 72vh;
-      }
-      .evidence-shot {
-        max-height: 70vh;
-      }
-      .price-box {
-        padding: 16px;
-        border-radius: 20px;
-      }
-      .splash-preview-grid,
-      .design-gallery {
-        grid-template-columns: 1fr;
-      }
-      .callout,
-      .note,
-      .flow-box {
-        border-radius: 18px;
-        padding: 15px;
-      }
-      .url-strip {
-        border-radius: 14px;
-        padding: 10px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <main class="page">
-    <section class="updates-panel" aria-label="ประวัติอัปเดตงาน">
-      <div class="updates-title">
-        <h2>ประวัติอัปเดตงาน</h2>
-      </div>
-
-      <details class="update-card" open>
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 29 กรกฎาคม 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 29 ก.ค. 11:53:39 • จบ: 17:16:58 • ต่อ 20:18:12 > 00:11:20</span>
-            </div>
-            <div class="latest-strip">อัปเดตล่าสุด</div>
-            <h2>ยกเครื่องระบบรูปภาพทั้งร้าน ย้ายออกจาก Google Drive</h2>
-            <p class="update-subtitle">รอบนี้แก้ที่ต้นเหตุของอาการเว็บช้า ซึ่งคือระบบรูปภาพที่เดิมฝากไว้บน Google Drive ย้ายรูปทั้งหมด 330 ใบมาเก็บบน Supabase Storage ที่มี CDN แล้วบีบเป็นไฟล์ WebP ทำให้ขนาดรูปที่หน้าร้านต้องโหลดลดจาก 355 MB เหลือ 16.7 MB พร้อมเปลี่ยนระบบกดเพิ่มรูปสินค้าจากหลังบ้านให้ย่อและแปลงไฟล์ในเครื่องก่อนส่ง อัปจากมือถือเครื่องไหนก็ได้ที่ล็อกอินบัญชีแอดมิน นอกจากนี้ยังแก้อาการร้านส่งเปิดหน้าเว็บแล้วโหลดใหม่ซ้ำอีกรอบ และลดเวลาหน้าโลโก้ตอนเข้าเว็บ</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. ย้ายรูปทั้งร้านออกจาก Google Drive</b><span>รูปสินค้า 305 ใบ พร้อมโลโก้ ภาพโปรโมชั่น โลโก้ธนาคารและ QR รวม 330 ใบ ย้ายมาเก็บบน Supabase Storage ที่มี CDN แทน Google Drive ซึ่งไม่ได้ออกแบบมาให้เว็บเรียกรูปพร้อมกันทีละหลายสิบใบ</span></div>
-            <div class="update-mini"><b>2. บีบรูปเป็น WebP ลดขนาดลง 95%</b><span>รูปสินค้าเดิมเป็นไฟล์ PNG กว้าง 1600px เฉลี่ยใบละ 1,078 KB บีบเป็น WebP กว้าง 800px เหลือเฉลี่ยใบละ 50 KB ขนาดรวมทั้งระบบลดจาก 355 MB เหลือ 16.7 MB</span></div>
-            <div class="update-mini"><b>3. กดเพิ่มรูปสินค้าเองได้จากมือถือทุกเครื่อง</b><span>เปลี่ยนระบบอัปโหลดใหม่ทั้งเส้น เครื่องของแอดมินจะย่อรูปและแปลงเป็น WebP ให้ก่อนส่ง รูปจากกล้องมือถือ 4 MB เหลือราว 100 KB ก่อนวิ่งขึ้นเน็ต จึงอัปจากมือถือผ่าน 4G ได้เร็ว ใช้ได้ทุกเครื่องที่ล็อกอินบัญชีแอดมิน และแก้ปัญหาไฟล์รูปจาก iPhone ที่เบราว์เซอร์บนคอมเปิดไม่ขึ้นไปในตัว</span></div>
-            <div class="update-mini"><b>4. รูปแยกตามหมวดสินค้าอัตโนมัติ</b><span>ระบบเก็บรูปแยกโฟลเดอร์ตามหมวดสินค้าให้เอง เปิดดูย้อนหลังได้ว่ารูปไหนอยู่หมวดอะไร โดยไม่ต้องตั้งชื่อไฟล์เอง</span></div>
-            <div class="update-mini"><b>5. ย่อโลโก้และภาพเข้าเว็บ</b><span>พบว่าไฟล์โลโก้ร้านมีขนาด 2195×2195px หนัก 3.2 MB และภาพเข้าเว็บเป็นภาพ 4K ทั้งชุด ย่อให้เหมาะกับการแสดงผลจริงแล้วเหลือรวม 176 KB จากเดิม 6.4 MB โดยคงชื่อไฟล์เดิมทุกไฟล์ ไม่กระทบไอคอนแอปหรือจุดที่เรียกใช้</span></div>
-            <div class="update-mini"><b>6. ลดเวลาหน้าโลโก้ตอนเข้าเว็บ</b><span>ปรับจากค้าง 3 วินาที เหลือ 1.2 วินาที ลูกค้าเห็นสินค้าเร็วขึ้นโดยยังเห็นโลโก้ร้านครบ</span></div>
-            <div class="update-mini"><b>7. แก้ร้านส่งโหลดหน้าเว็บซ้ำสองรอบ</b><span>เดิมร้านส่งเปิดหน้าเว็บจนเสร็จแล้วโหลดใหม่ทั้งหน้าอีกรอบ เกิดจากโค้ดเก่าที่สั่งเด้งไปหา LIFF ร้านส่งซ้ำทั้งที่อยู่ถูกที่แล้ว ตัดออกแล้วเหลือโหลดรอบเดียวเหมือนร้านปลีก</span></div>
-            <div class="update-mini"><b>8. ปรับการตั้งค่า LIFF ร้านส่ง</b><span>ย้ายค่าโหมดร้านส่งจาก Rich Menu ไปไว้ที่ Endpoint URL ของ LIFF ตามเอกสารของ LINE เพื่อลดการเปลี่ยนเส้นทางลงอีกจังหวะ</span></div>
-            <div class="update-mini"><b>9. ผลลัพธ์เวลาเปิดหน้าร้านจริง</b><span>ร้านปลีก 1.5 วินาที ร้านส่ง 2.7 วินาที วัดจากการใช้งานจริงบนมือถือผ่านแอป LINE</span></div>
-            <div class="update-mini"><b>10. สำรองข้อมูลครบทุกขั้น</b><span>เก็บ URL รูปเดิมทั้งหมดเป็นไฟล์บันทึกก่อนแก้ทุกครั้ง ไฟล์รูปเก่ายังอยู่ทั้งในระบบใหม่และบน Google Drive ใช้ย้อนกลับได้ทันทีถ้าพบปัญหา</span></div>
-          </div>
-
-          <div class="callout green" style="margin-top:20px;">
-            <h3>ผลการทดสอบและส่งมอบ</h3>
-            <ul>
-              <li>ทดสอบสั่งซื้อจริงครบทั้งร้านปลีกและร้านส่ง บิลตอบกลับเข้าห้องแชทถูก OA และราคาตรงตามช่องทาง</li>
-              <li>ทดสอบบอทตอบคีย์เวิร์ด ทุกสถานะออเดอร์ และหมุดแผนที่ ผ่านครบ</li>
-              <li>ตรวจไฟล์รูปใหม่ทั้งหมดเปิดได้จริง ความโปร่งใสของโลโก้ยังอยู่ครบ และรูปสินค้าขึ้นครบทุกรายการ</li>
-              <li>ตรวจ syntax ของ inline scripts ทุกตัวและไฟล์ฝั่งเซิร์ฟเวอร์ผ่าน พร้อมชุดทดสอบตรรกะรวมกว่า 30 เคส</li>
-              <li>Deploy ขึ้นใช้งานจริงและวัดเวลาเปิดหน้าร้านซ้ำหลังแก้ครบทุกจุด</li>
-            </ul>
-          </div>
-
-          <div class="note"><b>สถานะสิ้นสุดรอบงาน:</b> Implement, deploy และทดสอบจริงครบแล้ว ระบบรูปภาพทำงานบน Supabase Storage เต็มรูปแบบ ไฟล์รูปเดิมบน Google Drive และไฟล์ก่อนบีบยังเก็บไว้เป็นตัวสำรอง ยังไม่แนะนำให้ลบจนกว่าจะใช้งานผ่านไปอย่างน้อย 1 เดือน</div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 22 กรกฎาคม 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 22 ก.ค. 10:38:20 • จบ: 17:50:12 • ต่อ 22:12:02 > 00:45:21</span>
-            </div>
-            <h2>ยกเครื่อง Ui Checkout / ที่อยู่ / Status / โหมดเซล และปรับระบบตั้งค่า Ui ให้ชัดเจนเป็นหมวด</h2>
-            <p class="update-subtitle">รอบนี้ปรับ Ui สั่งซื้อบน LINE OA ครั้งใหญ่ ตั้งแต่หน้าสรุปคำสั่งซื้อ การเลือกที่อยู่และหมุดจัดส่ง ระบบราคา 0 หน้าสถานะและเครื่องมือแอดมิน ไปจนถึงโหมดเซลสำหรับสั่งแทนลูกค้า พร้อมเก็บรายละเอียด responsive บนมือถือหลายขนาด ตัดขั้นตอนที่ทำให้ลูกค้ารอนาน และตรวจสอบการทำงานจริงครบทั้ง frontend, Apps Script, LINE, Sheet และ Supabase</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. Ui Checkout ใหม่ อ่านง่ายและใช้พื้นที่คุ้มขึ้น</b><span>จัดลำดับเป็นที่อยู่จัดส่ง → รายการสินค้า → ข้อมูลผู้สั่งซื้อ → วิธีชำระเงิน พร้อมแถบยอดและปุ่มส่งคำสั่งซื้อแบบ sticky เพื่อให้ยอดไม่หายขณะเลื่อน</span></div>
-            <div class="update-mini"><b>2. รายการสินค้าแบบ compact Ui ให้ดูมาตราฐาน</b><span>ตัดกรอบซ้อนที่ไม่จำเป็น ย้ายราคาไว้ใต้ชื่อสินค้าฝั่งซ้าย และย่อชุดลบ/จำนวน/บวกให้ชิดขวา กว้าง 104px สูง 34px รองรับจำนวนหลายหลักโดยไม่เบียดขอบ</span></div>
-            <div class="update-mini"><b>3. ที่อยู่มาตรฐาน + หมุด GPS</b><span>เพิ่ม dropdown จังหวัด → อำเภอ/เขต → ตำบล/แขวง พร้อมรหัสไปรษณีย์อัตโนมัติ ช่องบ้านเลขที่ หมู่บ้าน/คอนโด จุดสังเกต และการยืนยันหมุดจริงก่อนบันทึก</span></div>
-            <div class="update-mini"><b>4. จำกัดพื้นที่ส่งเฉพาะจังหวัดเลย</b><span>ตรวจทั้งจังหวัดจาก dropdown และจังหวัดจากพิกัดหมุด ถ้าอยู่นอกเขตหรือแก้ที่อยู่หลังยืนยัน ระบบเตือนให้ตรวจสอบและบล็อกการบันทึกเฉพาะโหมดจัดส่ง</span></div>
-            <div class="update-mini"><b>5. Google Maps สำหรับคนส่ง</b><span>หน้า Status มีลิงก์ “นำทางไปหมุดลูกค้า” ใช้พิกัดลูกค้าเป็นหลักและใช้ข้อความที่อยู่เป็น fallback เพื่อให้คนส่งกดเปิดเส้นทางได้ทันที</span></div>
-            <div class="update-mini"><b>6. ปรับอัตราส่วน Ui ให้เหมาะสมมากขึ้น</b><span>ลดความสูงและขนาด modal, ซ่อน scrollbar ที่รบกวนสายตา, ป้องกันการซูมใน LINE OA และปรับให้รองรับ Samsung, OPPO, vivo, Xiaomi, Redmi, iPhone, iPad และ Laptop</span></div>
-            <div class="update-mini"><b>8. ระบบราคา 0 ทำงานสอดคล้องทุกจุด</b><span>เมื่อปิดราคา หน้าร้าน Checkout และหน้าแก้ออเดอร์ไม่เผยราคาจริง พร้อมตรวจซ้ำฝั่ง Apps Script เพื่อไม่ให้แก้จำนวนแล้วราคาจริงกลับมาโดยไม่ตั้งใจ</span></div>
-            <div class="update-mini"><b>9. วิธีชำระเงินใหม่พร้อม SVG</b><span>ปรับรายการโอนบัญชี, QR PromptPay และชำระตอนรับสินค้าให้เป็นแถวเลือกที่อ่านง่าย มีไอคอน SVG ตรงแนว ข้อความกึ่งกลางถูกต้อง และตัดค่าจัดส่งที่ไม่ใช้แล้วออก</span></div>
-            <div class="update-mini"><b>10. โหมดเซลสำหรับสั่งแทนลูกค้า</b><span>ลูกค้าปลีก/ส่งกรอกชื่อและเบอร์เองโดยไม่ต้องรู้รหัสร้าน ส่วนเซลต้องล็อกอินด้วย AdminUsers ก่อนจึงเห็นช่องรหัสร้านและดึงชื่อ/เบอร์ที่มีจริง พร้อมจุด loading 3 จุดขณะตรวจ</span></div>
-            <div class="update-mini"><b>11. ตัดระบบซิงค์เบอร์ที่ทำให้รอนาน</b><span>ลบ event, สถานะโหลด และ endpoint lookup เบอร์ของร้านปลีก/ส่งออกทั้งหมด ปุ่มบันทึกที่อยู่จึงไม่ต้องรอ API คงไว้เฉพาะการตรวจรหัสร้านในโหมดเซล</span></div>
-            <div class="update-mini"><b>12. จัดระเบียบธีมUi</b><span>จัดกลุ่มตั้งค่าสี UI ให้เข้าใจง่าย ลดตัวเลือกเก่าที่ซ้ำซ้อน</span></div>
-          </div>
-
-          <div class="callout green" style="margin-top:20px;">
-            <h3>ผลการทดสอบและส่งมอบ</h3>
-            <ul>
-              <li>ทดสอบ responsive ที่ 360 / 390 / 430px และอุปกรณ์กลุ่มมือถือ–แท็บเล็ตแล้ว ไม่เกิด horizontal overflow</li>
-              <li>ทดสอบ Checkout, ที่อยู่, หมุดนอกเขต, Google Maps, Status admin, ราคา 0 และโหมดเซลครบตาม acceptance tests</li>
-              <li>ทดสอบ flow จริง Rich Menu → LIFF → Checkout → Sheet/Supabase → LINE → Status admin และตรวจ channel ปลีก/ส่งถูกต้อง</li>
-              <li>Frontend และ Apps Script อัปเดตพร้อมกัน พร้อมตรวจ syntax ของ inline scripts และ CODE.gs ผ่าน</li>
-            </ul>
-          </div>
-
-          <div class="note"><b>สถานะสิ้นสุดรอบงาน:</b> Implement, deploy และทดสอบจริงครบแล้ว ระบบซิงค์ชื่อจากเบอร์ถูกยกเลิกตามข้อสรุปล่าสุด และคงเฉพาะการตรวจรหัสร้านสำหรับเซลที่ผ่านการยืนยันตัวตน</div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 8 กรกฎาคม 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 8 ก.ค. 10:31:22 • จบ: 17:45:54 • ต่อ: 20:15:32 &gt; 22:30:32</span>
-            </div>
-            <h2>ระบบร้านปลีก-ส่งสมบูรณ์ + แก้สถานะและจำนวนสินค้าบนหน้า LINE</h2>
-            <p class="update-subtitle">รอบนี้ปิดงานใช้งานจริงของร้านปลีกและร้านส่งให้ครบขึ้น พร้อมเพิ่มหลังบ้านแบบฝังบนหน้าสถานะใน LINE ให้แอดมินกดโลโก้ 3 ครั้งเพื่อเข้าไปปรับสถานะ ชำระเงิน และแก้จำนวนสินค้ารายตัว โดยระบบคำนวณยอดจากราคาจริงของสินค้าและส่งบิลใหม่กลับให้ลูกค้าได้ทันทีหลังบันทึก</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. ระบบร้านปลีก-ส่งพร้อมใช้งานครบ</b><span>แยกประสบการณ์ร้านปลีกและร้านส่งให้ชัดเจน ตั้งแต่หน้าเข้าเว็บ/LIFF, โทนภาพแบรนด์, เส้นทางเข้าใช้งาน และการเปิดร้านผ่าน LINE ของแต่ละสาขา</span></div>
-            <div class="update-mini"><b>2. หน้า LIFF ของร้านส่งเข้าถูกโหมด</b><span>ปรับการตั้งค่า LIFF และ URL ให้ร้านส่งเข้าเส้นทางที่ถูกต้อง ไม่เด้งไปหน้าร้านผิดหรือหน้าสถานะผิดบริบท</span></div>
-            <div class="update-mini"><b>3. เข้าแอดมินจากหน้าสถานะด้วยโลโก้ 3 ครั้ง</b><span>เพิ่มทางลัดแบบซ่อนบนหน้าสถานะออเดอร์ใน LINE ให้แอดมินแตะโลโก้ 3 ครั้งแล้วล็อกอินเพื่อแก้ข้อมูลออเดอร์จากหน้านั้นได้เลย</span></div>
-            <div class="update-mini"><b>4. แก้สถานะจัดส่งและการชำระเงิน</b><span>ใน modal แอดมินสามารถเปลี่ยนสถานะออเดอร์ เช่น ออเดอร์ใหม่, รอคอนเฟิร์ม, กำลังจัดส่ง, ส่งแล้ว และเปลี่ยนสถานะจ่าย/ยังไม่จ่ายได้ในที่เดียว</span></div>
-            <div class="update-mini"><b>5. แก้จำนวนสินค้าแบบปุ่มลบ/จำนวน/บวก</b><span>เปลี่ยนจากการกรอกหรือบวก-ลบยอดเงินเป็นตัวปรับจำนวนสินค้าเหมือนหน้าร้าน กด + หรือ - แล้วระบบคูณราคาจริงของสินค้ารายนั้นทันที</span></div>
-            <div class="update-mini"><b>6. สรุปยอดใหม่จากราคาสินค้าจริง</b><span>ถ้ามีหลายรายการ ระบบแยกสินค้าแต่ละตัว ชื่อสินค้า ราคาต่อชิ้น จำนวน และรวมรายการ แล้วสรุปยอดใหม่ที่จะบันทึกอีกชั้นหนึ่ง</span></div>
-            <div class="update-mini"><b>7. UX ตอนบันทึกชัดขึ้น</b><span>ปรับปุ่มบันทึกให้มีสถานะกำลังบันทึกและจุด loading ขยับได้ ไม่ดูนิ่งค้าง พร้อมกันปุ่มซ้อนกันบนหน้าจอมือถือ</span></div>
-            <div class="update-mini"><b>8. ส่งบิลใหม่กลับ LINE หลังแก้สำเร็จ</b><span>หลังแอดมินบันทึก ระบบอัปเดตยอด/รายการ/สถานะ และส่งการ์ดบิลใหม่กลับไปหาลูกค้าบน LINE เพื่อให้ลูกค้าเห็นข้อมูลล่าสุดทันที</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="latest-evidence-grid">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ภาพที่ 1</span> หน้าร้านส่งพร้อมใช้งาน</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_retail_splash.png" alt="หน้าร้านปลีกบน LINE LIFF พร้อมโลโก้โทนเหลือง">
-                <p class="proof-caption">ฝั่งร้านส่งเปิดผ่าน LINE ได้แล้วและแสดงภาพเข้าเว็บ/โลโก้ตามแบรนด์ของร้าน</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ภาพที่ 2</span> หน้าร้านปลีกพร้อมใช้งาน</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_wholesale_splash.png" alt="หน้าร้านส่งบน LINE LIFF พร้อมโลโก้ร้านส่งโทนครีมชมพู">
-                <p class="proof-caption">ฝั่งร้านปลีกแยกหน้าเข้าใช้งานและภาพแบรนด์ของสาขาปลีกได้ถูกต้อง</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">ภาพที่ 3</span> กดโลโก้ 3 ครั้งเพื่อเข้าแอดมิน</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_status_admin_login.png" alt="หน้าสถานะออเดอร์แสดง modal เข้าสู่ระบบแอดมินหลังแตะโลโก้สามครั้ง">
-                <p class="proof-caption">หน้า status มีทางลัดซ่อนสำหรับแอดมิน แตะโลโก้ 3 ครั้งแล้วล็อกอินเพื่อแก้ออเดอร์จาก LINE ได้ทันที</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">ภาพที่ 4</span> ก่อนแก้จำนวน/ยอดสินค้า</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_status_edit_after.png" alt="modal แก้สถานะออเดอร์ก่อนปรับจำนวนสินค้า แสดงสินค้าแต่ละตัวพร้อมปุ่มลบจำนวนบวก">
-                <p class="proof-caption">ใน modal เห็นสถานะจัดส่ง การชำระเงิน และรายการสินค้าแยกเป็นรายตัวพร้อมราคาจริงต่อชิ้น</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">ภาพที่ 5</span> หลังแก้จำนวนและยอดใหม่</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_status_edit_before.png" alt="modal แก้สถานะออเดอร์หลังเพิ่มจำนวนสินค้าและคำนวณยอดใหม่">
-                <p class="proof-caption">เมื่อกด + หรือ - จำนวนสินค้า ระบบคำนวณรวมรายการและยอดใหม่ตามราคาสินค้าจริงทันที</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">ภาพที่ 6</span> ส่งบิลใหม่กลับ LINE หลังปรับสถานะ</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260708_line_updated_bill.png" alt="บิล LINE ที่ส่งกลับลูกค้าหลังแอดมินแก้สถานะและยอดออเดอร์">
-                <p class="proof-caption">หลังบันทึกสำเร็จ ลูกค้าได้รับการ์ดอัปเดตสถานะ/บิลใหม่ใน LINE พร้อมยอดและรายการล่าสุด</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 1 กรกฎาคม 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 1 ก.ค. 10:25:32 • จบ: 18:20:54  ต่อ: 22:14:32 > 03:25:32</span>
-            </div>
-            <h2>ที่อยู่มาตรฐาน + พิกัด GPS ลูกค้า / ปุ่มรับทราบแจ้งแอดมิน / ลบสรุปยอดรายเดือน</h2>
-            <p class="update-subtitle">รอบนี้เก็บงานหลังบ้านและประสบการณ์ลูกค้า: เพิ่มช่องที่อยู่มาตรฐานพร้อมจับพิกัด GPS จริงของลูกค้าให้คนส่งกดนำทางได้ตรงจุด, เพิ่มปุ่ม "รับทราบออเดอร์" ให้ลูกค้ากดครั้งเดียวเพื่อเด้งแจ้งแอดมินใน LINE OA, ลบระบบสรุปยอด/แดชบอร์ดที่ไม่ใช้ออกทั้งฝั่งชีตและแอปแอดมิน และมีสวิตช์สำรอง "ปิดราคาทั้งหมดเป็น 0 บาท" เผื่อกรณีฉุกเฉิน</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. ช่องที่อยู่มาตรฐาน (บ้านเลขที่/หมู่/จุดสังเกต)</b><span>เพิ่มช่องกรอก "บ้านเลขที่ / หมู่ / จุดสังเกต" แยกจากช่องตำบล-อำเภอ-จังหวัด-รหัสไปรษณีย์ เพราะพิกัดจากแผนที่บอกได้แค่ระดับตำบล การแยกช่องนี้ทำให้ที่อยู่ครบถ้วนเป็นมาตรฐานสำหรับจัดส่ง</span></div>
-            <div class="update-mini"><b>2. จับพิกัด GPS จริงของลูกค้า</b><span>ตอนลูกค้ากดปุ่มใช้ตำแหน่งหรือเลื่อนหมุดบนแผนที่ ระบบเก็บพิกัดจริงติดไปกับออเดอร์ ไม่ใช่แค่ข้อความที่อยู่ ทำให้รู้ตำแหน่งบ้านได้แม่นขึ้น</span></div>
-            <div class="update-mini"><b>3. ปุ่มนำทาง GPS ในหน้าสถานะ</b><span>หน้าเช็กสถานะออเดอร์มีปุ่ม "นำทางไปตำแหน่ง GPS ลูกค้า" กดแล้วเปิด Google Maps นำทางไปพิกัดนั้นตรง ๆ ให้คนส่งหาบ้านง่ายขึ้น</span></div>
-            <div class="update-mini"><b>4. ปุ่มรับทราบออเดอร์ (แจ้งแอดมิน)</b><span>หลังบอทส่งบิล มีปุ่ม "รับทราบออเดอร์" ให้ลูกค้ากดครั้งเดียว (กดแล้วปุ่มหายเอง) เพื่อดันแชทลูกค้าเด้งขึ้นบนสุดและแจ้งเตือนแอดมินใน LINE OA ว่ามีออเดอร์ใหม่</span></div>
-            <div class="update-mini"><b>5. บอทไม่ตอบทับ</b><span>เมื่อลูกค้ากดรับทราบ ระบบตั้งใจให้บอทเงียบไว้ ไม่ตอบกลับอัตโนมัติ เพื่อให้ห้องแชทคงสถานะรอตอบให้แอดมินเห็นและตอบเอง</span></div>
-            <div class="update-mini"><b>6. ลบสรุปยอดรายเดือนออกจากชีต</b><span>เอาแถบสรุปยอดรายเดือนและแดชบอร์ดสรุปในชีต Google ออก พร้อมปิดตัวที่สร้างชีตขึ้นใหม่อัตโนมัติทุกวัน โดยไม่กระทบข้อมูลออเดอร์และสต๊อก</span></div>
-            <div class="update-mini"><b>7. ลบแดชบอร์ดในแอปแอดมิน</b><span>เอาส่วนสรุปยอด/แดชบอร์ดที่ไม่ได้ใช้ออกจากแอปแอดมิน แต่ยังเก็บตัวนับจำนวนออเดอร์แต่ละสถานะและเครื่องมือ "พร้อมเคลียร์" (ย้ายออเดอร์ที่ส่งแล้วเข้าคลัง) ไว้ครบ</span></div>
-            <div class="update-mini"><b>8. สวิตช์ปิดราคาทั้งหมดเป็น 0 บาท</b><span>เพิ่มสวิตช์สำรองในหลังบ้าน "ปิดราคาทั้งหมดเป็น 0 บาท" เผื่อกรณีฉุกเฉินหรือเหตุไม่คาดฝัน เมื่อเปิดใช้ ระบบจะแสดงราคาสินค้า ตะกร้า ยอดรวม และออเดอร์เป็น 0 บาททั้งหมด</span></div>
-            <div class="update-mini"><b>9. ยอดขั้นต่ำ 300 บาทถึงจะสั่งได้</b><span>ตั้งขั้นต่ำการสั่งซื้อไว้ที่ 300 บาท ถ้ายอดยังไม่ถึง ระบบขึ้นแถบเตือนทันที (เช่น "ขาดอีก ฿258") และปิดปุ่มส่งคำสั่งซื้อไว้จนกว่าจะครบ กันออเดอร์เล็กเกินไป</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="latest-evidence-grid">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">ที่อยู่มาตรฐาน</span> ช่องบ้านเลขที่/หมู่ แยกชัด</p>
-                <img class="shot evidence-shot" src="assets/update_20260702_address_detail.png" alt="หน้ากรอกที่อยู่มีช่องบ้านเลขที่ หมู่ จุดสังเกต แยกจากตำบลอำเภอจังหวัด">
-                <p class="proof-caption">ลูกค้ากรอกบ้านเลขที่/หมู่/จุดสังเกตเอง ส่วนตำบล-อำเภอ-จังหวัด-รหัสเติมจากแผนที่ได้</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">นำทาง GPS</span> เปิด Google Maps ไปจุดปักหมุดลูกค้า</p>
-                <img class="shot evidence-shot" src="assets/update_20260702_gps_navigate.png" alt="Google Maps นำทางจากร้านโกดังเลยสมาร์ทเพ็ทช็อปไปยังจุดที่ลูกค้าปักหมุด">
-                <p class="proof-caption">คนส่งกดปุ่มในหน้าสถานะแล้วเปิด Google Maps นำทางไปจุดที่ลูกค้าปักหมุดจริงได้ทันที (ตัวอย่างเส้นทาง 6.8 กม. ~10 นาที)</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">รับทราบออเดอร์</span> ปุ่ม Quick Reply บนบิล (ก่อนกด)</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260702_ack_quickreply.png" alt="แชท LINE แสดงบิลพร้อมปุ่มรับทราบออเดอร์แบบ Quick Reply และข้อความชวนกด">
-                <p class="proof-caption">หลังบอทส่งบิล มีข้อความชวนกดและปุ่ม "รับทราบออเดอร์" ให้ลูกค้ากดยืนยันหนึ่งครั้ง</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">รับทราบแล้ว</span> ปุ่มหายเอง + เด้งแจ้งร้าน (หลังกด)</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260702_ack_sent.png" alt="แชท LINE หลังลูกค้ากดรับทราบ แสดงข้อความรับทราบออเดอร์พร้อมรหัสออเดอร์">
-                <p class="proof-caption">พอลูกค้ากด ปุ่มหายทันที และมีข้อความ "รับทราบออเดอร์ + รหัสออเดอร์" เด้งเข้าแชทให้ทางร้านเห็น</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ขั้นต่ำ 300 บาท</span> ยังไม่ถึงยอด สั่งซื้อไม่ได้</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260702_min300.png" alt="หน้าเช็กเอาต์แสดงเตือนยอดขั้นต่ำ 300 บาท ขาดอีก 258 บาท และปิดปุ่มส่งคำสั่งซื้อ">
-                <p class="proof-caption">ถ้ายอดไม่ถึง 300 บาท ระบบขึ้นแถบเตือน (เช่น ขาดอีก ฿258) และปิดปุ่ม "ส่งคำสั่งซื้อ" ไว้จนกว่าจะครบ</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">ปิดราคา 0 บาท</span> สวิตช์สำรองในหลังบ้าน</p>
-                <img class="shot evidence-shot" src="assets/update_20260702_price_zero.png" alt="หน้าหลังบ้านระบบราคา มีสวิตช์ปิดราคาทั้งหมดเป็น 0 บาท">
-                <p class="proof-caption">สวิตช์ "ปิดราคาทั้งหมดเป็น 0 บาท" ในหลังบ้าน เผื่อกรณีฉุกเฉิน/เหตุไม่คาดฝัน เปิดแล้วสินค้า ตะกร้า ยอดรวม และออเดอร์เป็น 0 บาททั้งหมด</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 24 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 24 มิ.ย. 10:23:34 • จบ: 16:44:52  ต่อ: 20:15:14 > 00:39:11</span>
-            </div>
-            <h2>Dropdown ธนาคารเลขบัญชี / QR Code + ใบเสนอราคาก่อน-หลังแก้ราคา + ย้าย OA จริงผ่าน</h2>
-            <p class="update-subtitle">รอบนี้สรุปเฉพาะงานที่เกี่ยวกับการใช้งานจริง: หลังบ้านเลือกธนาคารได้ทั้งแบบเลขบัญชีและ QR Code, ใบเสนอราคาก่อนแก้ราคาและหลังแก้ราคาถูกสร้างใหม่ตามยอดล่าสุด และการย้ายไปใช้งานบน LINE OA จริงผ่านแล้ว</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>Dropdown เลขบัญชี</b><span>หลังบ้านเลือกชื่อธนาคารสำหรับเลขบัญชีได้จากรายการหลัก ได้แก่ กสิกรไทย, ไทยพาณิชย์, กรุงไทย, กรุงเทพ, กรุงศรีอยุธยา และ อื่นๆ สำหรับพิมพ์ชื่อเอง</span></div>
-            <div class="update-mini"><b>Dropdown QR Code</b><span>ส่วนตั้งค่า QR Code ใช้รายการธนาคารแบบเดียวกันกับเลขบัญชี ทำให้ร้านตั้งชื่อธนาคารของ QR ได้ตรงกันและไม่ต้องพิมพ์ซ้ำทุกครั้ง</span></div>
-            <div class="update-mini"><b>หน้าลูกค้า</b><span>ลูกค้ายังเห็นข้อมูลบัญชีเป็นข้อความอ่านง่าย พร้อมปุ่มคัดลอกเลขบัญชี ไม่ต้องเลือกธนาคารเอง และไม่มี dropdown โผล่ในหน้าลูกค้า</span></div>
-            <div class="update-mini"><b>ใบเสนอราคาก่อนแก้ราคา</b><span>เมื่อมีบิลแรก ระบบสร้างใบเสนอราคาจากยอดเดิมและรายการเดิมให้ตรวจสอบได้ทันที โดยหัวร้าน ตารางสินค้า และยอดรวมอยู่ตำแหน่งถูกต้อง</span></div>
-            <div class="update-mini"><b>ใบเสนอราคาหลังแก้ราคา</b><span>หลังร้านแก้จำนวนหรือราคา ระบบสร้างใบเสนอราคาใหม่ตามยอดล่าสุด และส่งบิลสถานะกลับให้ลูกค้าด้วยข้อมูลที่อัปเดตแล้ว</span></div>
-            <div class="update-mini"><b>ไม่ส่งใบเก่าซ้ำ</b><span>หลังแก้ราคา ระบบใช้ใบเสนอราคาชุดใหม่แทนชุดเดิม เพื่อไม่ให้ลูกค้าเปิดเจอยอดเก่าหลังร้านแก้บิลแล้ว</span></div>
-            <div class="update-mini"><b>ย้ายมา OA จริงผ่าน</b><span>ทดสอบบน LINE OA จริงแล้ว เมนูและหน้าร้านเปิดได้ตามที่ตั้งไว้ ลูกค้ากดจาก OA แล้วเข้าใช้งานร้านจริงได้</span></div>
-            <div class="update-mini"><b>ผลลัพธ์รอบนี้</b><span>หลังบ้านเลือกธนาคารได้ครบทั้งเลขบัญชีและ QR Code, ใบเสนอราคาก่อน-หลังแก้ยอดตรงกัน และช่องทางร้านจริงพร้อมใช้งาน</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="latest-evidence-grid">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">Dropdown เลขบัญชี</span> เลือกธนาคารหลังบ้าน</p>
-                <img class="shot evidence-shot" src="assets/update_20260625_bank_dropdown_account.png" alt="หน้าหลังบ้านเลือกธนาคารสำหรับเลขบัญชี">
-                <p class="proof-caption">ตั้งค่าบัญชีธนาคารเลือกได้จากรายการหลัก และยังมีตัวเลือกอื่นๆ สำหรับพิมพ์เอง</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">Dropdown QR Code</span> เลือกธนาคารของ QR</p>
-                <img class="shot evidence-shot" src="assets/update_20260625_bank_dropdown_qr.png" alt="หน้าหลังบ้านเลือกธนาคารสำหรับ QR Code">
-                <p class="proof-caption">QR Code ใช้รายการธนาคารชุดเดียวกันกับเลขบัญชี ทำให้ชื่อธนาคารในหลังบ้านสอดคล้องกัน</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ก่อนแก้ราคา</span> บิลเดิมยอด 952.00</p>
-                <img class="shot evidence-shot" src="assets/update_20260625_quote_before_edit.png" alt="ใบเสนอราคาก่อนแก้ราคา ยอด 952.00">
-                <p class="proof-caption">ใบเสนอราคาก่อนแก้บิล แสดงจำนวนสินค้าและยอดรวมเดิมสำหรับตรวจเทียบ</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">หลังแก้ราคา</span> บิลใหม่ยอด 714.00</p>
-                <img class="shot evidence-shot" src="assets/update_20260625_quote_after_edit.png" alt="ใบเสนอราคาหลังแก้ราคา ยอด 714.00">
-                <p class="proof-caption">หลังแก้บิล ระบบสร้างใบเสนอราคาใหม่ตามจำนวนและยอดล่าสุด พร้อมใช้ส่งกลับให้ลูกค้า</p>
-              </div>
-
-              <div class="shot-card wide-shot">
-                <p class="shot-title"><span class="pill green">ย้ายมา OA จริงผ่าน</span> เมนูร้านจริงพร้อมใช้งาน</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260625_real_oa_passed.png" alt="LINE OA จริงของร้านแสดงเมนูพร้อมใช้งาน">
-                <p class="proof-caption">ทดสอบบน LINE OA จริงแล้ว เมนูร้านและทางเข้าหน้าร้านพร้อมใช้งานกับลูกค้าจริง</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพฤหัสบดีที่ 18 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: พฤหัสบดี 18 มิ.ย. 16:12:42 • จบ: 23:58:43</span>
-            </div>
-            <h2>ระบบค้นหาสินค้า + ระบบแจ้งรอบส่งอัตโนมัติ</h2>
-            <p class="update-subtitle">รอบนี้เพิ่มระบบค้นหาสินค้าให้ลูกค้าหาของได้เร็วขึ้น พร้อมระบบแจ้งรอบส่งให้ลูกค้าทุกคนแบบอัตโนมัติ (ตั้งวัน-เวลาไว้ ระบบส่งเอง หรือกดส่งเองได้ทันที) และเก็บความปลอดภัยของหน้าเช็กสถานะออเดอร์</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. เพิ่มช่องคีย์เวิร์ดพิเศษ "แจ้งรอบส่ง" ในหลังบ้าน</b><span>เพิ่มกล่องตั้งค่าใหม่ในหน้าหลังบ้านแอดมิน (แท็บบอท) สำหรับตั้งวันที่ เวลา และข้อความแจ้งรอบส่ง พร้อมดูตัวอย่างข้อความก่อนส่งได้ในตัว</span></div>
-            <div class="update-mini"><b>2. ระบบแจ้งรอบส่งอัตโนมัติ</b><span>ตั้งวันและเวลารอบส่งไว้ล่วงหน้า พอถึงเวลา ระบบจะส่งข้อความแจ้งรอบส่งไปหาลูกค้าทุกคนที่เพิ่มเพื่อนใน LINE ให้เองอัตโนมัติ ไม่ต้องพิมพ์เองทุกครั้ง</span></div>
-            <div class="update-mini"><b>3. ปุ่ม "ส่งเลยตอนนี้"</b><span>ถ้าร้านมีรอบส่งกะทันหัน กดปุ่มส่งได้ทันทีหนึ่งครั้ง ข้อความจะถูกส่งหาลูกค้าทุกคนเลย มีหน้ายืนยันก่อนส่งกันกดพลาด</span></div>
-            <div class="update-mini"><b>4. ข้อความสร้างให้อัตโนมัติ</b><span>แค่เลือกวันที่ ระบบจะเขียนข้อความให้เอง เช่น "มีรอบส่งวันศุกร์ที่ 29 พฤษภาคม 2569" โดยใส่ชื่อวันและวันที่ภาษาไทยให้อัตโนมัติ</span></div>
-            <div class="update-mini"><b>5. เก็บความปลอดภัยหน้าเช็กสถานะ</b><span>ปรับหน้าเช็กสถานะออเดอร์ให้แสดงชื่อ ที่อยู่ และรายการสินค้าของลูกค้าอย่างปลอดภัย ป้องกันปัญหาถ้าข้อมูลมีอักขระพิเศษปนมา</span></div>
-            <div class="update-mini"><b>6. ระบบค้นหาสินค้า</b><span>ลูกค้าพิมพ์คำค้นแล้วเห็นรายการสินค้าแนะนำทันที พร้อมกดเลือกสินค้าได้ง่ายขึ้นจากหน้าร้าน</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="latest-evidence-grid">
-              <div class="shot-card wide-shot">
-                <p class="shot-title"><span class="pill blue">ระบบค้นหาสินค้า</span> ค้นหาและแนะนำสินค้าแบบทันที</p>
-                <img class="shot evidence-shot" src="assets/update_20260618_product_search.png" alt="หน้าระบบค้นหาสินค้าแสดงรายการสินค้าแนะนำ">
-                <p class="proof-caption">ภาพตัวอย่างหน้าร้านตอนค้นหาสินค้า ระบบแสดงรายการแนะนำตามคำที่พิมพ์</p>
-              </div>
-
-              <div class="shot-card wide-shot">
-                <p class="shot-title"><span class="pill green">ระบบแจ้งรอบส่งอัตโนมัติ</span> ตั้งเวลาและส่งข้อความให้ลูกค้าที่เพิ่มเพื่อนใน LINE ทั้งหมด</p>
-                <img class="shot evidence-shot" src="assets/update_20260618_delivery_notice.png" alt="หน้าหลังบ้านตั้งค่าระบบแจ้งรอบส่งอัตโนมัติ">
-                <p class="proof-caption">ภาพตัวอย่างหลังบ้านสำหรับตั้งวัน เวลา และข้อความแจ้งรอบส่ง พร้อมพรีวิวข้อความก่อนส่ง</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันเสาร์ที่ 13 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: เสาร์ 13 มิ.ย. 15:43:12 • จบ: 23:48:43</span>
-            </div>
-            <h2>อัปเดตหน้า Status / Checkout / Webhook</h2>
-            <p class="update-subtitle">สรุปงานรอบนี้เป็นการเก็บรายละเอียดหน้าเช็กสถานะออเดอร์ หน้า checkout ระบบที่อยู่จัดส่ง ระบบระบุตำแหน่ง และความปลอดภัยของ webhook</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>1. โลโก้หน้าสถานะปลีก/ส่งถูกตั้งแต่ต้น</b><span>หน้า status เลือกโลโก้ตามโหมดร้านตั้งแต่ช่วงแรกของการโหลด ทำให้ลูกค้าเห็นโลโก้ปลีกหรือโลโก้ส่งตรงกับลิงก์ที่เปิด</span></div>
-            <div class="update-mini"><b>2. แก้ที่อยู่ ต.ต. / อ.อ. / จ.จ. ให้เหลืออย่างละอัน</b><span>ปรับรูปแบบที่อยู่จากระบบแผนที่ ไม่ให้เติมคำนำหน้าซ้ำซ้อน เช่น ต.ต. อ.อ. จ.จ. เพื่อให้ที่อยู่จัดส่งอ่านง่ายและดูถูกต้อง</span></div>
-            <div class="update-mini"><b>3. หน้า status โหลดดูดีขึ้น ไม่ดูค้าง</b><span>ปรับหน้าระหว่างโหลดให้เป็นโครงร่างข้อมูลแทนการรอแบบนิ่ง ๆ ลูกค้าจึงเข้าใจว่าระบบกำลังดึงข้อมูลออเดอร์อยู่</span></div>
-            <div class="update-mini"><b>4. ลิงก์สถานะร้านส่งพาเข้าโหมดร้านส่งถูกต้อง</b><span>ปรับลิงก์จากการ์ด LINE ของร้านส่งให้พาเข้าหน้า status พร้อมโหมดร้านส่ง เพื่อให้หน้าเช็กสถานะแสดงข้อมูลและโลโก้ตรงช่องทาง</span></div>
-            <div class="update-mini"><b>5. เพิ่ม Webhook Security</b><span>เพิ่มการตรวจสอบ LINE signature และ secret สำหรับ request ภายในระบบ ช่วยกัน request ที่ไม่ได้มาจากช่องทางที่กำหนด</span></div>
-            <div class="update-mini"><b>6. ระบบระบุตำแหน่งทันทีหน้า Checkout</b><span>ปรับปุ่มใช้ตำแหน่งปัจจุบันให้เรียกตำแหน่งจากแผนที่ได้เร็วขึ้น พร้อม fallback กรณีอุปกรณ์หรือเบราว์เซอร์ตอบสนองช้า</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="latest-evidence-grid">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">Status ร้านส่ง</span> โลโก้ถูกตั้งแต่ต้น</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_status_wholesale_loading.png" alt="หน้า status ร้านส่งแสดงโลโก้ร้านส่งระหว่างโหลด">
-                <p class="proof-caption">หน้าเช็กสถานะร้านส่งแสดงโลโก้ร้านส่งตั้งแต่ช่วงโหลดข้อมูล</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill">Status ร้านปลีก</span> โลโก้ถูกตั้งแต่ต้น</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_status_retail_loading.png" alt="หน้า status ร้านปลีกแสดงโลโก้ร้านปลีกระหว่างโหลด">
-                <p class="proof-caption">หน้าเช็กสถานะร้านปลีกแสดงโลโก้ร้านปลีกตั้งแต่ช่วงโหลดข้อมูล</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill red">ก่อนจัดรูปแบบที่อยู่</span> คำนำหน้าซ้ำ</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_address_before.png" alt="ที่อยู่ก่อนจัดรูปแบบ มี ต.ต. อ.อ. จ.จ.">
-                <p class="proof-caption">ตัวอย่างที่อยู่ก่อนปรับรูปแบบ มีคำนำหน้าซ้ำ เช่น ต.ต. / อ.อ. / จ.จ.</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">หลังจัดรูปแบบที่อยู่</span> เหลืออย่างละอัน</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_address_after.png" alt="ที่อยู่หลังจัดรูปแบบ เหลือ ต. อ. จ. อย่างละอัน">
-                <p class="proof-caption">หลังปรับแล้ว ที่อยู่แสดงคำนำหน้า ต. / อ. / จ. อย่างละอัน อ่านง่ายขึ้น</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">Checkout</span>หมุดตำแหน่งก่อนเเก้</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_checkout_map.png" alt="หน้า checkout แสดงแผนที่และปุ่มใช้ตำแหน่งปัจจุบัน">
-                <p class="proof-caption">จากเดิมต้องได้กดปุ่มระบุตำเเหน่งเพื่อให้หมุดไปยังตำเเหน่งปัจจุบัน</p>
-              </div>
-
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">หลังระบุตำแหน่ง</span> หมุดตำแหน่งเเก้เเล้ว</p>
-                <img class="shot evidence-shot" src="assets/update_20260613_checkout_location_done.png" alt="หน้า checkout หลังระบุตำแหน่งสำเร็จและวางหมุดบนแผนที่">
-                <p class="proof-caption">หลังระบบเเก้ จะดึงตำแหน่งให้อัตโนมัติเเละพาไปยังหมุดที่อยู่จริง</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพุธที่ 10 - วันพฤหัสบดีที่ 11 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: พุธ 10 มิ.ย. 19:12:32 • จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</span>
-            </div>
-            <h2>อัปเดตภาพร้าน แบนเนอร์ และภาพเข้าเว็บแยกปลีก / ส่ง</h2>
-            <p class="update-subtitle">แยกภาพหน้าร้านตามโหมดให้ชัดขึ้น ร้านปลีกใช้โทนชมพู ร้านส่งใช้โทนเหลือง พร้อมเตรียมภาพพื้นหลังและตัวอย่างฟ้อนสำหรับเลือกใช้งานต่อ</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>ภาพแบนเนอร์แยกร้าน</b><span>แยกชุดภาพร้านปลีกและร้านส่ง เพื่อให้แต่ละ LINE OA เห็นบรรยากาศร้านของตัวเอง</span></div>
-            <div class="update-mini"><b>ภาพเข้าเว็บแยกร้าน</b><span>หน้าโหลดก่อนเข้าเว็บเลือก splash ตามโหมดร้าน ตั้งแต่เฟรมแรก ไม่ดึงภาพคนละร้านมาปน</span></div>
-            <div class="update-mini"><b>สีประจำร้าน</b><span>ร้านส่งใช้โทนเหลือง ส่วนร้านปลีกใช้โทนชมพู ช่วยให้แยกหน้าร้านได้ทันที</span></div>
-            <div class="update-mini"><b>พื้นหลังตัวเลือก</b><span>เตรียมภาพพื้นหลังหลายแบบไว้ให้เลือกต่อ สามารถเปิดดูชุดที่เหลือจากปุ่มด้านล่าง</span></div>
-            <div class="update-mini"><b>ตัวอย่างฟ้อน</b><span>ทำภาพตัวอย่างพร้อมใส่ฟ้อนให้ดู เพื่อเลือกแนวตัวอักษรบนงานภาพหน้าร้าน</span></div>
-            <div class="update-mini"><b>ใบเสนอราคาแยกโลโก้</b><span>ใบเสนอราคาปลีกใช้โลโก้ปลีก และใบเสนอราคาส่งใช้โลโก้ส่ง พร้อมบันทึกแยกช่องทาง</span></div>
-            <div class="update-mini"><b>Drive แยกประเภทภาพ</b><span>แยกภาพสินค้าออกจาก Shop Assets เช่น splash, banner, promo, logo, QR/ธนาคาร และแยกโฟลเดอร์ใบเสนอราคาปลีก/ส่ง</span></div>
-          </div>
-
-          <div class="update-actions">
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1J_t3vxbLz6PypfIKwZBSAu6A8FjyKh5b?usp=drive_link" target="_blank" rel="noopener">ดูภาพพื้นหลังทั้งหมด</a>
-            <span class="asset-note">ปุ่มนี้ใช้เปิดโฟลเดอร์รวมภาพฉากหลัง/พื้นหลังตัวเลือกที่ทำไว้เพิ่มเติม</span>
-          </div>
-
-          <div class="evidence-section">
-            <div class="grid-2">
-              <div class="brand-mode-card retail">
-                <p class="shot-title"><span class="pill">ร้านปลีก</span> โทนชมพู</p>
-                <img class="brand-logo-shot" src="assets/update_20260611_logo_retail.png" alt="โลโก้ร้านปลีกโทนชมพู">
-                <p class="proof-caption">ใช้กับร้านปลีกและภาพเข้าเว็บชุดปลีก ให้ลูกค้าเห็นโทนชมพูตั้งแต่หน้าโหลดจนถึงหน้าร้าน</p>
-              </div>
-              <div class="brand-mode-card wholesale">
-                <p class="shot-title"><span class="pill gold">ร้านส่ง</span> โทนเหลือง</p>
-                <img class="brand-logo-shot" src="assets/update_20260611_logo_wholesale.png" alt="โลโก้ร้านส่งโทนเหลือง">
-                <p class="proof-caption">ใช้กับร้านส่งและภาพเข้าเว็บชุดส่ง แยกจากร้านปลีกเพื่อไม่ให้ลูกค้าสับสนโหมดราคา</p>
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div class="shot-card soft">
-                <p class="shot-title"><span class="pill">Splash ปลีก</span> มือถือ / คอม</p>
-                <div class="splash-preview-grid">
-                  <img class="shot" src="assets/update_20260611_splash_retail_mobile.jpg" alt="ภาพเข้าเว็บร้านปลีกบนมือถือ">
-                  <img class="shot" src="assets/update_20260611_splash_retail_desktop.jpg" alt="ภาพเข้าเว็บร้านปลีกบนคอม">
-                </div>
-                <p class="proof-caption">ภาพเข้าเว็บร้านปลีกใช้โลโก้และพื้นหลังโทนชมพูอ่อน แยกจากร้านส่ง</p>
-              </div>
-              <div class="shot-card soft">
-                <p class="shot-title"><span class="pill gold">Splash ส่ง</span> มือถือ / คอม</p>
-                <div class="splash-preview-grid">
-                  <img class="shot" src="assets/update_20260611_splash_wholesale_mobile.jpg" alt="ภาพเข้าเว็บร้านส่งบนมือถือ">
-                  <img class="shot" src="assets/update_20260611_splash_wholesale_desktop.jpg" alt="ภาพเข้าเว็บร้านส่งบนคอม">
-                </div>
-                <p class="proof-caption">ภาพเข้าเว็บร้านส่งใช้โลโก้และพื้นหลังสีเหลือง สอดคล้องกับหน้าร้านส่งและราคา wholesale</p>
-              </div>
-            </div>
-
-            <div class="shot-card">
-              <p class="shot-title"><span class="pill blue">ตัวอย่างฟ้อน</span> ภาพตัวเลือกสำหรับงานหน้าร้าน</p>
-              <div class="design-gallery">
-                <img class="shot font-option-shot" src="assets/update_20260611_font_option_2.png" alt="ตัวอย่างฟ้อนแบบที่ 2">
-                <img class="shot font-option-shot" src="assets/update_20260611_font_option_3.png" alt="ตัวอย่างฟ้อนแบบที่ 3">
-              </div>
-              <p class="proof-caption">ทำตัวอย่างแนวฟ้อนให้ดู เพื่อใช้เลือกสไตล์ตัวอักษรสำหรับภาพร้าน/แบนเนอร์ในรอบถัดไป</p>
-            </div>
-
-            <div class="shot-card">
-              <p class="shot-title"><span class="pill green">ภาพพื้นหลังพร้อมฟ้อน</span> ตัวอย่างปลีก / ส่ง</p>
-              <div class="design-gallery">
-                <img class="shot" src="assets/update_20260611_banner_retail_sample.png" alt="ตัวอย่างพื้นหลังและฟ้อนร้านปลีก">
-                <img class="shot" src="assets/update_20260611_banner_wholesale_sample.png" alt="ตัวอย่างพื้นหลังและฟ้อนร้านส่ง">
-              </div>
-              <p class="proof-caption">ตัวอย่างภาพพื้นหลังที่ใส่ฟ้อนให้ดูแล้ว ส่วนภาพพื้นหลังแบบอื่น ๆ ดูต่อได้จากปุ่ม Google Drive ด้านบน</p>
-            </div>
-
-            <div class="shot-card">
-              <p class="shot-title"><span class="pill blue">ภาพแบนเนอร์บนเว็บจริง</span> ร้านส่ง / ร้านปลีก</p>
-              <div class="design-gallery">
-                <img class="shot" src="assets/update_20260611_web_banner_wholesale.png" alt="ภาพแบนเนอร์จริงบนเว็บร้านส่ง">
-                <img class="shot" src="assets/update_20260611_web_banner_retail.png" alt="ภาพแบนเนอร์จริงบนเว็บร้านปลีก">
-              </div>
-              <p class="proof-caption">ภาพจริงจากหน้าเว็บหลังแยกระบบแบนเนอร์แล้ว: ร้านส่งแสดงโลโก้ส่งและแบนเนอร์ขายส่ง ส่วนร้านปลีกแสดงโลโก้ปลีกและแบนเนอร์ขายปลีก</p>
-            </div>
-
-            <div class="shot-card">
-              <p class="shot-title"><span class="pill green">ระบบใบเสนอราคา</span> ปลีก / ส่ง</p>
-              <div class="design-gallery">
-                <img class="shot" src="assets/update_20260611_quotation_retail_preview.png" alt="ตัวอย่างใบเสนอราคาปลีก">
-                <img class="shot" src="assets/update_20260611_quotation_wholesale_preview.png" alt="ตัวอย่างใบเสนอราคาส่ง">
-              </div>
-              <p class="proof-caption">ใบเสนอราคาแยกโลโก้ตามร้าน: ปลีกใช้โลโก้ชมพู ส่วนร้านส่งใช้โลโก้เหลือง และระบบบันทึกไฟล์ใบเสนอราคาแยกโฟลเดอร์ปลีก/ส่งใน Google Drive</p>
-            </div>
-
-            <div class="shot-card soft">
-              <p class="shot-title"><span class="pill gold">Google Drive Assets</span> แยกภาพเป็นหมวด</p>
-              <div class="proof-list">
-                <div class="proof-item"><b>PRODUCTS_FOLDER_ID</b><span>เก็บเฉพาะภาพสินค้า ไม่ปนกับภาพร้าน</span></div>
-                <div class="proof-item"><b>SHOP_ASSETS</b><span>แยก splash/poster, banner, promo, logo, logo ธนาคาร และ QR</span></div>
-                <div class="proof-item"><b>ใบเสนอราคา</b><span>บันทึกแยกโฟลเดอร์ปลีก/ส่ง เพื่อเปิดดูย้อนหลังและส่งลูกค้าได้ง่าย</span></div>
-              </div>
-              <p class="proof-caption">จัดโครง Drive ใหม่เพื่อไม่ให้ภาพสินค้า ภาพร้าน ภาพโปร และเอกสารใบเสนอราคาปนกัน เวลาเปลี่ยนภาพหน้าร้านจะไม่กระทบรูปสินค้าเดิม</p>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill gold">วันพฤหัสบดี 4-5 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: 4 มิ.ย. 16:10:52 • จบ: 5 มิ.ย. 01:50:36</span>
-            </div>
-            <h2>อัปเดตระบบแจ้งเตือน LINE และบิลออเดอร์</h2>
-            <p class="update-subtitle">อัปเดตระบบแจ้งลูกค้าผ่าน LINE ให้ครบขึ้น ตั้งแต่เปิดบิล แก้ออเดอร์ ไปจนถึงเปลี่ยนสถานะจัดส่ง</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>ส่งบิลหลังสั่งซื้อ</b><span>ลูกค้าสั่งซื้อแล้ว LINE ส่งบิลออเดอร์แรกกลับให้อัตโนมัติ</span></div>
-            <div class="update-mini"><b>แก้จำนวนแล้วตีบิลใหม่</b><span>กรณีสต๊อกจริงไม่พอ แอดมินปรับจำนวนได้ แล้วระบบส่งบิลยอดใหม่ให้ลูกค้าทันที</span></div>
-            <div class="update-mini"><b>แจ้งสถานะเรียลไทม์</b><span>เปลี่ยนเป็นรอคอนเฟิร์ม / กำลังจัดส่ง / ส่งแล้ว แล้วส่งการ์ดแจ้งลูกค้าใน LINE</span></div>
-            <div class="update-mini"><b>เวลาในบิลอัปเดตใหม่</b><span>บิลแจ้งเตือนใช้เวลาล่าสุดของเหตุการณ์นั้น ไม่ยึดเวลาจากบิลแรก</span></div>
-            <div class="update-mini"><b>ลดปัญหาออเดอร์ซ้ำ</b><span>เพิ่มการกันส่งซ้ำช่วงกดสั่งซื้อ เพื่อไม่ให้ชีตและแอพแอดมินมีรายการซ้อน</span></div>
-            <div class="update-mini"><b>ปรับการ์ดให้แก้ต่อได้</b><span>เพิ่มโครงการ์ดบิลแก้ไขและสีสถานะ เพื่อให้ปรับหน้าตาบิลได้ง่ายขึ้น</span></div>
-            <div class="update-mini"><b>ชีตแยกปลีก / ส่ง</b><span>เพิ่มแท็บ Orders_ปลีก และ Orders_ส่ง สำหรับดูแยกช่องทาง โดยออเดอร์รวมยังเป็นต้นทางหลัก</span></div>
-            <div class="update-mini"><b>Dashboard แอดมิน</b><span>เพิ่มภาพรวมยอดขาย จำนวนออเดอร์ สถานะออเดอร์ รายการรอดำเนินการ และเวลาอัปเดตล่าสุด</span></div>
-            <div class="update-mini"><b>ดูสต๊อกง่ายขึ้น</b><span>มีหน้าสต๊อกเหลือน้อย แยกใกล้หมด / หมดแล้ว / ทั้งหมด พร้อมจำนวนคงเหลือรายสินค้า</span></div>
-          </div>
-
-          <div class="evidence-section">
-            <div class="grid-2">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">ชีตออเดอร์</span> แยกแท็บปลีก / ส่ง</p>
-                <img class="shot sheet-tab-shot" src="assets/update_20260605_sheet_tabs.png" alt="แท็บ Orders_ปลีก และ Orders_ส่ง ใน Google Sheets">
-                <p class="proof-caption">เพิ่มแท็บ <b>Orders_ปลีก</b> และ <b>Orders_ส่ง</b> เพื่อดูออเดอร์ตามช่องทางได้เร็วขึ้น แต่เวลาจะลบหรือแก้รายการจริงให้ยึดจากออเดอร์รวมก่อน เพราะเป็นข้อมูลต้นทางที่ระบบใช้ซิงก์ไปยังแท็บแยก</p>
-              </div>
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">Dashboard</span> ภาพรวมในแอพแอดมิน</p>
-                <img class="shot evidence-shot" src="assets/update_20260605_admin_dashboard.png" alt="Dashboard ภาพรวมในแอพแอดมิน">
-                <p class="proof-caption">หน้าแอดมินมีสรุปยอดขายวันนี้, ออเดอร์วันนี้, ยอดขายเดือนนี้, งานรอจัดการ, สินค้าใกล้หมด, สถานะพร้อมเคลียร์ และจำนวนออเดอร์ตามสถานะ เช่น ออเดอร์ใหม่ รอคอนเฟิร์ม กำลังจัดส่ง ส่งแล้ว ยกเลิก</p>
-              </div>
-            </div>
-
-            <div class="grid-2">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">สต๊อกสินค้า</span> ดูจำนวนคงเหลืออย่างง่าย</p>
-                <img class="shot evidence-shot" src="assets/update_20260605_stock_list.png" alt="หน้าสต๊อกสินค้าในแอพแอดมิน">
-                <p class="proof-caption">หน้าสต๊อกแสดงจำนวนสินค้าทั้งหมด และรายการสินค้าแต่ละตัวพร้อมจำนวนคงเหลือ เหมาะสำหรับเช็กของหน้าร้านแบบเร็ว ๆ</p>
-              </div>
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill red">ตัวกรองสต๊อก</span> ใกล้หมด / หมดแล้ว / ทั้งหมด</p>
-                <img class="shot evidence-shot" src="assets/update_20260605_stock_empty.png" alt="ตัวกรองสต๊อกใกล้หมดและหมดแล้ว">
-                <p class="proof-caption">มีตัวกรอง <b>ใกล้หมด</b>, <b>หมดแล้ว</b> และ <b>ทั้งหมด</b> ถ้าไม่มีสินค้าต่ำกว่าเกณฑ์ ระบบจะแสดงข้อความว่าไม่มีสินค้าติดต่ำ</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="today-proof-stack">
-            <div class="grid-2">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">ภาพที่ 1</span> บิลแรกหลังลูกค้าสั่งซื้อ</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_order_created.png" alt="บิล LINE หลังลูกค้าสั่งซื้อ">
-                <p class="proof-caption">ลูกค้าได้รับบิลออเดอร์ทันทีหลังสั่งซื้อ พร้อมเลขออเดอร์ ยอดรวม วิธีชำระเงิน และปุ่มดูสถานะ</p>
-              </div>
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill blue">ภาพที่ 2</span> บิลใหม่หลังแก้จำนวนสินค้า</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_order_edited.png" alt="บิล LINE หลังแอดมินแก้จำนวนสินค้า">
-                <p class="proof-caption">เมื่อร้านมีสต๊อกจริงไม่พอ แอดมินปรับจำนวนแล้วลูกค้าเห็นยอดล่าสุดจากบิลใหม่</p>
-              </div>
-            </div>
-
-            <div class="grid-3">
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ภาพที่ 3</span> รอคอนเฟิร์ม</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_confirm.png" alt="การ์ด LINE สถานะรอคอนเฟิร์ม">
-                <p class="proof-caption">แจ้งลูกค้าว่าแอดมินกำลังตรวจสอบออเดอร์</p>
-              </div>
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill gold">ภาพที่ 4</span> กำลังจัดส่ง</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_shipping.png" alt="การ์ด LINE สถานะกำลังจัดส่ง">
-                <p class="proof-caption">แจ้งลูกค้าว่าร้านกำลังแพ็กสินค้าและเตรียมจัดส่ง</p>
-              </div>
-              <div class="shot-card">
-                <p class="shot-title"><span class="pill green">ภาพที่ 5</span> ส่งแล้ว</p>
-                <img class="shot mobile-shot update-phone-shot" src="assets/update_20260605_status_done.png" alt="การ์ด LINE สถานะส่งแล้ว">
-                <p class="proof-caption">แจ้งลูกค้าว่าพัสดุออกจากร้านแล้ว</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </details>
-
-      <details class="update-card">
-        <summary>
-          <div>
-            <div class="update-meta">
-              <span class="date-pill">วันอังคารที่ 2 มิถุนายน 2569</span>
-              <span class="time-pill">เริ่ม: 18:21:34 • จบ: 23:35:47</span>
-            </div>
-            <h2>อัปเดตระบบร้านปลีก / ร้านส่ง และหลังบ้านใหม่</h2>
-            <p class="update-subtitle">สรุปงานรอบนี้: แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</p>
-          </div>
-          <div class="update-chevron" aria-hidden="true">⌄</div>
-        </summary>
-        <div class="update-body">
-          <div class="update-summary-grid">
-            <div class="update-mini"><b>ลูกค้าเห็นถูกโหมด</b><span>OA ปลีกใช้ลิงก์ปกติ ส่วน OA ส่งใช้ลิงก์ที่มี <b>?mode=wholesale</b></span></div>
-            <div class="update-mini"><b>หลังบ้านปลอดภัยขึ้น</b><span>มีโหมดปิดปรับปรุง และล็อกแอดมินรองตอน Dev กำลังจัดระบบ</span></div>
-            <div class="update-mini"><b>แอดมินดูง่ายขึ้น</b><span>แอดมินปลีก/ส่งเห็นเฉพาะออเดอร์ตัวเอง เจ้าของร้านดูได้ทั้งหมด</span></div>
-            <div class="update-mini"><b>แก้ออเดอร์ได้</b><span>ปรับจำนวนสินค้า คำนวณยอดใหม่ และคืน/ตัดสต๊อกตามรายการ</span></div>
-            <div class="update-mini"><b>ข้อมูลชีตชัดขึ้น</b><span>เพิ่ม Channel และ AdminUsers เพื่อแยกสิทธิ์ login จากชีต</span></div>
-            <div class="update-mini"><b>งานที่เหลือ</b><span>ส่งบิลแก้ไขกลับ LINE, แจ้งสถานะ LINE, และทดสอบ flow จริงบน LINE OA</span></div>
-          </div>
-          <div class="update-detail-stack">
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">01</div>
-        <div>
-          <h2>LINE OA แยกร้านด้วยชื่อและลิงก์</h2>
-          <p class="lead">ภาพจริงใน LINE ระบุชื่อร้านและ Action D เป็นคนละลิงก์ จึงพาลูกค้าเข้าเว็บคนละโหมด</p>
-        </div>
-        <span class="status done">ใช้งานได้</span>
-      </div>
-      <div class="grid-2">
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill gold">OA ปลีก</span> ชื่อในภาพ: <b>ร้านปลีก</b></p>
-          <div class="proof-list">
-            <div class="proof-item"><b>ช่องชื่อ</b><span>ร้านปลีก</span></div>
-            <div class="proof-item"><b>Action D</b><span>https://liff.line.me/2010236187-GI8XM5vR</span></div>
-          </div>
-          <div class="url-strip"><span>สรุปลิงก์ร้านปลีก</span>https://liff.line.me/2010236187-GI8XM5vR</div>
-          <img class="shot" src="assets/shot_02.png" alt="LINE OA ร้านปลีก ชื่อร้านเล็ก ลิงก์ปกติ">
-        </div>
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill green">OA ส่ง</span> ชื่อในภาพ: <b>ร้านส่ง</b></p>
-          <div class="proof-list">
-            <div class="proof-item"><b>ช่องชื่อ</b><span>ร้านส่ง</span></div>
-            <div class="proof-item"><b>Action D</b><span>https://liff.line.me/2010236187-GI8XM5vR?mode=wholesale</span></div>
-          </div>
-          <div class="url-strip"><span>สรุปลิงก์ร้านส่ง</span>https://liff.line.me/2010236187-GI8XM5vR?mode=wholesale</div>
-          <img class="shot" src="assets/shot_01.png" alt="LINE OA ร้านส่ง ชื่อร้านส่ง ลิงก์ wholesale">
-        </div>
-      </div>
-      <div class="flow">
-        <div class="flow-box"><strong>ลูกค้าปลีก</strong><small>กดจาก OA ปลีก → เห็นราคาปลีก</small></div>
-        <div class="arrow">→</div>
-        <div class="flow-box"><strong>ลูกค้าส่ง</strong><small>กดจาก OA ส่ง → เห็นราคาส่ง</small></div>
-      </div>
-      <div class="note"><b>ผลลัพธ์:</b> ใช้สินค้าชุดเดียวกัน ภาพเดียวกัน เว็บเดียวกัน แต่แยกประสบการณ์ตามช่องทางที่ลูกค้าเข้ามา</div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">02</div>
-        <div>
-          <h2>โหมดปิดปรับปรุง + ล็อกหลังบ้าน</h2>
-          <p class="lead">ออกแบบไว้กันช่วง Dev กำลังแก้ระบบ แล้วมีแอดมินรองเข้ามาแก้ภาพสินค้า ชื่อสินค้า หรือหมวดหมู่ชนกัน</p>
-        </div>
-        <span class="status done">เพิ่มแล้ว</span>
-      </div>
-      <div class="grid-wide">
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill green">Owner Control</span> เปิด/ปิดจากหลังบ้าน</p>
-          <img class="shot" src="assets/shot_03.png" alt="ตั้งค่าโหมดอัปเดตระบบ">
-        </div>
-        <div class="shot-card dark">
-          <p class="shot-title" style="color:#fff"><span class="pill gold">User Notice</span> แจ้งเตือนทันที</p>
-          <img class="shot" src="assets/shot_04.png" alt="หน้าปิดปรับปรุง">
-        </div>
-      </div>
-      <div class="grid-3" style="margin-top:20px">
-        <div class="callout green"><h3>ลูกค้า</h3><ul><li>เห็นหน้าปิดปรับปรุงทันที</li><li>ลดความเสี่ยงสั่งซื้อระหว่างแก้ระบบ</li></ul></div>
-        <div class="callout"><h3>แอดมินรอง</h3><ul><li>ถูกล็อกไม่ให้แก้สินค้า/ภาพ/หมวดหมู่</li><li>ลดโอกาสข้อมูลทับกัน</li></ul></div>
-        <div class="callout blue"><h3>แอดมินสูงสุด</h3><ul><li>เข้า bypass ได้ด้วย Role owner</li><li>ใช้ตรวจหรือปลดล็อกหลังบ้าน</li></ul></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">03</div>
-        <div>
-          <h2>ตัวอย่างราคาสินค้าปลีก / ส่ง</h2>
-          <p class="lead">สินค้าเดียวกัน แต่ราคาที่ลูกค้าเห็นเปลี่ยนตามลิงก์ที่เข้ามา</p>
-        </div>
-        <span class="status done">ตัวอย่างจริง</span>
-      </div>
-      <div class="grid-2">
-        <div class="shot-card soft">
-          <p class="shot-title"><span class="pill green">ร้านส่ง</span> ตัวอย่างแสดงราคาส่ง</p>
-          <img class="shot mobile-shot" src="assets/shot_05.png" alt="เว็บโหมดร้านส่ง">
-          <div class="price-panel">
-            <div class="price-box"><div class="label">ราคาส่ง</div><div class="price">฿500</div><small>ตัวอย่างสินค้าตัวแรก</small></div>
-            <div class="price-box"><div class="label">หลักการ</div><div class="price" style="font-size:36px">ตามโหมด</div><small>ลูกค้าส่งเห็นราคาส่ง</small></div>
-          </div>
-        </div>
-        <div class="shot-card soft">
-          <p class="shot-title"><span class="pill gold">ร้านปลีก</span> ตัวอย่างแสดงราคาปลีก</p>
-          <img class="shot mobile-shot" src="assets/shot_06.png" alt="เว็บโหมดร้านปลีก">
-          <div class="price-panel">
-            <div class="price-box"><div class="label">ราคาปลีก</div><div class="price">฿44</div><small>ตัวอย่างสินค้าตัวแรก</small></div>
-            <div class="price-box"><div class="label">หลักการ</div><div class="price" style="font-size:36px">เว็บเดียว</div><small>ต่างกันที่ URL</small></div>
-          </div>
-        </div>
-      </div>
-      <div class="note"><b>หมายเหตุ:</b> ภาพนี้เป็นตัวอย่างเพื่อให้เห็นหลักการ ราคาจริงขึ้นกับข้อมูลที่ตั้งในชีต/ฐานข้อมูล</div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">04</div>
-        <div>
-          <h2>เว็บแอพหลังบ้านสำหรับดูออเดอร์</h2>
-          <p class="lead">ทำใหม่ให้ดูง่ายขึ้น แยกสิทธิ์ตามร้านส่ง/ร้านปลีก และมีมุมมองเจ้าของร้านที่เห็นทั้งหมดแบบเรียลไทม์</p>
-        </div>
-        <span class="status done">กำลังใช้งานทดสอบ</span>
-      </div>
-      <div class="grid-3">
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill gold">Admin ปลีก</span> เห็นเฉพาะออเดอร์ปลีก</p>
-          <img class="shot" src="assets/shot_07.png" alt="หลังบ้านออเดอร์ปลีก">
-        </div>
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill green">Admin ส่ง</span> เห็นเฉพาะออเดอร์ส่ง</p>
-          <img class="shot" src="assets/shot_08.png" alt="หลังบ้านออเดอร์ส่ง">
-        </div>
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill blue">เจ้าของร้าน</span> ดูได้ทุกช่องทาง</p>
-          <img class="shot" src="assets/shot_09.png" alt="หลังบ้านเจ้าของร้านดูทุกช่องทาง">
-        </div>
-      </div>
-      <div class="note"><b>ผลลัพธ์:</b> ออเดอร์ไม่ปนกันในมุมมองแอดมิน แต่เจ้าของร้านยังดูภาพรวมทั้งหมดได้</div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">05</div>
-        <div>
-          <h2>จัดการสถานะออเดอร์และการชำระเงิน</h2>
-          <p class="lead">หน้าออเดอร์ละเอียด สามารถปรับสถานะจัดส่งและสถานะชำระเงิน COD ได้ เชื่อมกับชีตโดยตรง</p>
-        </div>
-        <span class="status done">เรียลไทม์กับชีต</span>
-      </div>
-      <div class="grid-3">
-        <div class="shot-card"><p class="shot-title">รายละเอียดออเดอร์</p><img class="shot mobile-shot" src="assets/shot_10.png" alt="รายละเอียดออเดอร์"></div>
-        <div class="shot-card"><p class="shot-title">ปรับสถานะจัดส่ง</p><img class="shot mobile-shot" src="assets/shot_11.png" alt="ปรับสถานะจัดส่ง"></div>
-        <div class="shot-card"><p class="shot-title">ปรับสถานะชำระเงิน</p><img class="shot mobile-shot" src="assets/shot_12.png" alt="ปรับสถานะชำระเงิน"></div>
-      </div>
-      <div class="flow">
-        <div class="flow-box"><strong>เลือกสถานะในแอพ</strong><small>เช่น รอคอนเฟิร์ม / กำลังจัดส่ง / ส่งแล้ว</small></div>
-        <div class="arrow">→</div>
-        <div class="flow-box"><strong>อัปเดตบนชีตทันที</strong><small>ทีมเห็นข้อมูลล่าสุดจากแหล่งเดียวกัน</small></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">06</div>
-        <div>
-          <h2>แก้จำนวนสินค้าในออเดอร์</h2>
-          <p class="lead">กรณีหน้าร้านเช็คสต๊อกจริงแล้วเหลือไม่ครบ สามารถลดจำนวนสินค้าและคำนวณยอดใหม่ได้จากแอพ</p>
-        </div>
-        <span class="status wip">บางส่วนยังพัฒนา</span>
-      </div>
-      <div class="grid-2">
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill">ก่อนแก้</span> ลูกค้าสั่ง 3 ชิ้น</p>
-          <img class="shot mobile-shot" src="assets/shot_13.png" alt="แก้จำนวนก่อน">
-        </div>
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill green">หลังแก้</span> เหลือ 1 ชิ้น ยอดใหม่ ฿44</p>
-          <img class="shot mobile-shot" src="assets/shot_14.png" alt="แก้จำนวนหลัง">
-        </div>
-      </div>
-      <div class="grid-2" style="margin-top:20px">
-        <div class="callout green"><h3>ทำได้แล้ว</h3><ul><li>ปรับจำนวนในแอพ</li><li>คำนวณยอดใหม่</li><li>ลด/คืนสต๊อกตามรายการ</li></ul></div>
-        <div class="callout red"><h3>ยังไม่ได้ทำ</h3><ul><li>ส่งบิลออเดอร์ใหม่กลับไปให้ลูกค้าบน LINE อัตโนมัติ</li><li>รอทำต่อในเฟสถัดไป</li></ul></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div class="step">07</div>
-        <div>
-          <h2>โครงข้อมูลบนชีต: Channel + AdminUsers</h2>
-          <p class="lead">เพิ่มข้อมูลช่องทางออเดอร์ และเปลี่ยนระบบล็อกอินให้ควบคุมจากชีต ไม่ใช้รหัส 1234 ในโค้ดเหมือนเดิม</p>
-        </div>
-        <span class="status done">เพิ่มแล้ว</span>
-      </div>
-      <div class="grid-2">
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill blue">Orders</span> เพิ่มคอลัมน์ Channel</p>
-          <img class="shot sheet-shot" src="assets/shot_15.png" alt="ชีต Orders เพิ่ม Channel">
-          <div class="note"><b>สถานะตอนนี้:</b> เก็บ Channel แล้ว เช่น “ปลีก” หรือ “ส่ง” แต่หน้าออเดอร์บนชีตยังเป็นออเดอร์รวม ยังไม่ได้จัดหน้าแยกปลีก/ส่งในชีต</div>
-        </div>
-        <div class="shot-card">
-          <p class="shot-title"><span class="pill green">AdminUsers</span> Login ตามสิทธิ์ในชีต</p>
-          <img class="shot sheet-shot" src="assets/shot_16.png" alt="ชีต AdminUsers">
-          <div class="note"><b>เปลี่ยนจากเดิม:</b> เดิมใส่ชื่ออะไรก็ได้ + รหัสจากโค้ด 1234 ตอนนี้ต้องใช้ Username/Password/Role ตามชีตเท่านั้น</div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="บันทึกการพัฒนาระบบร้านอาหารสัตว์และโรงแรมแมว แยกดูตามโปรเจกต์และวันที่"
+    />
+    <meta name="theme-color" content="#faf8f2" id="theme-color" />
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("worklog-theme");
+        const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = savedTheme || preferredTheme;
+      })();
+    </script>
+    <title>Work Note | Loei Smart Pet</title>
+    <style>
+:root {
+  color-scheme: light;
+  --page: #faf8f2;
+  --ink: #111315;
+  --muted: #656767;
+  --section-line: rgba(17, 19, 21, 0.12);
+  --glass: rgba(255, 255, 255, 0.56);
+  --glass-soft: rgba(17, 19, 21, 0.055);
+  --glass-border: rgba(255, 255, 255, 0.82);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-text: #15191a;
+  --glass-muted: #656b69;
+  --control: rgba(255, 255, 255, 0.56);
+  --control-border: rgba(255, 255, 255, 0.82);
+  --control-text: #15191a;
+  --focus-ring: rgba(17, 19, 21, 0.2);
+  --lime: #8bcf10;
+  --green: #27c979;
+  --red: #ff5364;
+  --gold: #d99a0d;
+  --pink: #e75c89;
+  --shadow: 0 24px 72px rgba(35, 37, 38, 0.16);
+  --shadow-soft: 0 12px 34px rgba(35, 37, 38, 0.12);
+  --radius: 20px;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #100e0b;
+  --ink: #f5f6f5;
+  --muted: #a7aaa9;
+  --section-line: rgba(255, 255, 255, 0.11);
+  --glass: rgba(244, 247, 247, 0.105);
+  --glass-soft: rgba(255, 255, 255, 0.085);
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.23);
+  --glass-text: #fbfcfc;
+  --glass-muted: #c4cac8;
+  --control: rgba(255, 255, 255, 0.09);
+  --control-border: rgba(255, 255, 255, 0.17);
+  --control-text: #f6f7f7;
+  --focus-ring: rgba(255, 255, 255, 0.34);
+  --shadow: 0 30px 90px rgba(0, 0, 0, 0.48);
+  --shadow-soft: 0 15px 40px rgba(0, 0, 0, 0.31);
+}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--page);
+}
+
+body {
+  position: relative;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: transparent;
+  color: var(--ink);
+  font-family: "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+  line-height: 1.65;
+  transition: color 240ms ease;
+}
+
+.aura-background {
+  position: fixed;
+  z-index: -3;
+  inset: 0;
+  overflow: hidden;
+  background: var(--page);
+  pointer-events: none;
+}
+
+.aura-layer,
+.aura-grain {
+  position: absolute;
+  inset: -16%;
+}
+
+.aura-layer-one {
+  background: linear-gradient(150deg, #e4e4e7 0%, #d4d4d8 40%, #a1a1aa 70%, #71717a 100%);
+  opacity: 0.62;
+}
+
+.aura-layer-two {
+  background: radial-gradient(circle at 50% 40%, rgba(113, 113, 122, 0.2) 0%, transparent 55%);
+  mix-blend-mode: multiply;
+  filter: blur(108px);
+}
+
+:root[data-theme="dark"] .aura-layer-one {
+  background: linear-gradient(150deg, #090a0c 0%, #27272a 40%, #52525b 68%, #71717a 100%);
+  opacity: 0.76;
+}
+
+:root[data-theme="dark"] .aura-layer-two {
+  background: radial-gradient(ellipse 45% 50% at 60% 38%, rgba(212, 212, 216, 0.18) 0%, transparent 68%);
+  mix-blend-mode: screen;
+  filter: blur(162px);
+}
+
+.aura-grain {
+  inset: 0;
+  background-image:
+    repeating-radial-gradient(circle at 17% 31%, rgba(255, 255, 255, 0.18) 0 0.45px, transparent 0.7px 2.8px),
+    repeating-linear-gradient(118deg, rgba(17, 19, 21, 0.08) 0 1px, transparent 1px 4px);
+  background-size: 4px 4px, 6px 6px;
+  mix-blend-mode: overlay;
+  opacity: 0.18;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111517;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Floating controls */
+.utility-dock {
+  position: fixed;
+  z-index: 50;
+  top: 18px;
+  right: 18px;
+  left: 18px;
+  display: grid;
+  grid-template-columns: minmax(52px, 1fr) auto minmax(52px, 1fr);
+  align-items: start;
+  pointer-events: none;
+}
+
+.theme-toggle,
+.project-rail {
+  pointer-events: auto;
+}
+
+.theme-toggle {
+  position: relative;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 52px;
+  padding: 7px 13px 7px 8px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 46%),
+    var(--glass);
+  color: var(--glass-text);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(34px) saturate(185%) contrast(105%);
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.theme-toggle::before,
+.project-rail::before {
+  position: absolute;
+  top: 0;
+  right: 9%;
+  left: 9%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.86), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.theme-toggle:hover {
+  border-color: var(--focus-ring);
+  transform: translateY(-2px);
+}
+
+.theme-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--section-line);
+  border-radius: 10px;
+  background: var(--glass-soft);
+  font-size: 0.82rem;
+}
+
+.theme-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.project-rail {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: min(700px, calc(100vw - 154px));
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%),
+    var(--glass);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(38px) saturate(190%) contrast(106%);
+}
+
+.project-scroll {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+
+.project-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.project-tab {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: auto minmax(92px, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-width: 192px;
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid var(--section-line);
+  border-radius: 14px;
+  background: var(--glass-soft);
+  color: var(--glass-text);
+  text-align: left;
+  scroll-snap-align: center;
+  transition: border-color 170ms ease, background 170ms ease, transform 170ms ease, box-shadow 170ms ease;
+}
+
+.project-tab:hover {
+  border-color: var(--focus-ring);
+  transform: translateY(-1px);
+}
+
+.project-tab.is-active {
+  border-color: rgba(139, 207, 16, 0.52);
+  background: rgba(139, 207, 16, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(139, 207, 16, 0.05);
+}
+
+.project-tab[data-project="pet-store"].is-active {
+  border-color: rgba(217, 154, 13, 0.5);
+  background: rgba(217, 154, 13, 0.12);
+}
+
+.project-tab[data-project="cat-hotel"].is-active {
+  border-color: rgba(231, 92, 137, 0.5);
+  background: rgba(231, 92, 137, 0.12);
+}
+
+.tab-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--section-line);
+  border-radius: 10px;
+  background: var(--glass-soft);
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.tab-icon.all-projects {
+  color: var(--lime);
+}
+
+.tab-icon.pet-store {
+  background: rgba(217, 154, 13, 0.14);
+  color: var(--gold);
+}
+
+.tab-icon.cat-hotel {
+  background: rgba(231, 92, 137, 0.14);
+  color: var(--pink);
+}
+
+.project-tab strong {
+  overflow: hidden;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tab-count {
+  min-width: 28px;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: var(--glass-soft);
+  color: var(--glass-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.project-tab.is-active .tab-count {
+  color: var(--glass-text);
+}
+/* Main title */
+main,
+.site-footer {
+  width: min(1280px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.hero {
+  display: grid;
+  min-height: 540px;
+  padding: 112px 0 72px;
+  place-items: center;
+  text-align: center;
+}
+
+.hero-title-lockup {
+  position: relative;
+  display: inline-grid;
+  justify-items: center;
+  isolation: isolate;
+}
+
+.hero-title-lockup::after {
+  width: min(360px, 58%);
+  height: 2px;
+  margin-top: 26px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--ink), transparent);
+  content: "";
+  opacity: 0.24;
+  transform: rotate(-2deg);
+}
+
+.hero-kicker {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-family: "Segoe Script", "Brush Script MT", "Lucida Handwriting", cursive;
+  font-size: clamp(0.78rem, 1.2vw, 1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  transform: rotate(-2deg);
+}
+
+h1 {
+  display: flex;
+  gap: 0.04em;
+  align-items: baseline;
+  justify-content: center;
+  margin: 0;
+  font-family: "Arial Black", "Leelawadee UI", sans-serif;
+  font-size: clamp(5rem, 11vw, 9.5rem);
+  line-height: 0.82;
+  letter-spacing: -0.09em;
+}
+
+h1 span {
+  color: transparent;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.1em;
+  -webkit-text-stroke: 1.5px var(--ink);
+  transform: rotate(-2deg) translateY(-0.02em);
+}
+
+h1 em {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.09em;
+  transform: rotate(1deg) translateY(-0.01em);
+}
+
+.selected-project-base {
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 42px;
+  margin: 0 0 11px;
+  padding: 8px 13px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 207, 16, 0.38);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 48%),
+    rgba(139, 207, 16, 0.1);
+  color: var(--glass-text);
+  box-shadow: 0 9px 26px rgba(35, 37, 38, 0.09), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(28px) saturate(180%);
+}
+
+.selected-project-base::before {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  left: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.88), transparent);
+  content: "";
+}
+
+.selected-project-base[data-project="pet-store"] {
+  border-color: rgba(217, 154, 13, 0.46);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 48%),
+    rgba(217, 154, 13, 0.12);
+}
+
+.selected-project-base[data-project="cat-hotel"] {
+  border-color: rgba(231, 92, 137, 0.46);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 48%),
+    rgba(231, 92, 137, 0.12);
+}
+
+.selected-project-base span {
+  color: var(--glass-muted);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.selected-project-base strong {
+  overflow: hidden;
+  max-width: 210px;
+  font-size: 0.98rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Work list */
+.worklog-section {
+  padding: 76px 0;
+  border-top: 1px solid var(--section-line);
+}
+
+.worklog-title-block {
+  min-width: 0;
+}
+
+.worklog-heading {
+  display: flex;
+  gap: 30px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.worklog-heading h2 {
+  margin-bottom: 1px;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.worklog-title-block > p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.view-tools {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.search-box,
+.period-button,
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 48%),
+    var(--glass);
+  color: var(--glass-text);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(28px) saturate(175%);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.search-box {
+  gap: 8px;
+  min-width: 230px;
+  padding-left: 13px;
+  color: var(--glass-muted);
+}
+
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px 10px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--glass-text);
+}
+
+.search-box input::placeholder {
+  color: var(--glass-muted);
+}
+
+.period-picker {
+  position: relative;
+  z-index: 20;
+  min-width: 156px;
+}
+
+.period-button {
+  gap: 14px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 12px 9px 14px;
+  text-align: left;
+}
+
+.period-chevron {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--glass-soft);
+  transition: transform 180ms ease;
+}
+
+.period-picker.is-open .period-chevron {
+  transform: rotate(180deg);
+}
+
+.period-menu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 7px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2), transparent 42%),
+    var(--glass);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(40px) saturate(190%);
+}
+
+.period-option {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--glass-text);
+  text-align: left;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.period-option:hover,
+.period-option[aria-selected="true"] {
+  border-color: var(--section-line);
+  background: var(--glass-soft);
+}
+
+.sort-button {
+  gap: 7px;
+  padding: 9px 13px;
+}
+
+.search-box:focus-within,
+.theme-toggle:focus-visible,
+.project-tab:focus-visible,
+.period-button:focus-visible,
+.period-option:focus-visible,
+.sort-button:focus-visible,
+.empty-state button:focus-visible,
+.log-card summary:focus-visible {
+  outline: 0;
+  border-color: var(--focus-ring);
+  box-shadow:
+    0 0 0 3px var(--focus-ring),
+    var(--shadow-soft),
+    inset 0 1px 0 var(--glass-highlight);
+}
+.active-filter {
+  min-height: 0;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.active-filter:empty {
+  display: none;
+}
+
+.active-filter strong {
+  color: var(--ink);
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 18px;
+}
+
+.timeline::before {
+  position: absolute;
+  z-index: 0;
+  top: 25px;
+  bottom: 26px;
+  left: 132px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--red);
+  content: "";
+}
+
+.timeline[data-order="desc"]::before {
+  background: linear-gradient(to bottom, var(--green) 0 4%, rgba(61, 229, 139, 0.3) 7%, rgba(255, 83, 100, 0.36) 13%, var(--red) 100%);
+}
+
+.timeline[data-order="asc"]::before {
+  background: linear-gradient(to bottom, var(--red) 0 87%, rgba(255, 83, 100, 0.36) 92%, rgba(61, 229, 139, 0.3) 96%, var(--green) 100%);
+}
+
+.timeline-entry {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 46px;
+}
+
+.date-column {
+  padding-top: 22px;
+  text-align: right;
+}
+
+.date-column strong,
+.date-column span {
+  display: block;
+}
+
+.date-column strong {
+  color: var(--red);
+  font-size: 1.62rem;
+  line-height: 1;
+}
+
+.date-column > span:not(.date-status) {
+  margin-top: 6px;
+  color: rgba(255, 83, 100, 0.78);
+  font-size: 0.73rem;
+}
+
+.date-status {
+  margin-top: 7px;
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.timeline-entry[data-status="latest"] .date-column strong {
+  color: var(--green);
+  animation: live-text 1.8s ease-in-out infinite;
+}
+
+.timeline-entry[data-status="latest"] .date-column > span:not(.date-status) {
+  color: rgba(61, 229, 139, 0.76);
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 24px;
+  left: 124px;
+  width: 17px;
+  height: 17px;
+  border: 4px solid var(--page);
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 1px rgba(255, 83, 100, 0.55), 0 0 18px rgba(255, 83, 100, 0.24);
+}
+
+.timeline-entry[data-status="latest"] .timeline-marker {
+  background: var(--green);
+  box-shadow: 0 0 0 1px rgba(61, 229, 139, 0.6), 0 0 22px rgba(61, 229, 139, 0.48);
+  animation: live-marker 1.8s ease-in-out infinite;
+}
+
+.log-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  background: var(--glass);
+  color: var(--glass-text);
+  box-shadow: var(--shadow), inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(28px) saturate(155%);
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.log-card::before {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 11%;
+  left: 11%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.76), transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.log-card:hover {
+  transform: translateY(-2px);
+}
+
+.timeline-entry[data-status="latest"] .log-card {
+  border-color: rgba(61, 229, 139, 0.52);
+  box-shadow: var(--shadow), 0 0 45px rgba(61, 229, 139, 0.08), inset 0 1px 0 var(--glass-highlight);
+}
+
+.log-card summary {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  padding: 22px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.log-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.card-heading-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
+}
+
+.project-label,
+.category-label,
+.latest-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.latest-label {
+  background: var(--green);
+  color: #092417;
+}
+
+.project-label.pet-store {
+  background: rgba(255, 201, 74, 0.15);
+  color: #ffd978;
+}
+
+.project-label.cat-hotel {
+  background: rgba(255, 124, 164, 0.15);
+  color: #ffa3c0;
+}
+
+.category-label {
+  background: var(--glass-soft);
+  color: var(--glass-muted);
+}
+
+.log-card h3 {
+  margin-bottom: 7px;
+  color: var(--glass-text);
+  font-size: clamp(1.05rem, 2vw, 1.27rem);
+  line-height: 1.42;
+}
+
+.log-card summary p {
+  margin-bottom: 0;
+  color: var(--glass-muted);
+  font-size: 0.88rem;
+}
+
+.expand-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--glass-text);
+  font-size: 1.15rem;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.log-card[open] .expand-icon {
+  background: rgba(184, 255, 44, 0.12);
+  transform: rotate(45deg);
+}
+
+.log-details {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: 28px;
+  padding: 0 22px 23px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.completed-list {
+  margin: 0;
+  padding: 20px 0 0;
+  color: var(--glass-text);
+  list-style: none;
+}
+
+.completed-list li {
+  position: relative;
+  padding: 7px 0 7px 28px;
+}
+
+.completed-list li::before {
+  position: absolute;
+  top: 11px;
+  left: 0;
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(184, 255, 44, 0.13);
+  color: var(--lime);
+  content: "✓";
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.record-meta {
+  align-self: start;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 13px;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+:root:not([data-theme="dark"]) .record-meta {
+  background: rgba(255, 255, 255, 0.34);
+}
+
+:root:not([data-theme="dark"]) .project-label.pet-store {
+  color: #855d00;
+}
+
+:root:not([data-theme="dark"]) .project-label.cat-hotel {
+  color: #a7355d;
+}
+
+:root:not([data-theme="dark"]) .latest-label {
+  color: #063d21;
+}
+
+:root:not([data-theme="dark"]) .expand-icon {
+  border-color: rgba(17, 19, 21, 0.1);
+  background: rgba(17, 19, 21, 0.045);
+}
+:root[data-theme="dark"] .record-meta {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.record-meta div + div {
+  margin-top: 12px;
+}
+
+.record-meta span,
+.record-meta strong {
+  display: block;
+}
+
+.record-meta span {
+  color: var(--glass-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.record-meta strong {
+  margin-top: 2px;
+  color: var(--glass-text);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  padding: 74px 20px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  background: var(--glass);
+  color: var(--glass-text);
+  box-shadow: var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(24px) saturate(150%);
+}
+
+.empty-state > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--lime);
+  font-size: 2rem;
+}
+
+.empty-state h3 {
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  margin-bottom: 18px;
+  color: var(--glass-muted);
+}
+
+.empty-state button {
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--lime);
+  color: #111513;
+  font-weight: 800;
+}
+
+.site-footer {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 34px 0 46px;
+  border-top: 1px solid var(--section-line);
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.site-footer strong {
+  color: var(--ink);
+}
+
+.site-footer p {
+  margin: 2px 0 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@keyframes live-marker {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+    box-shadow: 0 0 0 7px rgba(61, 229, 139, 0.1), 0 0 26px rgba(61, 229, 139, 0.58);
+  }
+}
+
+@keyframes live-text {
+  0%,
+  100% {
+    opacity: 0.68;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  main,
+  .site-footer {
+    width: min(100% - 36px, 860px);
+  }
+
+  .utility-dock {
+    top: 14px;
+    right: 14px;
+    left: 14px;
+  }
+
+  .project-rail {
+    width: min(620px, calc(100vw - 138px));
+  }
+
+  .hero {
+    min-height: 540px;
+    padding-top: 138px;
+  }
+
+  h1 {
+    font-size: clamp(4.7rem, 16vw, 7.5rem);
+  }
+
+  .selected-project-base {
+    width: min(680px, 90%);
+  }
+
+  .worklog-title-block {
+  min-width: 0;
+}
+
+.worklog-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .view-tools {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .aura-layer-two {
+    filter: blur(75px);
+  }
+
+  :root[data-theme="dark"] .aura-layer-two {
+    filter: blur(113px);
+  }
+
+  .utility-dock {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    grid-template-columns: minmax(42px, 1fr) auto minmax(42px, 1fr);
+  }
+
+  .theme-toggle {
+    min-height: 46px;
+    padding: 5px;
+    border-radius: 14px;
+  }
+
+  .theme-label {
+    display: none;
+  }
+
+  .theme-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .project-rail {
+    width: calc(100vw - 88px);
+    border-radius: 16px;
+  }
+
+  .project-scroll {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .project-tab {
+    grid-template-columns: auto minmax(82px, 1fr) auto;
+    min-width: 164px;
+    min-height: 46px;
+    padding: 6px 8px;
+    border-radius: 11px;
+  }
+
+  .tab-icon {
+    width: 31px;
+    height: 31px;
+    border-radius: 9px;
+  }
+
+  main,
+  .site-footer {
+    width: calc(100% - 28px);
+  }
+
+  .hero {
+    min-height: 470px;
+    padding: 120px 0 52px;
+  }
+
+  .hero-kicker {
+    font-size: 0.62rem;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    font-size: clamp(4rem, 21vw, 5.7rem);
+  }
+
+  .selected-project-base {
+    width: 100%;
+    min-height: 64px;
+    padding: 13px 16px;
+    border-radius: 18px;
+  }
+
+  .worklog-section {
+    padding: 54px 0;
+  }
+
+  .view-tools,
+  .search-box,
+  .period-picker,
+  .period-button,
+  .sort-button {
+    width: 100%;
+  }
+
+  .period-menu {
+    min-width: 100%;
+  }
+
+  .sort-button {
+    justify-content: center;
+  }
+
+  .timeline::before {
+    left: 7px;
+  }
+
+  .timeline-entry {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding-left: 28px;
+  }
+
+  .date-column {
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+    padding-top: 0;
+    text-align: left;
+  }
+
+  .date-column strong,
+  .date-column span {
+    display: inline;
+  }
+
+  .date-column strong {
+    font-size: 1rem;
+  }
+
+  .date-column > span:not(.date-status),
+  .date-status {
+    margin-top: 0;
+  }
+
+  .timeline-marker {
+    top: 7px;
+    left: 0;
+  }
+
+  .log-card summary {
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .log-details {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0 18px 19px;
+  }
+
+  .record-meta {
+    margin-top: 6px;
+  }
+
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1800px) {
+  main,
+  .site-footer {
+    width: min(1560px, calc(100% - 140px));
+  }
+
+  .utility-dock {
+    top: 26px;
+    right: 36px;
+    left: 36px;
+  }
+
+  .project-rail {
+    width: min(820px, calc(100vw - 190px));
+  }
+
+  .project-tab {
+    min-width: 224px;
+    min-height: 58px;
+  }
+
+  .theme-toggle {
+    min-height: 58px;
+  }
+
+  .hero {
+    min-height: 760px;
+    padding-top: 152px;
+  }
+
+  h1 {
+    margin-bottom: 48px;
+    font-size: clamp(10rem, 8vw, 13rem);
+  }
+
+  .hero-kicker {
+    font-size: 0.8rem;
+  }
+
+  .selected-project-base {
+    width: min(920px, 64%);
+    min-height: 84px;
+    padding-inline: 28px;
+  }
+
+  .worklog-section {
+    padding-block: 94px;
+  }
+
+  .worklog-heading h2 {
+    font-size: 3.4rem;
+  }
+
+  .timeline {
+    gap: 22px;
+  }
+
+  .log-card summary {
+    padding: 26px 28px;
+  }
+
+  .log-details {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    padding: 0 28px 27px;
+  }
+}
+
+@media (min-width: 681px) and (max-width: 1180px) {
+  main,
+  .site-footer {
+    width: min(100% - 44px, 980px);
+  }
+
+  .hero {
+    min-height: 560px;
+    padding-top: 144px;
+  }
+
+  h1 {
+    font-size: clamp(5.5rem, 15vw, 8.4rem);
+  }
+
+  .selected-project-base {
+    width: min(700px, 82%);
+  }
+
+  .worklog-section {
+    padding-top: 68px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-rail {
+    width: calc(100vw - 82px);
+  }
+
+  .project-tab {
+    grid-template-columns: 29px minmax(76px, 1fr) auto;
+    min-width: 154px;
+    gap: 7px;
+  }
+
+  .tab-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+  }
+
+  .tab-count {
+    min-width: 24px;
+    padding-inline: 5px;
+  }
+
+  .hero {
+    min-height: 450px;
+    padding-top: 114px;
+  }
+
+  h1 {
+    font-size: clamp(3.75rem, 21vw, 5.3rem);
+  }
+
+  .selected-project-base {
+    gap: 12px;
+  }
+
+  .selected-project-base span {
+    font-size: 0.65rem;
+  }
+
+  .selected-project-base strong {
+    font-size: 1rem;
+  }
+
+  .worklog-heading h2 {
+    font-size: 2rem;
+  }
+
+  .log-card h3 {
+    font-size: 1rem;
+  }
+
+  .log-card summary p {
+    font-size: 0.81rem;
+  }
+}
+
+@media (max-width: 380px) {
+  main,
+  .site-footer {
+    width: calc(100% - 22px);
+  }
+
+  .project-rail {
+    width: calc(100vw - 78px);
+  }
+
+  .project-tab {
+    min-width: 146px;
+  }
+
+  .hero {
+    padding-top: 110px;
+  }
+
+  h1 {
+    font-size: clamp(3.35rem, 20vw, 4.6rem);
+  }
+
+  .selected-project-base {
+    min-height: 58px;
+    padding: 11px 13px;
+  }
+
+  .log-card summary {
+    padding: 15px;
+  }
+
+  .log-details {
+    padding-inline: 15px;
+  }
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+  .utility-dock {
+    top: 6px;
+    right: 6px;
+    left: 6px;
+  }
+
+  .theme-toggle {
+    min-height: 42px;
+  }
+
+  .project-tab {
+    min-height: 42px;
+  }
+
+  .hero {
+    min-height: 410px;
+    padding-top: 112px;
+  }
+
+  h1 {
+    margin-bottom: 24px;
+  }
+
+  .selected-project-base {
+    min-height: 58px;
+  }
+}
+
+/* Compact project rail: fit content, scroll only when the viewport is narrower. */
+.project-rail {
+  width: max-content;
+  max-width: calc(100vw - 154px);
+}
+
+.project-scroll {
+  width: max-content;
+  max-width: 100%;
+}
+
+.project-tab {
+  grid-template-columns: auto auto auto;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .project-rail {
+    width: max-content;
+    max-width: calc(100vw - 132px);
+  }
+
+  .hero {
+    min-height: 500px;
+    padding-top: 124px;
+  }
+}
+
+@media (max-width: 680px) {
+  .project-rail {
+    width: max-content;
+    max-width: calc(100vw - 82px);
+  }
+
+  .hero {
+    min-height: 440px;
+    padding-top: 108px;
+  }
+
+  .hero-title-lockup {
+    width: 100%;
+  }
+
+  h1 {
+    gap: 0.02em;
+  }
+
+  .selected-project-base {
+    width: fit-content;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 7px 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .project-rail {
+    max-width: calc(100vw - 76px);
+  }
+
+  .project-tab {
+    min-width: 140px;
+  }
+
+  .hero {
+    padding-top: 104px;
+  }
+}
+
+/* Keep the current-project strip close to the eyebrow size on every viewport. */
+.selected-project-base {
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 30px;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.selected-project-base span {
+  font-size: 0.58rem;
+  letter-spacing: 0.03em;
+}
+
+.selected-project-base strong {
+  max-width: 150px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 680px) {
+  .selected-project-base {
+    min-height: 29px;
+    padding: 4px 7px;
+  }
+
+  .selected-project-base strong {
+    max-width: 132px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Mobile viewport lock: contain layout width while preserving user zoom. */
+@media (max-width: 680px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  main,
+  .site-footer,
+  .hero,
+  .worklog-section,
+  .worklog-heading,
+  .view-tools {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .utility-dock {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    display: block;
+    width: auto;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 46px;
+  }
+
+  .project-rail {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: calc(100vw - 120px);
+    max-width: calc(100vw - 120px);
+    transform: translateX(-50%);
+  }
+
+  .project-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .hero {
+    overflow: hidden;
+  }
+
+  .hero-title-lockup {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  h1 {
+    width: 100%;
+    max-width: 100%;
+    gap: 0.01em;
+    font-size: clamp(2.9rem, 16.5vw, 4.4rem);
+    letter-spacing: -0.08em;
+    white-space: nowrap;
+  }
+
+  h1 span,
+  h1 em {
+    flex: 0 1 auto;
+  }
+
+  .search-box,
+  .period-picker,
+  .period-button,
+  .sort-button {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .project-rail {
+    width: calc(100vw - 112px);
+    max-width: calc(100vw - 112px);
+  }
+
+  h1 {
+    font-size: clamp(2.7rem, 16vw, 3.8rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#worklog">ข้ามไปยังรายการบันทึกงาน</a>
+
+    <div class="aura-background" aria-hidden="true">
+      <span class="aura-layer aura-layer-one"></span>
+      <span class="aura-layer aura-layer-two"></span>
+      <span class="aura-grain"></span>
+    </div>
+
+    <aside class="utility-dock" aria-label="เครื่องมือแสดงผลและเลือกโปรเจกต์">
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="เปลี่ยนโหมดสี"
+        aria-pressed="false"
+      >
+        <span class="theme-icon" aria-hidden="true">☾</span>
+        <span class="theme-label">โหมดมืด</span>
+      </button>
+
+      <div class="project-rail" aria-label="เลือกโปรเจกต์">
+        <div class="project-scroll" id="project-scroll" role="tablist" aria-label="เลื่อนซ้ายหรือขวาเพื่อเลือกโปรเจกต์">
+          <button
+            class="project-tab is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            data-project="all"
+          >
+            <span class="tab-icon all-projects" aria-hidden="true">ALL</span>
+            <strong>ทุกโปรเจกต์</strong>
+            <span class="tab-count" data-count-for="all">0</span>
+          </button>
+
+          <button
+            class="project-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-project="pet-store"
+          >
+            <span class="tab-icon pet-store" aria-hidden="true">P</span>
+            <strong>ร้านอาหารสัตว์</strong>
+            <span class="tab-count" data-count-for="pet-store">0</span>
+          </button>
+
+          <button
+            class="project-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-project="cat-hotel"
+          >
+            <span class="tab-icon cat-hotel" aria-hidden="true">C</span>
+            <strong>โรงแรมแมว</strong>
+            <span class="tab-count" data-count-for="cat-hotel">0</span>
+          </button>
         </div>
       </div>
-    </section>
+    </aside>
 
-    <section class="footer">
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-title-lockup">
+          <p class="hero-kicker">PROJECT HISTORY</p>
+          <h1 id="page-title"><span>WORK</span><em>NOTE</em></h1>
+        </div>
+      </section>
+
+      <section class="worklog-section" id="worklog" aria-labelledby="worklog-title">
+        <div class="worklog-heading">
+          <div class="worklog-title-block">
+            <p class="eyebrow">บันทึกย้อนหลัง</p>
+            <div class="selected-project-base" id="selected-project-base" data-project="all" aria-live="polite">
+              <span>กำลังดู</span>
+              <strong id="selected-project-name">ทุกโปรเจกต์</strong>
+            </div>
+            <h2 id="worklog-title">รายการงาน</h2>
+            <p id="result-summary" aria-live="polite">กำลังโหลด…</p>
+          </div>
+
+          <div class="view-tools">
+            <label class="search-box">
+              <span class="visually-hidden">ค้นหาในบันทึกงาน</span>
+              <span aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" placeholder="ค้นหางาน" autocomplete="off" />
+            </label>
+
+            <div class="period-picker" id="period-picker">
+              <button
+                class="period-button"
+                id="month-filter"
+                type="button"
+                aria-label="กรองตามเดือน"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="month-options"
+              >
+                <span id="month-filter-label">ทุกช่วงเวลา</span>
+                <span class="period-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="period-menu" id="month-options" role="listbox" aria-label="เลือกช่วงเวลา" hidden>
+                <button class="period-option" type="button" role="option" aria-selected="true" data-month="all">
+                  ทุกช่วงเวลา
+                </button>
+              </div>
+            </div>
+
+            <button class="sort-button" id="sort-button" type="button" data-order="desc" aria-label="เรียงจากใหม่ไปเก่า">
+              <span aria-hidden="true">⇅</span>
+              <span>ใหม่ → เก่า</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="active-filter" id="active-filter" aria-live="polite"></div>
+        <div class="timeline" id="timeline"></div>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <span aria-hidden="true">⌕</span>
+          <h3>ไม่พบบันทึกที่ค้นหา</h3>
+          <p>ลองเปลี่ยนคำค้น ช่วงเวลา หรือเลือกดูทุกโปรเจกต์</p>
+          <button type="button" id="clear-filters">ล้างตัวกรอง</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
       <div>
-        <h2>ภาพรวมระบบ</h2>
-        <ul>
-          <li>ระบบใหม่ช่วยแยกร้านปลีก/ส่งโดยไม่ต้องสร้างเว็บซ้ำ</li>
-          <li>หลังบ้านมีสิทธิ์และช่องทางชัดเจน ลดออเดอร์ปนกัน</li>
-          <li>โหมดปิดปรับปรุงช่วยลดความเสี่ยงช่วง Dev แก้ระบบ</li>
-        </ul>
+        <strong>WORK NOTE</strong>
+        <p>ร้านอาหารสัตว์ · โรงแรมแมว</p>
       </div>
-      <div>
-        <h2>ระบบที่จะทำต่อ</h2>
-        <ul>
-          <li>ส่งบิลใหม่ที่เเก้ไขกลับ LINE ลูกค้า อัตโนมัติหลังแก้จำนวนสินค้า</li>
-          <li>ส่งบิลสถานะเเจ้งเตือนไปยัง LINE ลูกค้า อัตโนมัติหลังแก้สถานะ เช่น ส่งเเล้ว-กำลังจัดส่ง</li>
-          <li>ระบบกันสเเปมบอท</li>
-          <li>ระบบเปลี่ยนภาพเเบรนเนอร์สำหรับ ร้านค้าส่ง</li>
-          <li>การเเก้ไขสี เหลือง>ร้านขายส่ง/ชมพู>ร้านขายปลีก</li>
-          <li>การเเก้ช่องลูกค้าในหน้า ชำระเงิน ในเเต่ละร้าน จากเดิม จะเเสดงทั้งลูกค้าประจำเเละลูกค้าทั่วไป เเก้เป็น ร้านส่งก็จะมีเเค่ลูกค้าประจำที่มีในระบบ หรือ อาจจะมีลูกค้าใหม่ร่วมด้วย เเละ ร้านปลีกก็จะมีเเค่ลูกค้าทั่วไป การชำระ ของเเต่ละร้านตัดส่วน COD ออกเเละให้ชำระโอนจ่ายทันที เว้น เเค่มารับที่ร้านจะต้องจ่าย COD หรือจ่ายกับพนักงานโดยตรง</li>
-          <li>เพิ่มภาพริสเมณูในเเต่ละร้าน คนละสไตล์</li>
-          <li>จัดระเบียบหน้าออเดอร์ในชีตให้แยกปลีก/ส่งชัดขึ้น เเละตัดระบบส่วนเกินออก</li>
-          <li>ย้ายฐานไปยัง Line OA จริง</li>
-          <li>ทดสอบ flow จริงตั้งแต่ Rich Menu → สั่งซื้อ → หลังบ้าน → ชีต</li>
-        </ul>
-      </div>
-    </section>
+      <p>ข้อมูลถึง 19 สิงหาคม 2569</p>
+    </footer>
 
+    <script>
+const projects = {
+  "pet-store": {
+    name: "ร้านอาหารสัตว์",
+    shortName: "ร้านอาหารสัตว์",
+    source: "WorkFlowEdit เดิม",
+  },
+  "cat-hotel": {
+    name: "โรงแรมแมว",
+    shortName: "โรงแรมแมว",
+    source: "Git · LoeiCatHotel",
+  },
+};
+
+const worklogs = [
+  {
+    date: "2026-08-27",
+    project: "cat-hotel",
+    category: "จองให้ลูกค้า · ลูกค้าเดิม · ความปลอดภัย · UI หลังบ้าน",
+    title: "เปิดระบบจองให้ลูกค้าจากหลังบ้าน เลขคิวฝากจอง ระบบจำลูกค้าเดิม แล้วรื้อ UI หลังบ้านและปิดสิทธิ์ API",
+    summary: "ครึ่งวันแรกทำใบเสร็จ 80 มม. ระบบเลือกเลขห้อง ปิดรูรั่วการจัดห้อง แล้วต่อด้วยระบบจองให้ลูกค้าทางโทรศัพท์ เลขคิวให้ลูกค้ายืนยันเอง และระบบจำลูกค้าเดิม ครึ่งวันหลังแก้บั๊กหน้าจอง LINE ที่กดย้อนกลับแล้วค้าง ขยายตัวอักษรหลังบ้านทั้งระบบให้พนักงานอ่านง่าย ทำการ์ดรายละเอียดการจองพร้อมรูปน้องแมว ปิดสิทธิ์ API หลังบ้านที่เคยเปิดโล่ง และปิดท้ายด้วยการเปิดให้ลูกค้าพิมพ์เลขคิวยืนยันการจองในแชต LINE ได้โดยตรง",
+    details: [
+      "ใบเสร็จ/ใบยืนยันการจอง 80 มม. พร้อมปุ่มไอคอนปริ้นในรายการจองและการ์ดรอเช็กอิน",
+      "ระบบเลือกเลขห้องแบบปุ่ม คอนโด 9 ห้อง วิลล่า 7 ห้อง แทนผังภาพ 3 มิติที่ยกเลิกไป",
+      "แก้รูรั่วสำคัญ ระบบไม่เคยบันทึกการจัดห้องเลย ทำให้ตารางห้องหลังบ้านขึ้นว่างตลอด ตอนนี้ทำงานจริงแล้ว",
+      "เพิ่มปุ่มจัดห้อง/เปลี่ยนห้องในหลังบ้าน พร้อมกันจองซ้อนทั้งในโค้ดและที่ระดับฐานข้อมูล",
+      "เปิดฟอร์มจองให้ลูกค้าจากหลังบ้าน สำหรับเคสลูกค้าโทรมาว่าจองให้หน่อย",
+      "ทำระบบเลขคิวฝากจอง ลูกค้ากดยืนยันเองผ่าน Rich Menu ของ LINE OA ด้วยเลขคิวและเบอร์ 4 ตัวท้าย",
+      "ทำระบบจำลูกค้าเดิม แมวที่เคยฝากไว้ใช้รูปเดิมได้เลย ไม่ต้องถ่ายใหม่ทุกครั้ง",
+      "เพิ่มการแก้ไขข้อมูลลูกค้าและช่องหมายเหตุของพนักงาน",
+      "ปรับตารางห้องให้แยกกลุ่มคอนโด/วิลล่า พร้อมตัวนับและตัวกรองสถานะ",
+      "ขยายตัวหนังสือบนจอคอมและแก้ช่องกรอกเบอร์โทรที่วางไม่ตรงแนว",
+      "เขียนเอกสาร NEXT_TASKS.md สำหรับส่งต่องานให้ผู้พัฒนาคนถัดไป",
+      "แก้ฟอร์มจองให้ลูกค้าที่ปุ่มยืนยันถูกตัดหายนอกจอ ทำให้กดส่งจองไม่ได้เลย",
+      "ทำหน้าใบยืนยันหลังสร้างการจอง แสดงเลขคิวและเบอร์ 4 ตัวท้ายตัวโต ๆ ให้อ่านบอกลูกค้าทางโทรศัพท์ได้",
+      "รื้อระบบโหลดห้องว่างบนหน้าจอง LINE ใหม่ แก้อาการกดย้อนกลับแล้วค้างจนต้องปิดแอปเปิดใหม่",
+      "แก้บั๊กยกเลิกติ๊กแมวเดิมแล้วช่องกับรูปของน้องที่เลือกผิดยังค้างอยู่",
+      "ขยายตัวอักษรทั้งระบบหลังบ้านราว 25–30% สำหรับจอ 21–27 นิ้ว และเพิ่มชุดขนาดสำหรับหน้าจองลูกค้าบนคอม",
+      "แก้คิวเข้าพักในหน้าภาพรวมที่กรองรายการกำลังเข้าพักทิ้งไป ทำให้ไม่ตรงกับตารางห้อง",
+      "เปลี่ยนป้ายวันที่ในคิวจากวันเดียวโดด ๆ เป็นช่วงวันเข้า–วันกลับ พร้อมบอกว่าอีกกี่วัน",
+      "ทำการ์ดรายละเอียดการจอง กดจากแถวคิวได้ แสดงรูปน้องแมวใหญ่ ๆ และกดดูรูปเต็มจอได้",
+      "เพิ่มวันรับกลับของการจองล่าสุดในหน้าลูกค้าและแมว",
+      "แก้ปุ่มพิมพ์ในการ์ดรายละเอียดที่พิมพ์ออกมาเป็นกระดาษเปล่า ให้เรียกใบเสร็จ 80 มม. ตัวเดียวกับหน้ารายการจอง",
+      "ทำประตูคีย์ลับที่ Worker ปิดสิทธิ์ /api/staff/* ที่เคยเรียกได้โดยไม่ต้องยืนยันตัวตน โดยพนักงานไม่ต้องล็อกอินซ้ำ",
+      "ทำโหมดช่าง กดโลโก้ 5 ครั้งแล้วใส่รหัส 5 หลัก ถึงจะเห็นปุ่มลบข้อมูล ปกติซ่อนไว้ทั้งหมด",
+      "ถอดปุ่มลบถาวรและลบข้อมูลทั้งหมดออกจากหน้าทำงาน พร้อมตัดคำว่า (ทดสอบ) ออกจากทุกปุ่ม",
+      "ตัดการ์ดสรุปที่ไม่ใช่ตัวเลขในหน้าเช็กอินออก ให้ยอดที่ต้องเก็บเด่นขึ้น",
+      "เพิ่มการดึงข้อมูลใหม่อัตโนมัติเมื่อสลับกลับมาหน้าภาพรวมหรือกลับมาโฟกัสหน้าต่าง",
+      "เปิดให้ลูกค้าพิมพ์เลขคิวกับเบอร์ 4 ตัวท้ายในแชต LINE เพื่อยืนยันการจองได้เลย ไม่ต้องกดเข้าเมนู",
+      "ย้ายตรรกะยืนยันการจองไปไว้ที่ lib/booking-claim.ts ให้หน้าเว็บกับแชตใช้ตัวเดียวกัน ไม่ต้องดูแลสองชุด",
+      "ทำให้บอตเงียบกับข้อความทั่วไป รับเฉพาะที่เข้าข่ายเลขคิว จะได้ไม่ไปแทรกตอนลูกค้าคุยกับพนักงานหรือส่งสลิป",
+      "เปลี่ยนเลขคิวฝากจองเป็นช่องบังคับ เดิมเว้นว่างได้แล้วรายการจะค้างเป็นล็อกห้องชั่วคราวโดยไม่มีใครปลดได้",
+      "เพิ่มการกันเลขคิวซ้ำ กันลูกค้ายืนยันไปโดนการจองของคนอื่น",
+      "เพิ่มช่องติ๊กว่าลูกค้าต้องการดูกล้องก่อน ถึงจะกรอก Xiaomi Account ID ได้ ให้ตรงกับหน้าจองของลูกค้า",
+      "ตัดข้อความ เพศ/อายุ ไม่ระบุ ในการ์ดน้องแมวออก แสดงเฉพาะช่องที่มีข้อมูลจริง",
+    ],
+    source: "migration 008–011 · NEXT_TASKS.md · worker/index.ts · staff-maintenance · lib/booking-claim.ts",
+    time: "27 ส.ค. 09:31 น. – 28 ส.ค. 00:13 น. · 14 ชม. 42 นาที",
+  },
+  {
+    date: "2026-08-26",
+    project: "cat-hotel",
+    category: "ความปลอดภัย · ห้องพัก",
+    title: "เพิ่มความปลอดภัยหน้าหลังบ้าน และทดลองผังห้อง 3 มิติก่อนยกเลิก",
+    summary: "เสริมการป้องกันหน้า Staff Dashboard ทำ API ตรวจห้องว่าง ทดลองผังห้องแบบ 3 มิติแล้วตัดสินใจไม่ใช้ และปรับการตรวจข้อมูลในหน้าจองให้เตือนสดขณะกรอก",
+    details: [
+      "เพิ่มคำเตือนใน console และ security headers ป้องกันหน้าหลังบ้านถูกฝังหรือถูก index",
+      "เปลี่ยนรูป QR รับชำระเงิน",
+      "ทำ API ตรวจห้องว่างจากช่วงเวลาและจำนวนแมว",
+      "ทดลองทำผังห้องแบบภาพ 3 มิติพร้อมขยายห้องวิลล่าเป็น 9 ห้อง แล้วยกเลิก กลับมาใช้แบบเดิม",
+      "เพิ่มการตรวจข้อมูลแบบเตือนสดขณะกรอกในหน้าจองลูกค้า",
+      "บังคับ Xiaomi Account ID ให้เป็นตัวเลข 10–20 หลัก และตัดตัวเลือก YooSee ออก",
+      "ปรับข้อความ LINE ให้ย้ำเรื่องแนบสลิปทุกครั้ง",
+      "ถอดระบบล็อกอินของ Staff Dashboard ออก ให้ใช้ชั้นป้องกันภายนอกแทน",
+    ],
+    source: "ไฟล์ในเครื่อง ยังไม่ commit",
+    time: "10:20–19:21 น. · 9 ชม. 1 นาที",
+  },
+  {
+    date: "2026-08-19",
+    project: "cat-hotel",
+    category: "รูปภาพ · Mobile UI",
+    title: "เพิ่มอัปโหลดรูปน้องแมวและแก้การใช้งานวันที่บนมือถือ",
+    summary: "ทำระบบอัปโหลดรูปน้องแมวพร้อมแปลงเป็น WebP ป้องกันชื่อไฟล์ชนกัน และปรับช่องวันที่ให้ใช้งานบนมือถือได้ดีขึ้น",
+    details: [
+      "เพิ่มการอัปโหลดรูปน้องแมวจากหน้าจองลูกค้า",
+      "แปลงภาพเป็น WebP เพื่อลดขนาดก่อนจัดเก็บ",
+      "แก้ปัญหาชื่อไฟล์รูปซ้ำหรือชนกัน",
+      "ปรับช่องเลือกวันที่บนหน้าจอมือถือ",
+    ],
+    source: "Git 1ffc0f9, 8c531cc",
+    time: "18:35–23:05 น. · 4 ชม. 30 นาที",
+  },
+  {
+    date: "2026-08-18",
+    project: "cat-hotel",
+    category: "ภาษา · รูปภาพ",
+    title: "เพิ่มรูปน้องแมวและรองรับภาษาไทย–อังกฤษ",
+    summary: "ขยายข้อมูลน้องแมวให้มีรูปประจำตัว และเพิ่มระบบข้อความสองภาษาเพื่อรองรับการใช้งานของลูกค้าและพนักงาน",
+    details: [
+      "เพิ่มโครงสร้างข้อมูลและ migration สำหรับรูปน้องแมว",
+      "เพิ่มการแสดงผลรูปในหน้าที่เกี่ยวข้อง",
+      "เพิ่มข้อความภาษาไทยและภาษาอังกฤษ",
+      "เตรียมประสบการณ์ใช้งานให้รองรับผู้ใช้หลายภาษา",
+    ],
+    source: "Git 9e39988, 4a32ddf",
+    time: "19:10–23:10 น. · 4 ชม.",
+  },
+  {
+    date: "2026-08-10",
+    project: "cat-hotel",
+    category: "Staff Dashboard",
+    title: "เปิดระบบหลังบ้านพนักงานครบทุกหมวดและเพิ่มเครื่องมือล้างข้อมูลทดสอบ",
+    summary: "เชื่อมแดชบอร์ดพนักงานกับข้อมูลจริง เพิ่มจัดการห้อง การจอง การชำระเงิน ลูกค้า และการลบข้อมูลทดสอบแบบตรวจสิทธิ์ Owner",
+    details: [
+      "เชื่อมคิวตรวจมัดจำและเปิดทุกหมวดใน Staff Dashboard",
+      "เพิ่มการจัดการห้อง รายการจอง ลูกค้า และน้องแมว",
+      "เพิ่มการลบข้อมูลทดสอบรายรายการ รายครอบครัว และรายหมวดแบบตรวจรหัสผ่าน Owner",
+      "ปรับ action dialog, favicon และการจัดวางหน้าจองบนเดสก์ท็อป",
+      "เพิ่ม Mi Home ID พร้อมการตรวจรูปแบบและป้องกันการกรอกข้อมูลผิดบนมือถือ",
+    ],
+    source: "Git 9093b82–63c869b",
+    time: "17:55–23:55 น. · 6 ชม.",
+  },
+  {
+    date: "2026-08-08",
+    project: "cat-hotel",
+    category: "ชำระเงิน · LINE",
+    title: "ทำระบบมัดจำสองขั้นและใบยืนยันผ่าน LINE",
+    summary: "วางขั้นตอนตรวจมัดจำ แยกยอดคงเหลือวันเช็กอิน และทำใบยืนยันแบบย่อให้อ่านง่ายใน LINE",
+    details: [
+      "เพิ่มขั้นตอนรับและตรวจหลักฐานมัดจำ",
+      "แก้ flow การยืนยันเงินมัดจำแบบสองขั้น",
+      "แยกข้อมูลยอดมัดจำและยอดคงเหลือวันเช็กอิน",
+      "ปรับใบเสร็จ/ใบยืนยันใน LINE ให้กระชับและอ่านง่าย",
+    ],
+    source: "Git 6454ffb–2fbdbd6",
+    time: "18:20–23:20 น. · 5 ชม.",
+  },
+  {
+    date: "2026-08-05",
+    project: "cat-hotel",
+    category: "เริ่มระบบ · Production",
+    title: "เริ่มระบบจองโรงแรมแมวและเชื่อม Production",
+    summary: "สร้างโครงระบบจอง เชื่อม Supabase และ LINE OA ตั้งค่า Vercel พร้อมนำธีมและโลโก้จริงมาใช้กับหน้าจองลูกค้า",
+    details: [
+      "เริ่ม repository และโครงระบบ LOEI CAT HOTEL",
+      "ตั้งค่าแอปหน้าจองสำหรับ Vercel และแก้ output directory",
+      "เพิ่มโลโก้ ธีมสี และการแสดงผลบนมือถือ",
+      "บันทึกคำขอจองลูกค้าลง Supabase",
+      "เพิ่ม LINE booking confirmation postback",
+    ],
+    source: "Git 82e0221–bae60a9",
+    time: "18:15–00:15 น. · 6 ชม.",
+  },
+  {
+    date: "2026-07-29",
+    project: "pet-store",
+    category: "รูปภาพ · Performance",
+    title: "ยกเครื่องระบบรูปภาพทั้งร้าน ย้ายออกจาก Google Drive",
+    summary: "ย้ายรูป 330 ใบไป Supabase Storage พร้อม CDN และบีบอัดเป็น WebP ลดข้อมูลที่หน้าร้านต้องโหลดจาก 355 MB เหลือ 16.7 MB",
+    details: [
+      "ย้ายคลังรูปสินค้าจาก Google Drive ไป Supabase Storage",
+      "แปลงไฟล์เป็น WebP และลดขนาดข้อมูลโหลดหน้าเว็บอย่างมาก",
+      "เพิ่มการย่อและแปลงรูปในเครื่องก่อนอัปโหลดจากหลังบ้าน",
+      "แก้อาการร้านส่งโหลดหน้าเว็บซ้ำและลดเวลาหน้าโลโก้",
+      "ทดสอบและ deploy ระบบรูปภาพใหม่ครบทุกจุด",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "11:53–17:16 น. · ต่อ 20:18–00:11 น.",
+  },
+  {
+    date: "2026-07-22",
+    project: "pet-store",
+    category: "UI · Checkout",
+    title: "ยกเครื่อง Checkout ที่อยู่ Status และโหมดเซล",
+    summary: "ปรับประสบการณ์สั่งซื้อบน LINE OA ครั้งใหญ่ พร้อมจัดหมวดตั้งค่า UI และเก็บ responsive บนมือถือหลายขนาด",
+    details: [
+      "ปรับหน้าสรุปคำสั่งซื้อและขั้นตอนเลือกที่อยู่",
+      "ปรับระบบหมุดจัดส่ง ราคา 0 และหน้าสถานะ",
+      "เพิ่มเครื่องมือแอดมินและโหมดเซลสำหรับสั่งแทนลูกค้า",
+      "จัดหมวดระบบตั้งค่า UI ให้ชัดเจนขึ้น",
+      "ตรวจการทำงานร่วมกันของ frontend, Apps Script, LINE, Sheet และ Supabase",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "10:38–17:50 น. · ต่อ 22:12–00:45 น.",
+  },
+  {
+    date: "2026-07-08",
+    project: "pet-store",
+    category: "LINE · หลังบ้าน",
+    title: "ปิดงานระบบร้านปลีก–ส่งและแก้สถานะจากหน้า LINE",
+    summary: "ทำประสบการณ์ร้านปลีกและร้านส่งให้ครบ พร้อมหลังบ้านแบบซ่อนในหน้าสถานะสำหรับแก้สถานะ การชำระเงิน และจำนวนสินค้า",
+    details: [
+      "แยกเส้นทางและประสบการณ์ร้านปลีก–ส่งครบทุกจุด",
+      "เพิ่มทางเข้าหลังบ้านจากการกดโลโก้ 3 ครั้งบนหน้าสถานะ",
+      "แก้สถานะ ชำระเงิน และจำนวนสินค้ารายตัวได้",
+      "คำนวณยอดใหม่จากราคาสินค้าจริง",
+      "ส่งบิลอัปเดตกลับให้ลูกค้าทาง LINE หลังบันทึก",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "10:31–17:45 น. · ต่อ 20:15–22:30 น.",
+  },
+  {
+    date: "2026-07-01",
+    project: "pet-store",
+    category: "ที่อยู่ · GPS",
+    title: "เพิ่มที่อยู่มาตรฐาน พิกัด GPS และปุ่มรับทราบออเดอร์",
+    summary: "เก็บพิกัดลูกค้าให้คนส่งกดนำทางได้ตรงจุด เพิ่มปุ่มรับทราบเพื่อแจ้งแอดมิน และถอดสรุปยอดรายเดือนที่ไม่ใช้ออก",
+    details: [
+      "เพิ่มช่องที่อยู่มาตรฐาน บ้านเลขที่ หมู่ และจุดสังเกต",
+      "จับพิกัด GPS จริงและสร้างทางเข้าระบบนำทางสำหรับคนส่ง",
+      "เพิ่มปุ่มรับทราบออเดอร์เพื่อแจ้งแอดมินใน LINE OA",
+      "ลบระบบสรุปยอดและแดชบอร์ดที่ไม่ใช้ออกจากชีตและหลังบ้าน",
+      "เพิ่มสวิตช์ฉุกเฉินสำหรับปิดราคาทั้งหมดเป็น 0 บาท",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "10:25–18:20 น. · ต่อ 22:14–03:25 น.",
+  },
+  {
+    date: "2026-06-24",
+    project: "pet-store",
+    category: "ธนาคาร · ใบเสนอราคา",
+    title: "เพิ่มตัวเลือกธนาคาร QR Code และใบเสนอราคาก่อน–หลังแก้ราคา",
+    summary: "หลังบ้านเลือกข้อมูลรับชำระได้หลายแบบ สร้างใบเสนอราคาตามยอดล่าสุด และทดสอบย้ายระบบไป LINE OA จริงสำเร็จ",
+    details: [
+      "เพิ่ม dropdown ธนาคารสำหรับเลขบัญชี",
+      "รองรับการเลือก QR Code เป็นข้อมูลรับชำระ",
+      "สร้างใบเสนอราคาก่อนแก้และหลังแก้ราคาตามยอดล่าสุด",
+      "ทดสอบเมนูและทางเข้าร้านบน LINE OA จริง",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "10:23–16:44 น. · ต่อ 20:15–00:39 น.",
+  },
+  {
+    date: "2026-06-18",
+    project: "pet-store",
+    category: "ค้นหา · Automation",
+    title: "เพิ่มระบบค้นหาสินค้าและแจ้งรอบส่งอัตโนมัติ",
+    summary: "ลูกค้าค้นหาสินค้าได้เร็วขึ้น และร้านตั้งวันเวลาให้ระบบแจ้งรอบส่งทาง LINE อัตโนมัติหรือกดส่งทันทีได้",
+    details: [
+      "เพิ่มช่องค้นหาและรายการสินค้าแนะนำแบบทันที",
+      "เพิ่มหน้าตั้งวัน เวลา และข้อความแจ้งรอบส่งในหลังบ้าน",
+      "สร้างข้อความวันที่ภาษาไทยให้อัตโนมัติ",
+      "เพิ่มปุ่มส่งทันทีพร้อมหน้าต่างยืนยันกันกดพลาด",
+      "ปรับความปลอดภัยของหน้าเช็กสถานะออเดอร์",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "16:12–23:58 น.",
+  },
+  {
+    date: "2026-06-13",
+    project: "pet-store",
+    category: "Status · Webhook",
+    title: "ปรับหน้า Status, Checkout และความปลอดภัย Webhook",
+    summary: "เก็บรายละเอียดหน้าสถานะและ checkout ให้แสดงร้านถูกโหมด จัดรูปแบบที่อยู่ และปรับการระบุตำแหน่งให้แม่นยำขึ้น",
+    details: [
+      "เลือกโลโก้ปลีกหรือส่งให้ถูกต้องตั้งแต่ช่วงโหลดหน้า",
+      "แก้ข้อความย่อ ต./อ./จ. ในที่อยู่ไม่ให้ซ้ำ",
+      "ปรับการดึงตำแหน่งและวางหมุดบนแผนที่",
+      "เก็บความปลอดภัยของ webhook และการรับข้อมูล",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "15:43–23:48 น.",
+  },
+  {
+    date: "2026-06-10",
+    displayDate: "10–11 มิ.ย.",
+    project: "pet-store",
+    category: "Brand · UI",
+    title: "แยกภาพร้าน แบนเนอร์ และหน้าเข้าเว็บปลีก–ส่ง",
+    summary: "แยกชุดภาพและบรรยากาศของร้านปลีกโทนชมพูกับร้านส่งโทนเหลือง พร้อมเตรียมตัวอย่างฟอนต์และโครงเก็บไฟล์ใหม่",
+    details: [
+      "แยกแบนเนอร์ร้านปลีกและร้านส่ง",
+      "แยก splash screen ตั้งแต่เฟรมแรกตามโหมดร้าน",
+      "เตรียมภาพพื้นหลังและตัวอย่างฟอนต์สำหรับใช้งานต่อ",
+      "จัดโครงโฟลเดอร์ภาพไม่ให้ภาพสินค้า ภาพโปร และใบเสนอราคาปนกัน",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "10 มิ.ย. 19:12 น. – 11 มิ.ย. 01:28 น.",
+  },
+  {
+    date: "2026-06-04",
+    displayDate: "4–5 มิ.ย.",
+    project: "pet-store",
+    category: "LINE · ใบสั่งซื้อ",
+    title: "อัปเดตระบบแจ้งเตือน LINE และบิลออเดอร์",
+    summary: "ทำการแจ้งลูกค้าตั้งแต่เปิดบิล แก้จำนวนสินค้า ไปจนถึงเปลี่ยนสถานะจัดส่งให้ครบขึ้น",
+    details: [
+      "ส่งบิลออเดอร์แรกกลับให้ลูกค้าอัตโนมัติหลังสั่งซื้อ",
+      "ให้แอดมินแก้จำนวนเมื่อสต๊อกจริงไม่พอและตีบิลใหม่",
+      "แจ้งสถานะรอคอนเฟิร์ม กำลังจัดส่ง และส่งแล้วแบบเรียลไทม์",
+      "จัดเก็บเอกสารและภาพแยกโฟลเดอร์ปลีก–ส่ง",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "4 มิ.ย. 16:10 น. – 5 มิ.ย. 01:50 น.",
+  },
+  {
+    date: "2026-06-02",
+    project: "pet-store",
+    category: "เริ่มระบบ · หลังบ้าน",
+    title: "แยกระบบร้านปลีก ร้านส่ง และวางหลังบ้านใหม่",
+    summary: "เริ่มแยก LINE OA ราคา และเส้นทางใช้งานตามประเภทร้าน พร้อมล็อกหลังบ้านและทำเว็บแอปสำหรับดูออเดอร์",
+    details: [
+      "แยก LINE OA และลิงก์เข้าร้านปลีก–ส่ง",
+      "แยกราคาสินค้าตามประเภทร้าน",
+      "เพิ่มโหมดปิดปรับปรุงและสิทธิ์แอดมิน",
+      "สร้างเว็บแอปหลังบ้านสำหรับดูออเดอร์และจัดการสถานะ",
+      "วางโครงข้อมูล Channel และ AdminUsers บนชีต",
+    ],
+    source: "WorkFlowEdit เดิม",
+    time: "18:21–23:35 น.",
+  },
+];
+
+const state = {
+  project: "all",
+  month: "all",
+  query: "",
+  order: "desc",
+};
+
+const timeline = document.querySelector("#timeline");
+const emptyState = document.querySelector("#empty-state");
+const resultSummary = document.querySelector("#result-summary");
+const activeFilter = document.querySelector("#active-filter");
+const searchInput = document.querySelector("#search-input");
+const monthPicker = document.querySelector("#period-picker");
+const monthFilter = document.querySelector("#month-filter");
+const monthFilterLabel = document.querySelector("#month-filter-label");
+const monthOptions = document.querySelector("#month-options");
+const sortButton = document.querySelector("#sort-button");
+const themeToggle = document.querySelector("#theme-toggle");
+const themeColor = document.querySelector("#theme-color");
+const projectScroll = document.querySelector("#project-scroll");
+const selectedProjectBase = document.querySelector("#selected-project-base");
+const selectedProjectName = document.querySelector("#selected-project-name");
+
+const thaiMonths = [
+  "มกราคม",
+  "กุมภาพันธ์",
+  "มีนาคม",
+  "เมษายน",
+  "พฤษภาคม",
+  "มิถุนายน",
+  "กรกฎาคม",
+  "สิงหาคม",
+  "กันยายน",
+  "ตุลาคม",
+  "พฤศจิกายน",
+  "ธันวาคม",
+];
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function parseDate(value) {
+  return new Date(`${value}T12:00:00+07:00`);
+}
+
+function getBuddhistYear(date) {
+  return date.getFullYear() + 543;
+}
+
+function getMonthKey(item) {
+  return item.date.slice(0, 7);
+}
+
+function formatFullDate(value) {
+  return new Intl.DateTimeFormat("th-TH-u-ca-buddhist", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(parseDate(value));
+}
+
+function formatMonthYear(value) {
+  const [year, month] = value.split("-").map(Number);
+  return `${thaiMonths[month - 1]} ${year + 543}`;
+}
+
+function formatDateColumn(item) {
+  if (item.displayDate) {
+    return `<strong>${escapeHtml(item.displayDate)}</strong><span>${getBuddhistYear(parseDate(item.date))}</span>`;
+  }
+
+  const date = parseDate(item.date);
+  return `<strong>${date.getDate()}</strong><span>${thaiMonths[date.getMonth()]} ${getBuddhistYear(date)}</span>`;
+}
+
+function createEntry(item, latestDate) {
+  const project = projects[item.project];
+  const isLatest = item.date === latestDate;
+  const details = item.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("");
+  const latestLabel = isLatest ? '<span class="latest-label">ล่าสุด</span>' : "";
+  const timeLabel = item.project === "cat-hotel" ? "เวลาโดยประมาณ" : "ช่วงเวลา";
+
+  return `
+    <article class="timeline-entry" data-project="${escapeHtml(item.project)}" data-status="${isLatest ? "latest" : "past"}">
+      <div class="date-column" aria-label="${escapeHtml(formatFullDate(item.date))}">
+        ${formatDateColumn(item)}
+        ${isLatest ? '<span class="date-status">ล่าสุด</span>' : ""}
+      </div>
+      <span class="timeline-marker" aria-hidden="true"></span>
+      <details class="log-card">
+        <summary>
+          <div>
+            <div class="card-heading-row">
+              ${latestLabel}
+              <span class="project-label ${escapeHtml(item.project)}">${escapeHtml(project.shortName)}</span>
+              <span class="category-label">${escapeHtml(item.category)}</span>
+            </div>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.summary)}</p>
           </div>
+          <span class="expand-icon" aria-hidden="true">+</span>
+        </summary>
+        <div class="log-details">
+          <ul class="completed-list">${details}</ul>
+          <aside class="record-meta" aria-label="ข้อมูลอ้างอิงของบันทึก">
+            <div>
+              <span>วันที่ทำงาน</span>
+              <strong>${escapeHtml(formatFullDate(item.date))}</strong>
+            </div>
+            <div>
+              <span>${timeLabel}</span>
+              <strong>${escapeHtml(item.time)}</strong>
+            </div>
+            <div>
+              <span>แหล่งข้อมูล</span>
+              <strong>${escapeHtml(item.source || project.source)}</strong>
+            </div>
+          </aside>
         </div>
       </details>
-    </section>
+    </article>
+  `;
+}
 
-    <section class="work-table-section">
-      <div class="work-table-head">
-        <div>
-          <h1>ตารางอัปเดตงาน</h1>
-          <p>เรียงจากรอบล่าสุดไปหารอบเก่า เพื่อให้เห็นทันทีว่าวันนี้ทำอะไร และงานที่อัปเดตไปแล้วอยู่ด้านล่าง</p>
-        </div>
-        <span class="table-badge"></span>
-      </div>
-      <div class="work-table-wrap">
-        <table class="work-table" aria-label="ตารางอัปเดตงาน">
-          <thead>
-            <tr>
-              <th>วันที่</th>
-              <th>เวลา</th>
-              <th>รอบงาน</th>
-              <th>สถานะ</th>
-              <th>รายละเอียดหลัก</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="current">
-              <td>29 กรกฎาคม 2569<span class="table-note">อัปเดตล่าสุด</span></td>
-              <td>เริ่ม: พุธ 29 ก.ค. 11:53:39<br>จบ: 17:16:58</td>
-              <td>ยกเครื่องระบบรูปภาพทั้งร้าน ย้ายออกจาก Google Drive และแก้ร้านส่งโหลดหน้าเว็บซ้ำสองรอบ</td>
-              <td>อัปเดตล่าสุด</td>
-              <td>ย้ายรูปทั้งหมด 330 ใบจาก Google Drive มาเก็บบน Supabase Storage ที่มี CDN แล้วบีบเป็น WebP ทำให้ขนาดรูปที่หน้าร้านต้องโหลดลดจาก 355 MB เหลือ 16.7 MB, เปลี่ยนระบบกดเพิ่มรูปสินค้าจากหลังบ้านให้ย่อและแปลงไฟล์ในเครื่องก่อนส่งจึงอัปจากมือถือได้ทุกเครื่องที่ล็อกอินแอดมิน, ย่อโลโก้และภาพเข้าเว็บจาก 6.4 MB เหลือ 176 KB, ลดเวลาหน้าโลโก้จาก 3 วินาทีเหลือ 1.2 วินาที, แก้อาการร้านส่งโหลดหน้าเว็บซ้ำสองรอบให้เหลือรอบเดียว ผลลัพธ์เปิดหน้าร้านจริงปลีก 1.5 วินาที ส่ง 2.7 วินาที และทดสอบสั่งซื้อจริงทั้งสองร้านผ่านครบ</td>
-            </tr>
-            <tr class="previous">
-              <td>22 กรกฎาคม 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พุธ 22 ก.ค. 10:38:20<br>จบ: 17:50:12 · ต่อ 22:12:02-00:45:21</td>
-              <td>ยกเครื่อง Ui Checkout / ที่อยู่ / Status / โหมดเซล และปรับระบบตั้งค่า Ui ให้ชัดเจนเป็นหมวด</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>ปรับ Ui สั่งซื้อบน LINE OA ครั้งใหญ่ ตั้งแต่หน้าสรุปคำสั่งซื้อ การเลือกที่อยู่และหมุดจัดส่ง จำกัดพื้นที่ส่งเฉพาะจังหวัดเลย ระบบราคา 0 หน้าสถานะและเครื่องมือแอดมิน ไปจนถึงโหมดเซลสำหรับสั่งแทนลูกค้า พร้อมเก็บรายละเอียด responsive บนมือถือหลายขนาด และตัดระบบซิงค์เบอร์ที่ทำให้ลูกค้ารอนานออก</td>
-            </tr>
-            <tr class="previous">
-              <td>8 กรกฎาคม 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พุธ 8 ก.ค. 10:31:22<br>จบ: 17:45:54 · ต่อ 20:15:32-22:30:32</td>
-              <td>ระบบร้านปลีก-ส่งสมบูรณ์ + แก้สถานะและจำนวนสินค้าบนหน้า LINE</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>ทำระบบร้านปลีกและร้านส่งให้พร้อมใช้งานครบ, เพิ่มทางลัดแอดมินบนหน้าสถานะด้วยการกดโลโก้ 3 ครั้ง, แก้สถานะจัดส่ง/การชำระเงินได้จาก LINE, ปรับจำนวนสินค้าเป็นรายตัวด้วยปุ่ม - / จำนวน / + ตามราคาสินค้าจริง และส่งบิลอัปเดตใหม่กลับให้ลูกค้าหลังบันทึกสำเร็จ</td>
-            </tr>
-            <tr class="previous">
-              <td>1 กรกฎาคม 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พุธ 1 ก.ค. 10:25:32<br>จบ: 18:20:54 · ต่อ 22:14:32-03:25:32</td>
-              <td>ที่อยู่มาตรฐาน + พิกัด GPS ลูกค้า / ปุ่มรับทราบแจ้งแอดมิน / ลบสรุปยอดรายเดือน</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>เพิ่มช่องที่อยู่มาตรฐาน (บ้านเลขที่/หมู่/จุดสังเกต) และจับพิกัด GPS จริงของลูกค้าให้คนส่งกดนำทางในหน้าสถานะได้ตรงจุด, เพิ่มปุ่ม "รับทราบออเดอร์" ให้ลูกค้ากดครั้งเดียวเพื่อเด้งแจ้งแอดมินใน LINE OA (บอทไม่ตอบทับ), และลบระบบสรุปยอดรายเดือน/แดชบอร์ดที่ไม่ใช้ออกทั้งฝั่งชีต Google และแอปแอดมิน โดยยังเก็บตัวนับสถานะและปุ่มพร้อมเคลียร์ไว้</td>
-            </tr>
-            <tr class="previous">
-              <td>24 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พุธ 24 มิ.ย. 10:23:34<br>จบ: 16:44:52</td>
-              <td>Dropdown ธนาคารเลขบัญชี / QR Code + ใบเสนอราคาก่อน-หลังแก้ราคา + ย้าย OA จริงผ่าน</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>หลังบ้านเลือกธนาคารได้ครบทั้งแบบเลขบัญชีและ QR Code, ลูกค้าเห็นข้อมูลบัญชีเป็นข้อความพร้อมปุ่มคัดลอก, ใบเสนอราคาก่อนแก้ราคาและหลังแก้ราคาสร้างใหม่ตามยอดล่าสุด และทดสอบย้ายมาใช้งานบน LINE OA จริงผ่านแล้ว</td>
-            </tr>
-            <tr class="previous">
-              <td>18 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พฤหัสบดี 18 มิ.ย. 16:12:42<br>จบ: 23:58:43</td>
-              <td>ระบบค้นหาสินค้า + ระบบแจ้งรอบส่งอัตโนมัติ</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>เพิ่มระบบค้นหาสินค้าพร้อมรายการแนะนำ, เพิ่มช่องคีย์เวิร์ดพิเศษ "แจ้งรอบส่ง" ในหลังบ้านแอดมิน, ระบบแจ้งรอบส่งให้ลูกค้าทุกคนอัตโนมัติเมื่อถึงวัน-เวลาที่ตั้ง, ปุ่มส่งเองได้ทันทีพร้อมหน้ายืนยัน, ข้อความสร้างวันที่ภาษาไทยให้อัตโนมัติ และเก็บความปลอดภัยของหน้าเช็กสถานะออเดอร์</td>
-            </tr>
-            <tr class="previous">
-              <td>13 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: เสาร์ 13 มิ.ย. 15:43:12<br>จบ: 23:28:43</td>
-              <td>Status / Checkout / Webhook</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>โลโก้หน้าสถานะปลีก/ส่งถูกตั้งแต่ต้น, แก้ที่อยู่ ต.ต. / อ.อ. / จ.จ. ให้เหลืออย่างละอัน, หน้า status โหลดดูดีขึ้นไม่ดูค้าง, ลิงก์สถานะร้านส่งพาเข้าโหมดร้านส่งถูกต้อง, เพิ่ม Webhook Security และระบบระบุตำแหน่งทันทีหน้า Checkout</td>
-            </tr>
-            <tr class="previous">
-              <td>10-11 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: พุธ 10 มิ.ย. 19:12:32<br>จบ: พฤหัสบดี 11 มิ.ย. 01:28:43</td>
-              <td>ภาพร้าน / แบนเนอร์ / Splash แยกปลีก-ส่ง</td>
-              <td>อัปเดตก่อนหน้า</td>
-              <td>แยกระบบภาพแบนเนอร์ร้านปลีกและร้านส่ง, แยกภาพเข้าเว็บตามโหมด, ใช้สีชมพูสำหรับร้านปลีกและสีเหลืองสำหรับร้านส่ง, เตรียมภาพพื้นหลังเป็นตัวเลือก, ใส่ตัวอย่างฟ้อนให้ดู และเพิ่มปุ่มไปยังโฟลเดอร์งานบน Google Drive</td>
-            </tr>
-            <tr>
-              <td>4-5 มิถุนายน 2569<span class="table-note">อัปเดตก่อนหน้า</span></td>
-              <td>เริ่ม: 4 มิ.ย. 16:10:52<br>จบ: 5 มิ.ย. 01:50:36</td>
-              <td>แจ้งเตือน LINE + บิลออเดอร์</td>
-              <td>อัปเดตไปแล้ว</td>
-              <td>ส่งบิลหลังสั่งซื้อ, แก้จำนวนแล้วตีบิลใหม่กลับ LINE, แจ้งสถานะเรียลไทม์, เพิ่มชีตแยก Orders_ปลีก/Orders_ส่ง, dashboard ภาพรวม และหน้าสต๊อกอย่างง่าย</td>
-            </tr>
-            <tr>
-              <td>2 มิถุนายน 2569<span class="table-note">วันอังคารที่ผ่านมา</span></td>
-              <td>เริ่ม: 18:21:34<br>จบ: 23:35:47</td>
-              <td>ระบบร้านปลีก / ร้านส่ง + หลังบ้านใหม่</td>
-              <td>อัปเดตไปแล้ว</td>
-              <td>แยก LINE OA ปลีก-ส่ง, แยกราคา, เพิ่มโหมดล็อกหลังบ้าน, ทำแอพแอดมินดูออเดอร์ และวางโครงข้อมูลบนชีต</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-</body>
+function getFilteredLogs() {
+  const query = state.query.trim().toLocaleLowerCase("th");
+  const filtered = worklogs.filter((item) => {
+    const matchesProject = state.project === "all" || item.project === state.project;
+    const matchesMonth = state.month === "all" || getMonthKey(item) === state.month;
+    const haystack = [item.title, item.summary, item.category, ...item.details].join(" ").toLocaleLowerCase("th");
+    const matchesQuery = !query || haystack.includes(query);
+    return matchesProject && matchesMonth && matchesQuery;
+  });
+
+  return filtered.sort((a, b) => {
+    const difference = parseDate(b.date) - parseDate(a.date);
+    return state.order === "desc" ? difference : -difference;
+  });
+}
+
+function updateFilterDescription(filteredCount) {
+  const labels = [];
+
+  if (state.month !== "all") {
+    labels.push(formatMonthYear(state.month));
+  }
+  if (state.query.trim()) {
+    labels.push(`คำค้น “${escapeHtml(state.query.trim())}”`);
+  }
+
+  resultSummary.textContent = `พบ ${filteredCount} รายการ`;
+  activeFilter.innerHTML = labels.length
+    ? "ตัวกรอง: <strong>" + labels.join(" · ") + "</strong>"
+    : "";
+}
+
+function render() {
+  const filtered = getFilteredLogs();
+  const latestVisibleDate = filtered.reduce(
+    (latest, item) => (item.date > latest ? item.date : latest),
+    "",
+  );
+  timeline.dataset.order = state.order;
+  timeline.innerHTML = filtered.map((item) => createEntry(item, latestVisibleDate)).join("");
+  timeline.hidden = filtered.length === 0;
+  emptyState.hidden = filtered.length !== 0;
+  updateFilterDescription(filtered.length);
+}
+
+function setProject(project, centerActive = false) {
+  if (!Object.prototype.hasOwnProperty.call(projects, project) && project !== "all") {
+    project = "all";
+  }
+
+  state.project = project;
+  const projectName = project === "all" ? "ทุกโปรเจกต์" : projects[project].name;
+  let activeButton = null;
+
+  document.querySelectorAll(".project-tab").forEach((button) => {
+    const isActive = button.dataset.project === project;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+
+    if (isActive) {
+      activeButton = button;
+    }
+  });
+
+  selectedProjectName.textContent = projectName;
+  selectedProjectBase.dataset.project = project;
+  history.replaceState(null, "", project === "all" ? "#all" : "#" + project);
+
+  if (centerActive && activeButton) {
+    const targetLeft =
+      activeButton.offsetLeft - (projectScroll.clientWidth - activeButton.offsetWidth) / 2;
+    projectScroll.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+  }
+
+  render();
+}
+function closeMonthMenu(restoreFocus = false) {
+  monthOptions.hidden = true;
+  monthPicker.classList.remove("is-open");
+  monthFilter.setAttribute("aria-expanded", "false");
+
+  if (restoreFocus) {
+    monthFilter.focus();
+  }
+}
+
+function setMonth(month, renderNow = true) {
+  const availableMonths = new Set(["all", ...worklogs.map(getMonthKey)]);
+  state.month = availableMonths.has(month) ? month : "all";
+  monthFilterLabel.textContent =
+    state.month === "all" ? "ทุกช่วงเวลา" : formatMonthYear(state.month);
+
+  monthOptions.querySelectorAll(".period-option").forEach((option) => {
+    option.setAttribute("aria-selected", String(option.dataset.month === state.month));
+  });
+
+  closeMonthMenu();
+
+  if (renderNow) {
+    render();
+  }
+}
+
+function populateMonthFilter() {
+  const monthKeys = [...new Set(worklogs.map(getMonthKey))].sort().reverse();
+  monthKeys.forEach((key) => {
+    const option = document.createElement("button");
+    option.className = "period-option";
+    option.type = "button";
+    option.setAttribute("role", "option");
+    option.setAttribute("aria-selected", "false");
+    option.dataset.month = key;
+    option.textContent = formatMonthYear(key);
+    monthOptions.append(option);
+  });
+}
+function applyTheme(theme) {
+  const isDark = theme === "dark";
+  document.documentElement.dataset.theme = theme;
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeToggle.querySelector(".theme-icon").textContent = isDark ? "☀" : "☾";
+  themeToggle.querySelector(".theme-label").textContent = isDark ? "โหมดสว่าง" : "โหมดมืด";
+  themeColor.setAttribute("content", isDark ? "#100e0b" : "#faf8f2");
+}
+
+function updateProjectCounts() {
+  const petStoreCount = worklogs.filter((item) => item.project === "pet-store").length;
+  const catHotelCount = worklogs.filter((item) => item.project === "cat-hotel").length;
+
+  document.querySelector('[data-count-for="all"]').textContent = worklogs.length;
+  document.querySelector('[data-count-for="pet-store"]').textContent = petStoreCount;
+  document.querySelector('[data-count-for="cat-hotel"]').textContent = catHotelCount;
+}
+
+document.querySelectorAll(".project-tab").forEach((button) => {
+  button.addEventListener("click", () => setProject(button.dataset.project, true));
+});
+
+searchInput.addEventListener("input", (event) => {
+  state.query = event.target.value;
+  render();
+});
+
+monthFilter.addEventListener("click", () => {
+  const willOpen = monthOptions.hidden;
+  monthOptions.hidden = !willOpen;
+  monthPicker.classList.toggle("is-open", willOpen);
+  monthFilter.setAttribute("aria-expanded", String(willOpen));
+
+  if (willOpen) {
+    const selectedOption = monthOptions.querySelector('[aria-selected="true"]');
+    selectedOption?.focus();
+  }
+});
+
+monthOptions.addEventListener("click", (event) => {
+  const option = event.target.closest(".period-option");
+
+  if (option) {
+    setMonth(option.dataset.month);
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!monthPicker.contains(event.target)) {
+    closeMonthMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !monthOptions.hidden) {
+    closeMonthMenu(true);
+  }
+});
+themeToggle.addEventListener("click", () => {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("worklog-theme", nextTheme);
+  applyTheme(nextTheme);
+});
+
+sortButton.addEventListener("click", () => {
+  state.order = state.order === "desc" ? "asc" : "desc";
+  sortButton.dataset.order = state.order;
+  sortButton.setAttribute("aria-label", state.order === "desc" ? "เรียงจากใหม่ไปเก่า" : "เรียงจากเก่าไปใหม่");
+  sortButton.querySelector("span:last-child").textContent = state.order === "desc" ? "ใหม่ → เก่า" : "เก่า → ใหม่";
+  render();
+});
+
+document.querySelector("#clear-filters").addEventListener("click", () => {
+  state.query = "";
+  state.order = "desc";
+  searchInput.value = "";
+  setMonth("all", false);
+  sortButton.dataset.order = "desc";
+  sortButton.setAttribute("aria-label", "เรียงจากใหม่ไปเก่า");
+  sortButton.querySelector("span:last-child").textContent = "ใหม่ → เก่า";
+  setProject("all");
+});
+
+populateMonthFilter();
+setMonth("all", false);
+updateProjectCounts();
+applyTheme(document.documentElement.dataset.theme || "light");
+setProject(window.location.hash.replace("#", "") || "all", true);
+
+    </script>
+  </body>
 </html>
