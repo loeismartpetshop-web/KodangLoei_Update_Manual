@@ -1723,10 +1723,10 @@ h1 em {
       <div class="project-rail" aria-label="เลือกโปรเจกต์">
         <div class="project-scroll" id="project-scroll" role="tablist" aria-label="เลื่อนซ้ายหรือขวาเพื่อเลือกโปรเจกต์">
           <button
-            class="project-tab is-active"
+            class="project-tab"
             type="button"
             role="tab"
-            aria-selected="true"
+            aria-selected="false"
             data-project="all"
           >
             <span class="tab-icon all-projects" aria-hidden="true">ALL</span>
@@ -1747,10 +1747,10 @@ h1 em {
           </button>
 
           <button
-            class="project-tab"
+            class="project-tab is-active"
             type="button"
             role="tab"
-            aria-selected="false"
+            aria-selected="true"
             data-project="cat-hotel"
           >
             <span class="tab-icon cat-hotel" aria-hidden="true">C</span>
@@ -1773,9 +1773,9 @@ h1 em {
         <div class="worklog-heading">
           <div class="worklog-title-block">
             <p class="eyebrow">บันทึกย้อนหลัง</p>
-            <div class="selected-project-base" id="selected-project-base" data-project="all" aria-live="polite">
+            <div class="selected-project-base" id="selected-project-base" data-project="cat-hotel" aria-live="polite">
               <span>กำลังดู</span>
-              <strong id="selected-project-name">ทุกโปรเจกต์</strong>
+              <strong id="selected-project-name">โรงแรมแมว</strong>
             </div>
             <h2 id="worklog-title">รายการงาน</h2>
             <p id="result-summary" aria-live="polite">กำลังโหลด…</p>
@@ -1840,16 +1840,39 @@ const projects = {
   "pet-store": {
     name: "ร้านอาหารสัตว์",
     shortName: "ร้านอาหารสัตว์",
-    source: "WorkFlowEdit เดิม",
   },
   "cat-hotel": {
     name: "โรงแรมแมว",
     shortName: "โรงแรมแมว",
-    source: "Git · LoeiCatHotel",
   },
 };
 
 const worklogs = [
+  {
+    date: "2026-09-02",
+    project: "cat-hotel",
+    category: "ราคา · เลขที่จอง · ฟอนต์แบรนด์ · walk-in",
+    title: "เปิดให้แอดมินต่อราคาเองได้ เปลี่ยนเลขที่จองเป็นเลขคิว 6 หลัก และวางฟอนต์แบรนด์ทั้งระบบ",
+    summary: "ปิดแผนงาน 5 ข้อที่คุยกับพี่ปุ้ยไว้ทั้งชุด เริ่มจากช่องกรอกราคาเองสำหรับเคสเหมาเดือนและวอล์คอินที่ต่อราคากันหน้างาน ตามด้วยเปลี่ยนรูปแบบเลขที่จองจาก BK-20260827-812 เป็นเลขคิว 6 หลักที่ลูกค้าอ่านทางโทรศัพท์ได้ ตัดขั้นตอนให้ลูกค้ายืนยันด้วยเลขคิวออกทั้งหมด วางฟอนต์แบรนด์ Poppins/Inter/LINE Seed Sans TH ทั้งเว็บจองและหลังบ้าน และปิดช่องว่างของการจองแทนลูกค้าที่ไม่มีไลน์",
+    details: [
+      "เพิ่มบล็อกราคาในฟอร์มจองให้ลูกค้า กรอกยอดสุทธิเองได้ตรง ๆ หรือใส่ส่วนลดเป็นเปอร์เซ็นต์ให้ระบบคิดให้",
+      "ราคาที่ระบบคิดตามเรทยังโชว์ไว้อ้างอิงเสมอ พร้อมช่องหมายเหตุที่บังคับกรอกเมื่อยอดไม่เท่าเรทปกติ จะได้ย้อนดูทีหลังรู้ว่าทำไมไม่ตรง",
+      "ใบเสร็จ 80 มม. เพิ่มบรรทัดราคาตามเรทและส่วนลด เฉพาะเคสที่มีการต่อราคา พร้อมกล่องหมายเหตุราคา",
+      "การ์ดในรายการจองและคิวรอเช็กอินโชว์หมายเหตุราคาให้เห็นเลย ไม่ต้องสั่งพิมพ์",
+      "เพิ่ม migration 013 เก็บราคาตามเรท ส่วนลด และหมายเหตุ แยกจากยอดสุทธิที่ลูกค้าจ่ายจริง",
+      "เปลี่ยนเลขที่จองเป็นเลขคิวประจำวัน 2 หลัก ต่อด้วยเบอร์โทร 4 ตัวท้าย เช่น 017949 ใช้ชุดเดียวกันทั้งฝั่งลูกค้าและฝั่งแอดมิน",
+      "ระบบนับเลขคิวให้เองจากจำนวนการจองของวันนั้น ถ้าเลขชนของเดิมจะเลื่อนคิวขึ้นทีละหนึ่งจนได้เลขว่าง",
+      "กันบอต LINE ไปตอบว่าเลขคิวไม่ถูกต้อง เวลาลูกค้าพิมพ์เลขที่จองของตัวเองมาในแชต",
+      "ตัดช่องเลขคิวฝากจองกับขั้นตอนให้ลูกค้ายืนยันเองออก แทนที่ด้วย dropdown ช่องทางที่ลูกค้าติดต่อมา",
+      "การจองจากหลังบ้านกลายเป็นการจองจริงทันที ไม่มีสถานะล็อกห้องชั่วคราวรอลูกค้ายืนยันอีกแล้ว",
+      "วางฟอนต์แบรนด์ทั้งระบบ หัวข้อ Poppins เนื้อหา Inter ตัวไทย LINE Seed Sans TH เก็บไฟล์ไว้ในโปรเจกต์เองทั้งหมด",
+      "เลิกดึงฟอนต์จาก Google Fonts ทำให้ build ไม่ต้องต่อเน็ตออกไปข้างนอก และไม่ต้องแก้ security policy",
+      "ตรวจใบเสร็จ 80 มม. ปุ่ม และการ์ดในหลังบ้านด้วยฟอนต์จริงแล้วไม่มีตัวอักษรล้นกรอบ",
+      "ฟอร์มจองแทนลูกค้าจับคู่เบอร์กับลูกค้าเดิม แล้วโชว์แมวที่เคยฝากพร้อมรูปให้ติ๊กเลือก ไม่สร้างแมวซ้ำอีก",
+      "เพิ่มปุ่มใช้ข้อมูลเดิม เติมชื่อผู้ปกครองและ Xiaomi ID ให้อัตโนมัติ สำหรับลูกค้าวอล์คอินที่เคยมาแล้ว",
+    ],
+    time: "2 ก.ย. 12:21 น. – 2 ก.ย. 23:16 น. · 10 ชม. 55 นาที",
+  },
   {
     date: "2026-08-27",
     project: "cat-hotel",
@@ -1891,7 +1914,6 @@ const worklogs = [
       "เพิ่มช่องติ๊กว่าลูกค้าต้องการดูกล้องก่อน ถึงจะกรอก Xiaomi Account ID ได้ ให้ตรงกับหน้าจองของลูกค้า",
       "ตัดข้อความ เพศ/อายุ ไม่ระบุ ในการ์ดน้องแมวออก แสดงเฉพาะช่องที่มีข้อมูลจริง",
     ],
-    source: "migration 008–011 · NEXT_TASKS.md · worker/index.ts · staff-maintenance · lib/booking-claim.ts",
     time: "27 ส.ค. 09:31 น. – 28 ส.ค. 00:13 น. · 14 ชม. 42 นาที",
   },
   {
@@ -1910,7 +1932,6 @@ const worklogs = [
       "ปรับข้อความ LINE ให้ย้ำเรื่องแนบสลิปทุกครั้ง",
       "ถอดระบบล็อกอินของ Staff Dashboard ออก ให้ใช้ชั้นป้องกันภายนอกแทน",
     ],
-    source: "ไฟล์ในเครื่อง ยังไม่ commit",
     time: "10:20–19:21 น. · 9 ชม. 1 นาที",
   },
   {
@@ -1925,7 +1946,6 @@ const worklogs = [
       "แก้ปัญหาชื่อไฟล์รูปซ้ำหรือชนกัน",
       "ปรับช่องเลือกวันที่บนหน้าจอมือถือ",
     ],
-    source: "Git 1ffc0f9, 8c531cc",
     time: "18:35–23:05 น. · 4 ชม. 30 นาที",
   },
   {
@@ -1940,7 +1960,6 @@ const worklogs = [
       "เพิ่มข้อความภาษาไทยและภาษาอังกฤษ",
       "เตรียมประสบการณ์ใช้งานให้รองรับผู้ใช้หลายภาษา",
     ],
-    source: "Git 9e39988, 4a32ddf",
     time: "19:10–23:10 น. · 4 ชม.",
   },
   {
@@ -1956,7 +1975,6 @@ const worklogs = [
       "ปรับ action dialog, favicon และการจัดวางหน้าจองบนเดสก์ท็อป",
       "เพิ่ม Mi Home ID พร้อมการตรวจรูปแบบและป้องกันการกรอกข้อมูลผิดบนมือถือ",
     ],
-    source: "Git 9093b82–63c869b",
     time: "17:55–23:55 น. · 6 ชม.",
   },
   {
@@ -1971,7 +1989,6 @@ const worklogs = [
       "แยกข้อมูลยอดมัดจำและยอดคงเหลือวันเช็กอิน",
       "ปรับใบเสร็จ/ใบยืนยันใน LINE ให้กระชับและอ่านง่าย",
     ],
-    source: "Git 6454ffb–2fbdbd6",
     time: "18:20–23:20 น. · 5 ชม.",
   },
   {
@@ -1987,7 +2004,6 @@ const worklogs = [
       "บันทึกคำขอจองลูกค้าลง Supabase",
       "เพิ่ม LINE booking confirmation postback",
     ],
-    source: "Git 82e0221–bae60a9",
     time: "18:15–00:15 น. · 6 ชม.",
   },
   {
@@ -2003,7 +2019,6 @@ const worklogs = [
       "แก้อาการร้านส่งโหลดหน้าเว็บซ้ำและลดเวลาหน้าโลโก้",
       "ทดสอบและ deploy ระบบรูปภาพใหม่ครบทุกจุด",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "11:53–17:16 น. · ต่อ 20:18–00:11 น.",
   },
   {
@@ -2019,7 +2034,6 @@ const worklogs = [
       "จัดหมวดระบบตั้งค่า UI ให้ชัดเจนขึ้น",
       "ตรวจการทำงานร่วมกันของ frontend, Apps Script, LINE, Sheet และ Supabase",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "10:38–17:50 น. · ต่อ 22:12–00:45 น.",
   },
   {
@@ -2035,7 +2049,6 @@ const worklogs = [
       "คำนวณยอดใหม่จากราคาสินค้าจริง",
       "ส่งบิลอัปเดตกลับให้ลูกค้าทาง LINE หลังบันทึก",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "10:31–17:45 น. · ต่อ 20:15–22:30 น.",
   },
   {
@@ -2051,7 +2064,6 @@ const worklogs = [
       "ลบระบบสรุปยอดและแดชบอร์ดที่ไม่ใช้ออกจากชีตและหลังบ้าน",
       "เพิ่มสวิตช์ฉุกเฉินสำหรับปิดราคาทั้งหมดเป็น 0 บาท",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "10:25–18:20 น. · ต่อ 22:14–03:25 น.",
   },
   {
@@ -2066,7 +2078,6 @@ const worklogs = [
       "สร้างใบเสนอราคาก่อนแก้และหลังแก้ราคาตามยอดล่าสุด",
       "ทดสอบเมนูและทางเข้าร้านบน LINE OA จริง",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "10:23–16:44 น. · ต่อ 20:15–00:39 น.",
   },
   {
@@ -2082,7 +2093,6 @@ const worklogs = [
       "เพิ่มปุ่มส่งทันทีพร้อมหน้าต่างยืนยันกันกดพลาด",
       "ปรับความปลอดภัยของหน้าเช็กสถานะออเดอร์",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "16:12–23:58 น.",
   },
   {
@@ -2097,7 +2107,6 @@ const worklogs = [
       "ปรับการดึงตำแหน่งและวางหมุดบนแผนที่",
       "เก็บความปลอดภัยของ webhook และการรับข้อมูล",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "15:43–23:48 น.",
   },
   {
@@ -2113,7 +2122,6 @@ const worklogs = [
       "เตรียมภาพพื้นหลังและตัวอย่างฟอนต์สำหรับใช้งานต่อ",
       "จัดโครงโฟลเดอร์ภาพไม่ให้ภาพสินค้า ภาพโปร และใบเสนอราคาปนกัน",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "10 มิ.ย. 19:12 น. – 11 มิ.ย. 01:28 น.",
   },
   {
@@ -2129,7 +2137,6 @@ const worklogs = [
       "แจ้งสถานะรอคอนเฟิร์ม กำลังจัดส่ง และส่งแล้วแบบเรียลไทม์",
       "จัดเก็บเอกสารและภาพแยกโฟลเดอร์ปลีก–ส่ง",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "4 มิ.ย. 16:10 น. – 5 มิ.ย. 01:50 น.",
   },
   {
@@ -2145,13 +2152,15 @@ const worklogs = [
       "สร้างเว็บแอปหลังบ้านสำหรับดูออเดอร์และจัดการสถานะ",
       "วางโครงข้อมูล Channel และ AdminUsers บนชีต",
     ],
-    source: "WorkFlowEdit เดิม",
     time: "18:21–23:35 น.",
   },
 ];
 
+// โปรเจกต์ตั้งต้นตอนเปิดหน้าเว็บ เปลี่ยนค่านี้ค่าเดียวก็ย้ายหน้าแรกไปโปรเจกต์อื่นได้
+const DEFAULT_PROJECT = "cat-hotel";
+
 const state = {
-  project: "all",
+  project: DEFAULT_PROJECT,
   month: "all",
   query: "",
   order: "desc",
@@ -2270,10 +2279,6 @@ function createEntry(item, latestDate) {
               <span>${timeLabel}</span>
               <strong>${escapeHtml(item.time)}</strong>
             </div>
-            <div>
-              <span>แหล่งข้อมูล</span>
-              <strong>${escapeHtml(item.source || project.source)}</strong>
-            </div>
           </aside>
         </div>
       </details>
@@ -2328,7 +2333,7 @@ function render() {
 
 function setProject(project, centerActive = false) {
   if (!Object.prototype.hasOwnProperty.call(projects, project) && project !== "all") {
-    project = "all";
+    project = DEFAULT_PROJECT;
   }
 
   state.project = project;
@@ -2477,14 +2482,14 @@ document.querySelector("#clear-filters").addEventListener("click", () => {
   sortButton.dataset.order = "desc";
   sortButton.setAttribute("aria-label", "เรียงจากใหม่ไปเก่า");
   sortButton.querySelector("span:last-child").textContent = "ใหม่ → เก่า";
-  setProject("all");
+  setProject(DEFAULT_PROJECT);
 });
 
 populateMonthFilter();
 setMonth("all", false);
 updateProjectCounts();
 applyTheme(document.documentElement.dataset.theme || "light");
-setProject(window.location.hash.replace("#", "") || "all", true);
+setProject(window.location.hash.replace("#", "") || DEFAULT_PROJECT, true);
 
     </script>
   </body>
